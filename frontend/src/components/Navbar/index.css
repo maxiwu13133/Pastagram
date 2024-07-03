@@ -1,21 +1,39 @@
-@import url("https://fonts.googleapis.com/css2?family=Playwrite+RO:wght@100..400&family=Playwrite+SK:wght@100..400&display=swap");
-
 .container {
   height: 98vh;
   width: 16.5%;
   padding: 1vh;
   border-right: solid lightgrey 1px;
+  display: flexbox;
 }
 
-.container a {
-  font-family: "Playwrite RO";
+/* Logo */
+.logo-container {
+  padding: 12px;
+  height: 70px;
+}
+
+.logo-wrapper {
+  height: 100%;
+}
+
+.logo {
+  width: 120px;
+  margin-top: 15px;
+}
+
+/* Nav options */
+.nav-container > * {
   text-decoration: none;
   color: black;
-  font-weight: 100;
-  font-size: 9px;
 }
 
-.container h1 {
-  margin-top: 30px;
-  margin-left: 10px
+.nav-options {
+  padding: 10px;
+  height: 50px;
+  display: inline-flex;
+  font-size: 10px;
+}
+
+.nav-options img {
+  height: 28px;
 }
