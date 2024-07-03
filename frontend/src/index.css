@@ -1,1 +1,6 @@
 /* Global styling */
+
+body {
+  background: white;
+  margin: 0;
+}
