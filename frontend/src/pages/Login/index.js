@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useLogin } from '../../hooks/useLogin';
 import './index.css';
 
 // assets
@@ -8,8 +9,15 @@ import phone from '../../assets/phone.png';
 
 
 const Login = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { login, error } = useLogin();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    await login(email, password);
+  };
 
   return(
     <div className="login-container">
@@ -26,7 +34,7 @@ const Login = () => {
             <img src={ logo } alt="Logo" className="login-logo" />
           </div>
 
-          <form className="login-credentials">
+          <form className="login-credentials" onSubmit={ handleSubmit }>
             <input 
               placeholder="Phone number, username, or email"
               onChange={ (e) => setEmail(e.target.value) } 
@@ -44,6 +52,8 @@ const Login = () => {
             <div className="login-forgot-password">
               <Link to="/reset">Forgot password?</Link>
             </div>
+            
+            { error && <div className="login-error">{ error }</div> }
           </form>
 
         </div>
