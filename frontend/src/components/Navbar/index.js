@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import './index.css';
 
@@ -19,9 +20,28 @@ import moreUnfocused from '../../assets/ig-more-icon-unfocused.png';
 
 
 const Navbar = () => {
+  const [selectedNav, setSelectedNav] = useState('home');
+  const [highlightMore, setHighlightMore] = useState(false);
+  const moreRef = useRef();
+  
+  // Remove More option drop down when clicked elsewhere
+  const handleHighlightMore = (e) => {
+    if (moreRef.current && !e.composedPath().includes(moreRef.current)) {
+      setHighlightMore(false);
+    };
+  };
+
+  useEffect(() => {
+    document.body.addEventListener('click', handleHighlightMore);
+    return () => {
+      document.body.removeEventListener('click', handleHighlightMore);
+    };
+  }, []);
+
   return (
     <div className="navbar-container">
 
+      {/* Logo */}
       <div className="navbar-logo-wrapper">
         <Link to="/">
           <div className="navbar-logo">
@@ -30,51 +50,57 @@ const Navbar = () => {
         </Link>
       </div>
 
+      {/* Home */}
       <div className="navbar-option-wrapper">
-        <Link to="/">
-          <div className="navbar-option navbar-home">
-            <img src={ houseUnfocused } alt="Home" />
+        <Link to="/" onClick={ () => setSelectedNav('home') }>
+          <div className={ `navbar-option navbar-home ${ selectedNav === 'home' ? 'navbar-highlighted' : '' }` }>
+            <img src={ selectedNav === 'home' ? houseFocused : houseUnfocused } alt="Home" />
             <h2>Home</h2>
           </div>
         </Link>
       </div>
 
+      {/* Search */}
       <div className="navbar-option-wrapper">
-        <Link>
-          <div className="navbar-option navbar-search">
-            <img src={ magnifyUnfocused } alt="Search" />
+        <Link onClick={ () => setSelectedNav('search') }>
+          <div className={ `navbar-option navbar-search ${ selectedNav === 'search' ? 'navbar-highlighted' : '' }` }>
+            <img src={ selectedNav === 'search' ? magnifyFocused : magnifyUnfocused } alt="Search" />
             <h2>Search</h2>
           </div>
         </Link>
       </div>
 
+      {/* Explore */}
       <div className="navbar-option-wrapper">
-        <Link to="/explore">
-          <div className="navbar-option navbar-explore">
-            <img src={ compassUnfocused } alt="Explore" />
+        <Link to="/" onClick={ () => setSelectedNav('explore') }>
+          <div className={ `navbar-option navbar-explore ${ selectedNav === 'explore' ? 'navbar-highlighted' : '' }` }>
+            <img src={ selectedNav === 'explore' ? compassFocused : compassUnfocused } alt="Explore" />
             <h2>Explore</h2>
           </div>
         </Link>
       </div>
 
+      {/* Messages */}
       <div className="navbar-option-wrapper">
-        <Link to="/messages">
-          <div className="navbar-option navbar-messages">
-            <img src={ messageUnfocused } alt="Messages" />
+        <Link to="/" onClick={ () => setSelectedNav('messages') }>
+          <div className={ `navbar-option navbar-messages ${ selectedNav === 'messages' ? 'navbar-highlighted' : '' }` }>
+            <img src={ selectedNav === 'messages' ? messageFocused : messageUnfocused } alt="Messages" />
             <h2>Messages</h2>
           </div>
         </Link>
       </div>
 
+      {/* Notifications */}
       <div className="navbar-option-wrapper">
-        <Link>
-          <div className="navbar-option navbar-notifications">
-            <img src={ heartUnfocused } alt="Notifications" />
+        <Link onClick={ () => setSelectedNav('notifications') }>
+          <div className={ `navbar-option navbar-notifications ${ selectedNav === 'notifications' ? 'navbar-highlighted' : '' }` }>
+            <img src={ selectedNav === 'notifications' ? heartFocused : heartUnfocused } alt="Notifications" />
             <h2>Notifications</h2>
           </div>
         </Link>
       </div>
 
+      {/* Create */}
       <div className="navbar-option-wrapper">
         <Link>
           <div className="navbar-option navbar-create">
@@ -84,19 +110,21 @@ const Navbar = () => {
         </Link>
       </div>
 
+      {/* Profile */}
       <div className="navbar-option-wrapper">
-        <Link to="/profile">
-          <div className="navbar-option navbar-profile">
-            <img src={ create } alt="Profile" />
+        <Link to="/" onClick={ () => setSelectedNav('profile') }>
+          <div className={ `navbar-option navbar-profile ${ selectedNav === 'profile' ? 'navbar-highlighted' : '' }` }>
+            <img src={ selectedNav === 'profile' ? magnifyFocused : magnifyUnfocused } alt="Profile" />
             <h2>Profile</h2>
           </div>
         </Link>
       </div>
 
+      {/* More */}
       <div className="navbar-option-wrapper navbar-more-wrapper">
-        <Link>
-          <div className="navbar-option navbar-more">
-            <img src={ moreUnfocused } alt="More" />
+        <Link onClick={ () => setHighlightMore(true) }>
+          <div ref={moreRef} className={ `navbar-option navbar-more ${ highlightMore ? 'navbar-highlighted' : '' }` }>
+            <img src={ highlightMore ? moreFocused : moreUnfocused } alt="More" />
             <h2>More</h2>
           </div>
         </Link>
@@ -104,6 +132,6 @@ const Navbar = () => {
 
     </div>
   );
-}
+};
 
 export default Navbar;

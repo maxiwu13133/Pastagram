@@ -45,13 +45,17 @@
   border-radius: 8px;
 }
 
+.navbar-option > img {
+  width: 24px;
+}
+
+.navbar-option > h2 {
+  margin-left: 18px;
+}
+
 .navbar-option:hover {
   background-color: #f2f2f2;
   transition: 0.3s;
-}
-
-.navbar-option > img {
-  width: 24px;
 }
 
 .navbar-option:hover > img{
@@ -59,8 +63,8 @@
   transition: 0.2s;
 }
 
-.navbar-option > h2 {
-  margin-left: 18px;
+.navbar-highlighted > h2{
+  font-weight: bold;
 }
 
 .navbar-more-wrapper {
