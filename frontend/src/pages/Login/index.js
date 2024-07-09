@@ -5,7 +5,7 @@ import './index.css';
 
 // assets
 import logo from '../../assets/pintstagram-logo.png';
-import phone from '../../assets/phone.png';
+import phone from '../../assets/Login/phone.png';
 
 
 const Login = () => {
@@ -20,6 +20,7 @@ const Login = () => {
     await login(email, password);
   };
 
+  // Login when fields are filled out
   useEffect(() => {
     if (email.length > 0 && password.length > 0) {
       setLoginAllowed(true);
@@ -27,7 +28,6 @@ const Login = () => {
       setLoginAllowed(false);
     };
   })
-
 
   return(
     <div className="login-container">

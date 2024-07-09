@@ -1,5 +1,8 @@
 import './index.css';
 
+// Assets
+
+
 const Loading = () => {
   return (
     <div className="loading-background">

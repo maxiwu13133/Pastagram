@@ -4,19 +4,19 @@ import './index.css';
 
 // assets
 import logo from '../../assets/pintstagram-logo.png';
-import houseFocused from '../../assets/ig-home-icon-focused.png';
-import houseUnfocused from '../../assets/ig-home-icon-unfocused.png';
-import magnifyFocused from '../../assets/ig-search-icon-focused.png';
-import magnifyUnfocused from '../../assets/ig-search-icon-unfocused.png';
-import compassFocused from '../../assets/ig-explore-icon-focused.png';
-import compassUnfocused from '../../assets/ig-explore-icon-unfocused.png';
-import messageFocused from '../../assets/ig-message-icon-focused.png';
-import messageUnfocused from '../../assets/ig-message-icon-unfocused.png';
-import heartFocused from '../../assets/ig-notif-icon-focused.png';
-import heartUnfocused from '../../assets/ig-notif-icon-unfocused.png';
-import create from '../../assets/ig-create-icon.png';
-import moreFocused from '../../assets/ig-more-icon-focused.png';
-import moreUnfocused from '../../assets/ig-more-icon-unfocused.png';
+import houseFocused from '../../assets/Navbar/ig-home-icon-focused.png';
+import houseUnfocused from '../../assets/Navbar/ig-home-icon-unfocused.png';
+import magnifyFocused from '../../assets/Navbar/ig-search-icon-focused.png';
+import magnifyUnfocused from '../../assets/Navbar/ig-search-icon-unfocused.png';
+import compassFocused from '../../assets/Navbar/ig-explore-icon-focused.png';
+import compassUnfocused from '../../assets/Navbar/ig-explore-icon-unfocused.png';
+import messageFocused from '../../assets/Navbar/ig-message-icon-focused.png';
+import messageUnfocused from '../../assets/Navbar/ig-message-icon-unfocused.png';
+import heartFocused from '../../assets/Navbar/ig-notif-icon-focused.png';
+import heartUnfocused from '../../assets/Navbar/ig-notif-icon-unfocused.png';
+import create from '../../assets/Navbar/ig-create-icon.png';
+import moreFocused from '../../assets/Navbar/ig-more-icon-focused.png';
+import moreUnfocused from '../../assets/Navbar/ig-more-icon-unfocused.png';
 
 
 const Navbar = () => {
