@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useLogin } from '../../hooks/useLogin';
 import './index.css';
@@ -11,7 +11,8 @@ import phone from '../../assets/phone.png';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { login, error } = useLogin();
+  const { login, isLoading, error } = useLogin();
+  const [loginAllowed, setLoginAllowed] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,15 +20,26 @@ const Login = () => {
     await login(email, password);
   };
 
+  useEffect(() => {
+    if (email.length > 0 && password.length > 0) {
+      setLoginAllowed(true);
+    } else {
+      setLoginAllowed(false);
+    };
+  })
+
+
   return(
     <div className="login-container">
 
+      {/* App preview */}
       <div className="login-phone">
         <img src={ phone } alt="Phone" className="login-phone-img" />
       </div>
 
       <div className="login-account-options">
 
+        {/* Login box */}
         <div className="login-login">
 
           <div className="login-logo-wrapper">
@@ -47,17 +59,21 @@ const Login = () => {
               value={ password }
             />
 
-            <button className="login-button">Log in</button>
+            <button disabled={ isLoading || !loginAllowed } className="login-button">Log in</button>
 
             <div className="login-forgot-password">
               <Link to="/reset">Forgot password?</Link>
             </div>
-            
-            { error && <div className="login-error">{ error }</div> }
+
+            <div className="login-error-wrapper">
+              { error && <div className="login-error">{ error }</div> }
+            </div>
+
           </form>
 
         </div>
 
+        {/* Signup box */}
         <div className="login-signup">
           <p>Don't have an account? { <Link to="/signup">Sign up</Link> }</p>
         </div>      
