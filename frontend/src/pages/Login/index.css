@@ -63,6 +63,7 @@
   margin-top: 10px;
   margin-bottom: 5px;
   height: 40px;
+  font-weight: 500;
 }
 
 .login-button:hover:enabled {

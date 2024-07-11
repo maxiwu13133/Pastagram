@@ -14,8 +14,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Loading />
-        {/* { !loadFinish && <Loading /> }
+        { !loadFinish && <Loading /> }
         {
           loadFinish && 
           <>
@@ -29,7 +28,7 @@ function App() {
               </Routes>
             </div> 
           </>
-        } */}
+        }
         
       </BrowserRouter>
     </div>

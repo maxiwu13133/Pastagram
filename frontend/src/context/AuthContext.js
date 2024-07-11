@@ -21,6 +21,10 @@ export const AuthContextProvider = ({ children }) => {
 
   // Check if user has logged in recently
   useEffect(() => {
+
+    // slight load in time to make app feel like it's doing something
+    setTimeout(() => {
+      
     const user = JSON.parse(localStorage.getItem('user'));
 
     if (user) {
@@ -28,6 +32,7 @@ export const AuthContextProvider = ({ children }) => {
     } else {
       dispatch({ type: 'LOGOUT', payload: null });
     }
+    }, 200);
 
   }, []);
 

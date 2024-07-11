@@ -1,12 +1,15 @@
 import './index.css';
 
 // Assets
+import logo from '../../assets/pintstagram-icon.png';
 
 
 const Loading = () => {
   return (
     <div className="loading-background">
-      <img src="" alt="Loading" className="loading-icon" />
+      <img src={ logo } alt="Loading" className="loading-icon" />
+      <div className="loading-description-first-line">from</div>
+      <div className="loading-description-second-line">Max</div>
     </div>
   );
 };

@@ -57,6 +57,7 @@ const Login = () => {
               placeholder="Password"
               onChange={ (e) => setPassword(e.target.value) } 
               value={ password }
+              type="password"
             />
 
             <button disabled={ isLoading || !loginAllowed } className="login-button">Log in</button>

@@ -8,5 +8,20 @@
 }
 
 .loading-icon {
-  width: 100px;
+  width: 80px;
+}
+
+.loading-description-first-line {
+  position: absolute;
+  bottom: 66px;
+  color: #758494;
+  font-size: 18px;
+}
+
+.loading-description-second-line {
+  position: absolute;
+  bottom: 30px;
+  color: #bfab98;
+  font-weight: bold;
+  font-size: 25px;
 }
