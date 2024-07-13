@@ -1,0 +1,56 @@
+.terms-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.terms-header {
+  box-shadow: 0 0px 2px 2px #eeeeee;
+  height: 60px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+
+.terms-icon {
+  width: 40px;
+  margin: 10px 10px 10px 15px;
+}
+
+.terms-logo {
+  width: 120px;
+  margin-top: 8px;
+}
+
+.terms-terms-of-use {
+  width: 600px;
+  margin: auto;
+  margin-top: 80px;
+}
+
+.terms-title {
+  border-bottom: solid 1px lightgray;
+  padding-bottom: 10px;
+  width: 100%;
+  height: 60px;
+  margin-bottom: 50px;
+}
+
+.terms-terms-of-use li {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.terms-linkedin {
+  position: absolute;
+  bottom: 10px;
+}
+
+.terms-linkedin a {
+  font-size: 12px;
+  color: gray;
+  text-decoration: none;
+}

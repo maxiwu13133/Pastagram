@@ -78,8 +78,13 @@ const Login = () => {
         {/* Signup box */}
         <div className="login-signup">
           <p>Don't have an account? { <Link to="/signup">Sign up</Link> }</p>
-        </div>      
+        </div>
 
+      </div>
+      
+      {/* Linkedin Resume */}
+      <div className="login-linkedin">
+        <a target="_blank" rel="noreferrer" href="https://www.linkedin.com/in/maximilian-wu/">Pintstagram by Max Wu</a>
       </div>
 
     </div>

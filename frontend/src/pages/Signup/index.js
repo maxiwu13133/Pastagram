@@ -16,21 +16,22 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await signup(email, password, fullName);
+    await signup(email, fullName, password);
   };
 
   // Login when fields are filled out
   useEffect(() => {
-    if (email.length > 0 && password.length > 0 && fullName.length > 0) {
+    if (email.length > 0 && fullName.length > 0 && password.length > 0) {
       setSignupAllowed(true);
     } else {
       setSignupAllowed(false);
     };
-  }, [email.length, password.length, fullName.length]);
+  }, [email.length, fullName.length, password.length]);
 
   return (
     <div className="signup-container">
 
+      {/* Signup box */}
       <div className="signup-signup">
 
         <div className="signup-logo-wrapper">
@@ -59,7 +60,7 @@ const Signup = () => {
           />
 
           <div className="signup-terms">
-            <p>By signing up, you agree to our { <Link to="/terms">Terms</Link> } .</p>
+            <p>By signing up, you agree to our { <Link to="/terms" target="_blank">Terms</Link> } .</p>
           </div>
 
           <button disabled={ isLoading || !signupAllowed } className="signup-button">
@@ -74,8 +75,14 @@ const Signup = () => {
 
       </div>
 
+      {/* Login box */}
       <div className="signup-login">
         <p>Have an account? { <Link to="/">Log in</Link> }</p>
+      </div>
+
+      {/* Linkedin Resume */}
+      <div className="signup-linkedin">
+        <a target="_blank" rel="noreferrer" href="https://www.linkedin.com/in/maximilian-wu/">Pintstagram by Max Wu</a>
       </div>
 
     </div>
