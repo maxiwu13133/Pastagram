@@ -6,6 +6,7 @@ import Loading from './pages/Loading';
 import Home from './pages/Home';
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
+import Signup from './pages/Signup';
 
 function App() {
   const { user, loadFinish } =  useAuthContext();
@@ -23,6 +24,10 @@ function App() {
                 <Route 
                   path="/"
                   element={ user ? <Home /> : <Login /> }
+                />
+                <Route
+                  path="/signup"
+                  element={ <Signup /> }
                 />
               </Routes>
             </div> 

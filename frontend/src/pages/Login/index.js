@@ -43,12 +43,12 @@ const Login = () => {
         <div className="login-login">
 
           <div className="login-logo-wrapper">
-            <img src={ logo } alt="Logo" className="login-logo" />
+            <img src={ logo } alt="Pintstagram" className="login-logo" />
           </div>
 
           <form className="login-credentials" onSubmit={ handleSubmit }>
             <input 
-              placeholder="Phone number, username, or email"
+              placeholder="Email"
               onChange={ (e) => setEmail(e.target.value) } 
               value={ email }
             />
@@ -70,6 +70,7 @@ const Login = () => {
               { error && <div className="login-error">{ error }</div> }
             </div>
 
+            
           </form>
 
         </div>

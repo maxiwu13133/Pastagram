@@ -28,11 +28,17 @@ export const AuthContextProvider = ({ children }) => {
       
     const user = JSON.parse(localStorage.getItem('user'));
 
-    if (user && !isExpired(user.token)) {
-      dispatch({ type: 'LOGIN', payload: user });
+    // Logs out and removes token from local storage if expired
+    if (user) {
+      if (isExpired(user.token)) {
+        localStorage.removeItem('user');
+        dispatch({ type: 'LOGOUT', payload: null });
+      } else {
+        dispatch({ type: 'LOGIN', payload: user });
+      };
     } else {
       dispatch({ type: 'LOGOUT', payload: null });
-    }
+    };
     }, 200);
 
   }, []);
