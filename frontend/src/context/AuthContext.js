@@ -1,4 +1,5 @@
 import { createContext, useReducer, useEffect } from 'react';
+import { isExpired } from 'react-jwt';
 
 export const AuthContext = createContext();
 
@@ -27,7 +28,7 @@ export const AuthContextProvider = ({ children }) => {
       
     const user = JSON.parse(localStorage.getItem('user'));
 
-    if (user) {
+    if (user && !isExpired(user.token)) {
       dispatch({ type: 'LOGIN', payload: user });
     } else {
       dispatch({ type: 'LOGOUT', payload: null });

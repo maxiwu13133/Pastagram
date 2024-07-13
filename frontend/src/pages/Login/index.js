@@ -27,7 +27,7 @@ const Login = () => {
     } else {
       setLoginAllowed(false);
     };
-  })
+  }, [email.length, password.length])
 
   return(
     <div className="login-container">
