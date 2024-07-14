@@ -4,7 +4,7 @@ import './index.css';
 
 // assets
 import icon from '../../assets/pintstagram-icon.png';
-import logo from '../../assets/pintstagram-logo.png';
+import logo from '../../assets/pastagram-logo.png';
 
 const Terms = () => {
   return ( 

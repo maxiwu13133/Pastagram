@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './index.css';
 
 // assets
-import logo from '../../assets/pintstagram-logo.png';
+import logo from '../../assets/pastagram-logo.png';
 import houseFocused from '../../assets/Navbar/ig-home-icon-focused.png';
 import houseUnfocused from '../../assets/Navbar/ig-home-icon-unfocused.png';
 import magnifyFocused from '../../assets/Navbar/ig-search-icon-focused.png';

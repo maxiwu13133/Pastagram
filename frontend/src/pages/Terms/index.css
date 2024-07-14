@@ -10,7 +10,6 @@
   box-shadow: 0 0px 2px 2px #eeeeee;
   height: 60px;
   display: flex;
-  justify-content: flex-start;
   align-items: center;
   width: 100%;
 }
@@ -22,7 +21,7 @@
 
 .terms-logo {
   width: 120px;
-  margin-top: 8px;
+  margin-bottom: 10px;
 }
 
 .terms-terms-of-use {

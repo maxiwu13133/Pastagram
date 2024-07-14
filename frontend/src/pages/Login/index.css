@@ -20,7 +20,7 @@
 .login-login {
   border: solid lightgray 1px;
   width: 350px;
-  height: 400px;
+  height: 450px;
   margin-bottom: 10px;
   padding: 40px;
   display: flex;
@@ -36,12 +36,14 @@
 }
 
 .login-logo {
-  width: 200px;
+  width: 180px;
+  margin-top: 30px;
 }
 
 .login-credentials {
   display: flex;
   flex-direction: column;
+  margin-top: 50px;
 }
 
 .login-credentials > input {

@@ -4,7 +4,7 @@ import { useLogin } from '../../hooks/useLogin';
 import './index.css';
 
 // assets
-import logo from '../../assets/pintstagram-logo.png';
+import logo from '../../assets/pastagram-logo.png';
 import phone from '../../assets/Login/phone.png';
 
 
