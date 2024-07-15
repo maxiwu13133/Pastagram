@@ -14,6 +14,10 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
+  username: {
+    type: String,
+    required: true
+  },
   password: {
     type: String,
     required: true
@@ -21,10 +25,10 @@ const userSchema = new Schema({
 });
 
 // static signup method
-userSchema.statics.signup = async function (email, fullName, password) {
+userSchema.statics.signup = async function (email, fullName, username, password) {
 
   // validation
-  if (!email || !fullName || !password) {
+  if (!email || !fullName || !username || !password) {
     throw Error('All fields must be filled');
   };
   if (!validator.isEmail(email)) {
@@ -44,31 +48,40 @@ userSchema.statics.signup = async function (email, fullName, password) {
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
 
-  const user = await this.create({ email, fullName, password: hash });
+  const user = await this.create({ email, fullName, username, password: hash });
  
   return user;
 }
 
 // static login method
-userSchema.statics.login = async function(email, password) {
-
-  if (!email || !password) {
-    throw Error('All fields must be filled');
-  };
-
-  const user = await this.findOne({ email });
+const validateInfo = async (user, password) => {
 
   if (!user) {
-    throw Error('Incorrect Email or Password');
+    throw Error('Incorrect login information.');
   };
 
   const match = await bcrypt.compare(password, user.password);
 
   if (!match) {
-    throw Error('Incorrect Email or Password');
+    throw Error('Incorrect login information.');
   };
 
   return user;
+}
+
+userSchema.statics.login = async function(identifier, password) {
+
+  if (!identifier || !password) {
+    throw Error('All fields must be filled');
+  };
+
+  if (validator.isEmail(identifier)) {
+    const user = await this.findOne({ email: identifier });
+    return validateInfo(user, password);
+  } else {
+    const user = await this.findOne({ username: identifier });
+    return validateInfo(user, password);
+  }
 }
 
 module.exports = mongoose.model('User', userSchema);
