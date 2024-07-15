@@ -8,6 +8,7 @@ import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Terms from './pages/Terms';
+import Profile from './pages/Profile';
 
 function App() {
   const { user, loadFinish } =  useAuthContext();
@@ -37,6 +38,10 @@ function App() {
                 <Route
                   path="/terms"
                   element={ <Terms /> }
+                />
+                <Route
+                  path="/:username"
+                  element={ <Profile /> }
                 />
               </Routes>
             </div> 

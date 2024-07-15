@@ -13,12 +13,15 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const { login, isLoading, error } = useLogin();
   const [loginAllowed, setLoginAllowed] = useState(false);
+  const [passwordFocus, setPasswordFocus] = useState(false);
+  const [buttonText, setButtonText] = useState('Show');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     await login(email, password);
   };
+
 
   // Login when fields are filled out
   useEffect(() => {
@@ -27,7 +30,41 @@ const Login = () => {
     } else {
       setLoginAllowed(false);
     };
-  }, [email.length, password.length])
+  }, [email.length, password.length]);
+
+
+  // Highlight password input field when focused
+  const passwordFocused = () => {
+    setPasswordFocus(true);
+  };
+
+  const passwordNotFocused = () => {
+    setPasswordFocus(false);
+  }
+
+  useEffect(() => {
+    const passwordInput = document.querySelector("input[type='password']");
+
+    passwordInput.addEventListener("focus", passwordFocused);
+    passwordInput.addEventListener("blur", passwordNotFocused);
+
+    return () => {
+      passwordInput.removeEventListener("focus", passwordFocused);
+      passwordInput.removeEventListener("blur", passwordNotFocused);
+    };
+
+  },[]);
+
+
+  // Show password when show button pressed
+  const handleShow = () => {
+    if (buttonText === "Show") {
+      setButtonText("Hide");
+    } else {
+      setButtonText("Show");
+    };
+  };
+
 
   return(
     <div className="login-container">
@@ -47,18 +84,29 @@ const Login = () => {
           </div>
 
           <form className="login-credentials" onSubmit={ handleSubmit }>
-            <input 
-              placeholder="Email"
-              onChange={ (e) => setEmail(e.target.value) } 
-              value={ email }
-            />
 
-            <input 
-              placeholder="Password"
-              onChange={ (e) => setPassword(e.target.value) } 
-              value={ password }
-              type="password"
-            />
+            <div className="login-email-input">
+              <input 
+                placeholder="Username or email"
+                onChange={ (e) => setEmail(e.target.value) } 
+                value={ email }
+              />
+            </div>
+
+            <div className={ `login-password-input ${ passwordFocus === true ? 'login-password-highlight' : '' }` }>
+              <input 
+                placeholder="Password"
+                onChange={ (e) => setPassword(e.target.value) } 
+                value={ password }
+                type={ buttonText === "Show" ? "password" : "" }
+              />
+
+              <div className="login-password-show">
+                <button type="button" onClick={ handleShow } className="login-password-show-button">
+                  { password.length == 0 ? "" : buttonText }
+                </button>
+              </div>
+            </div>
 
             <button disabled={ isLoading || !loginAllowed } className="login-button">Log in</button>
 

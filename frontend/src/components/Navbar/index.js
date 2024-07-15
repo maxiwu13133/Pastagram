@@ -21,8 +21,11 @@ import moreUnfocused from '../../assets/Navbar/ig-more-icon-unfocused.png';
 
 const Navbar = () => {
   const [selectedNav, setSelectedNav] = useState('home');
+
   const [highlightMore, setHighlightMore] = useState(false);
   const moreRef = useRef();
+
+
   
   // Remove More option drop down when clicked elsewhere
   const handleHighlightMore = (e) => {
@@ -123,7 +126,7 @@ const Navbar = () => {
       {/* More */}
       <div className="navbar-option-wrapper navbar-more-wrapper">
         <Link onClick={ () => setHighlightMore(true) }>
-          <div ref={moreRef} className={ `navbar-option navbar-more ${ highlightMore ? 'navbar-highlighted' : '' }` }>
+          <div ref={ moreRef } className={ `navbar-option navbar-more ${ highlightMore ? 'navbar-highlighted' : '' }` }>
             <img src={ highlightMore ? moreFocused : moreUnfocused } alt="More" />
             <h2>More</h2>
           </div>
