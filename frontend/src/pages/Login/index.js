@@ -43,14 +43,14 @@ const Login = () => {
   }
 
   useEffect(() => {
-    const passwordInput = document.querySelector("input[type='password']");
+    const passwordInput = document.querySelector('input[type="password"]');
 
-    passwordInput.addEventListener("focus", passwordFocused);
-    passwordInput.addEventListener("blur", passwordNotFocused);
+    passwordInput.addEventListener('focus', passwordFocused);
+    passwordInput.addEventListener('blur', passwordNotFocused);
 
     return () => {
-      passwordInput.removeEventListener("focus", passwordFocused);
-      passwordInput.removeEventListener("blur", passwordNotFocused);
+      passwordInput.removeEventListener('focus', passwordFocused);
+      passwordInput.removeEventListener('blur', passwordNotFocused);
     };
 
   },[]);
@@ -58,10 +58,10 @@ const Login = () => {
 
   // Show password when show button pressed
   const handleShow = () => {
-    if (buttonText === "Show") {
-      setButtonText("Hide");
+    if (buttonText === 'Show') {
+      setButtonText('Hide');
     } else {
-      setButtonText("Show");
+      setButtonText('Show');
     };
   };
 
@@ -93,7 +93,7 @@ const Login = () => {
               />
             </div>
 
-            <div className={ `login-password-input ${ passwordFocus === true ? 'login-password-highlight' : '' }` }>
+            <div className={ `login-password-input ${ passwordFocus === true ? "login-password-highlight" : "" }` }>
               <input 
                 placeholder="Password"
                 onChange={ (e) => setPassword(e.target.value) } 
@@ -103,7 +103,7 @@ const Login = () => {
 
               <div className="login-password-show">
                 <button type="button" onClick={ handleShow } className="login-password-show-button">
-                  { password.length == 0 ? "" : buttonText }
+                  { password.length === 0 ? "" : buttonText }
                 </button>
               </div>
             </div>

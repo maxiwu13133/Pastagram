@@ -42,14 +42,14 @@ const Signup = () => {
   }
 
   useEffect(() => {
-    const passwordInput = document.querySelector("input[type='password']");
+    const passwordInput = document.querySelector('input[type="password"]');
 
-    passwordInput.addEventListener("focus", passwordFocused);
-    passwordInput.addEventListener("blur", passwordNotFocused);
+    passwordInput.addEventListener('focus', passwordFocused);
+    passwordInput.addEventListener('blur', passwordNotFocused);
 
     return () => {
-      passwordInput.removeEventListener("focus", passwordFocused);
-      passwordInput.removeEventListener("blur", passwordNotFocused);
+      passwordInput.removeEventListener('focus', passwordFocused);
+      passwordInput.removeEventListener('blur', passwordNotFocused);
     };
 
   },[]);
@@ -57,10 +57,10 @@ const Signup = () => {
 
   // Show password when show button pressed
   const handleShow = () => {
-    if (buttonText === "Show") {
-      setButtonText("Hide");
+    if (buttonText === 'Show') {
+      setButtonText('Hide');
     } else {
-      setButtonText("Show");
+      setButtonText('Show');
     };
   };
 
@@ -95,7 +95,7 @@ const Signup = () => {
             onChange={ (e) => setUsername(e.target.value) }
             value={ username }
           />
-          <div className={ `signup-password-input ${ passwordFocus === true ? 'signup-password-highlight' : '' }` }>
+          <div className={ `signup-password-input ${ passwordFocus === true ? "signup-password-highlight" : "" }` }>
             <input
               placeholder="Password"
               onChange={ (e) => setPassword(e.target.value) }

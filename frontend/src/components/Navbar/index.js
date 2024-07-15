@@ -56,7 +56,7 @@ const Navbar = () => {
       {/* Home */}
       <div className="navbar-option-wrapper">
         <Link to="/" onClick={ () => setSelectedNav('home') }>
-          <div className={ `navbar-option navbar-home ${ selectedNav === 'home' ? 'navbar-highlighted' : '' }` }>
+          <div className={ `navbar-option navbar-home ${ selectedNav === "home" ? "navbar-highlighted" : "" }` }>
             <img src={ selectedNav === 'home' ? houseFocused : houseUnfocused } alt="Home" />
             <h2>Home</h2>
           </div>
