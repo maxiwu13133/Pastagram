@@ -9,9 +9,12 @@ import logo from '../../assets/pastagram-logo.png';
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [fullName, setFullName] = useState('');
+  const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const { signup, isLoading, error } = useSignup();
   const [signupAllowed, setSignupAllowed] = useState(false);
+  const [passwordFocus, setPasswordFocus] = useState(false);
+  const [buttonText, setButtonText] = useState('Show');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,6 +30,40 @@ const Signup = () => {
       setSignupAllowed(false);
     };
   }, [email.length, fullName.length, password.length]);
+
+
+  // Highlight password input field when focused
+  const passwordFocused = () => {
+    setPasswordFocus(true);
+  };
+
+  const passwordNotFocused = () => {
+    setPasswordFocus(false);
+  }
+
+  useEffect(() => {
+    const passwordInput = document.querySelector("input[type='password']");
+
+    passwordInput.addEventListener("focus", passwordFocused);
+    passwordInput.addEventListener("blur", passwordNotFocused);
+
+    return () => {
+      passwordInput.removeEventListener("focus", passwordFocused);
+      passwordInput.removeEventListener("blur", passwordNotFocused);
+    };
+
+  },[]);
+
+
+  // Show password when show button pressed
+  const handleShow = () => {
+    if (buttonText === "Show") {
+      setButtonText("Hide");
+    } else {
+      setButtonText("Show");
+    };
+  };
+
 
   return (
     <div className="signup-container">
@@ -54,11 +91,25 @@ const Signup = () => {
             value={ fullName }
           />
           <input
-            placeholder="Password"
-            onChange={ (e) => setPassword(e.target.value) }
-            value={ password }
+            placeholder="Username"
+            onChange={ (e) => setUserName(e.target.value) }
+            value={ userName }
           />
+          <div className={ `signup-password-input ${ passwordFocus === true ? 'signup-password-highlight' : '' }` }>
+            <input
+              placeholder="Password"
+              onChange={ (e) => setPassword(e.target.value) }
+              value={ password }
+              type={ buttonText === "Show" ? "password" : "" }
+            />
 
+            <div className="signup-password-show">
+              <button type="button" onClick={ handleShow } className="signup-password-show-button">
+                { password.length == 0 ? "" : buttonText }
+              </button>
+            </div>
+          </div>
+          
           <div className="signup-terms">
             <p>By signing up, you agree to our { <Link to="/terms" target="_blank">Terms</Link> } .</p>
           </div>
