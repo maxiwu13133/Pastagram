@@ -9,7 +9,7 @@ import logo from '../../assets/pastagram-logo.png';
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [fullName, setFullName] = useState('');
-  const [userName, setUserName] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { signup, isLoading, error } = useSignup();
   const [signupAllowed, setSignupAllowed] = useState(false);
@@ -19,17 +19,17 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await signup(email, fullName, password);
+    await signup(email, fullName, username, password);
   };
 
   // Login when fields are filled out
   useEffect(() => {
-    if (email.length > 0 && fullName.length > 0 && password.length > 0) {
+    if (email.length > 0 && fullName.length > 0 && username.length > 0 && password.length > 0) {
       setSignupAllowed(true);
     } else {
       setSignupAllowed(false);
     };
-  }, [email.length, fullName.length, password.length]);
+  }, [email.length, fullName.length, username.length, password.length]);
 
 
   // Highlight password input field when focused
@@ -92,8 +92,8 @@ const Signup = () => {
           />
           <input
             placeholder="Username"
-            onChange={ (e) => setUserName(e.target.value) }
-            value={ userName }
+            onChange={ (e) => setUsername(e.target.value) }
+            value={ username }
           />
           <div className={ `signup-password-input ${ passwordFocus === true ? 'signup-password-highlight' : '' }` }>
             <input
@@ -105,7 +105,7 @@ const Signup = () => {
 
             <div className="signup-password-show">
               <button type="button" onClick={ handleShow } className="signup-password-show-button">
-                { password.length == 0 ? "" : buttonText }
+                { password.length === 0 ? "" : buttonText }
               </button>
             </div>
           </div>
