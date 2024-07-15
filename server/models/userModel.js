@@ -16,7 +16,8 @@ const userSchema = new Schema({
   },
   username: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   password: {
     type: String,
@@ -38,11 +39,18 @@ userSchema.statics.signup = async function (email, fullName, username, password)
     throw Error('Password not strong enough');
   };
 
-  const exists = await this.findOne({ email });
+  const emailExists = await this.findOne({ email });
 
-  if (exists) {
+  if (emailExists) {
     throw Error('Email already in use');
   };
+
+  const usernameExists = await this.findOne({ username });
+
+  if (usernameExists) {
+    throw Error('Username already in use');
+  };
+
 
   // Hash password
   const salt = await bcrypt.genSalt(10);
