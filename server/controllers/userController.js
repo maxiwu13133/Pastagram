@@ -38,4 +38,60 @@ const signupUser = async (req, res) => {
   };
 }
 
-module.exports = { loginUser, signupUser };
+// get followers of user
+const getFollowers = async (req, res) => {
+  const { _id } = req.body;
+
+  try {
+    const user = await User.findById(_id);
+
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  };
+}
+
+
+// get user following
+const getFollowing = async (req, res) => {
+  const { _id } = req.body;
+
+  try {
+    const user = await User.findById(_id);
+
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  };
+}
+
+// follow user
+const followUser = async (req, res) => {
+  const { _id, targetId } = req.body;
+
+  // Update following list of user
+  const user = await User.findOne({ _id });
+
+  if (user.following.includes(targetId)) {
+    return res.status(400).json({ error: 'Target already following' });
+  }
+  const updateFollowing = { following: user.following.concat(targetId) };
+  const updatedUser = await User.findOneAndUpdate({ _id }, updateFollowing, { new: true });
+  
+
+  console.log('not ended');
+
+  // Update followers list of target
+  const target = await User.findOne({ _id: targetId });
+  const updateFollowers = { followers: target.followers.concat(_id) };
+  await User.findOneAndUpdate({ _id: targetId }, updateFollowers, { new: true });
+
+  res.status(200).json({ updatedUser });
+}
+
+// unfollow user
+const unfollowUser = async (req, res) => {
+
+}
+
+module.exports = { loginUser, signupUser, getFollowers, getFollowing, followUser, unfollowUser };

@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const { ObjectId } = mongoose.Schema.Types;
+
 const bcrypt = require('bcrypt');
 const validator = require('validator');
 
@@ -22,7 +24,9 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true
-  }
+  },
+  followers: [{type: ObjectId, ref: 'User'}],
+  following: [{type: ObjectId, ref: 'User'}]
 });
 
 // static signup method
@@ -93,3 +97,4 @@ userSchema.statics.login = async function(identifier, password) {
 }
 
 module.exports = mongoose.model('User', userSchema);
+
