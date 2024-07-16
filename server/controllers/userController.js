@@ -1,10 +1,11 @@
 const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 
-// User session expires after 1 day
+// User session expires after 6 hrs
 const createToken = (_id) => {
   return jwt.sign({ _id }, process.env.JWT_SECRET, { expiresIn: '6h' });
 }
+
 
 // login user
 const loginUser = async (req, res) => {
@@ -22,6 +23,7 @@ const loginUser = async (req, res) => {
   };
 }
 
+
 // signup user
 const signupUser = async (req, res) => {
   const { email, fullName, username, password } = req.body;
@@ -37,6 +39,7 @@ const signupUser = async (req, res) => {
     res.status(400).json({ error: error.message });
   };
 }
+
 
 // get followers of user
 const getFollowers = async (req, res) => {
@@ -65,6 +68,7 @@ const getFollowing = async (req, res) => {
   };
 }
 
+
 // follow user
 const followUser = async (req, res) => {
   const { _id, targetId } = req.body;
@@ -85,6 +89,7 @@ const followUser = async (req, res) => {
 
   res.status(200).json({ updatedUser });
 }
+
 
 // unfollow user
 const unfollowUser = async (req, res) => {
