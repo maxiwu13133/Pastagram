@@ -2,6 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import './index.css';
 
+// Hooks
+import { useAuthContext } from '../../hooks/useAuthContext';
+
 // assets
 import logo from '../../assets/pastagram-logo.png';
 import houseFocused from '../../assets/Navbar/ig-home-icon-focused.png';
@@ -20,10 +23,17 @@ import moreUnfocused from '../../assets/Navbar/ig-more-icon-unfocused.png';
 
 
 const Navbar = () => {
+  // Highlight nav
   const [selectedNav, setSelectedNav] = useState('home');
 
+  // Highlight more option
   const [highlightMore, setHighlightMore] = useState(false);
   const moreRef = useRef();
+
+  // User context
+  const { user } = useAuthContext();
+
+
 
 
   
@@ -115,7 +125,7 @@ const Navbar = () => {
 
       {/* Profile */}
       <div className="navbar-option-wrapper">
-        <Link to="/" onClick={ () => setSelectedNav('profile') }>
+        <Link to={ `/${ user.username }/`} onClick={ () => setSelectedNav('profile') }>
           <div className={ `navbar-option navbar-profile ${ selectedNav === "profile" ? "navbar-highlighted" : "" }` }>
             <img src={ selectedNav === "profile" ? magnifyFocused : magnifyUnfocused } alt="Profile" />
             <h2>Profile</h2>
