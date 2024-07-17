@@ -1,9 +1,20 @@
 const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
+const validator = require('validator');
 
 // User session expires after 6 hrs
 const createToken = (_id) => {
   return jwt.sign({ _id }, process.env.JWT_SECRET, { expiresIn: '6h' });
+}
+
+// Find username from email
+const findUsername = async (identifier) => {
+  if (validator.isEmail(identifier)) {
+    const user = await User.findOne({ email: identifier });
+    return (user.username);
+  }
+
+  return (identifier);
 }
 
 
@@ -13,11 +24,11 @@ const loginUser = async (req, res) => {
 
   try {
     const user = await User.login(identifier, password);
-
     // create a token
     const token = createToken(user._id);
+    const username = await findUsername(identifier);
 
-    res.status(200).json({ id: identifier, token });
+    res.status(200).json({ username, token });
   } catch (error) {
     res.status(400).json({ error: error.message });
   };
@@ -34,7 +45,7 @@ const signupUser = async (req, res) => {
     // create a token
     const token = createToken(user._id);
 
-    res.status(200).json({ id: email, token });
+    res.status(200).json({ username, token });
   } catch (error) {
     res.status(400).json({ error: error.message });
   };
@@ -43,10 +54,10 @@ const signupUser = async (req, res) => {
 
 // get followers of user
 const getFollowers = async (req, res) => {
-  const { _id } = req.body;
+  const { username } = req.body;
 
   try {
-    const user = await User.findById(_id);
+    const user = await User.findOne({ username });
 
     res.status(200).json({ followers: user.followers });
   } catch (error) {
@@ -57,10 +68,10 @@ const getFollowers = async (req, res) => {
 
 // get user following
 const getFollowing = async (req, res) => {
-  const { _id } = req.body;
+  const { username } = req.body;
 
   try {
-    const user = await User.findById(_id);
+    const user = await User.findOne({ username });
 
     res.status(200).json({ following: user.following });
   } catch (error) {
@@ -71,21 +82,21 @@ const getFollowing = async (req, res) => {
 
 // follow user
 const followUser = async (req, res) => {
-  const { _id, targetId } = req.body;
+  const { username, targetUsername } = req.body;
 
   // Update following list of user
-  const user = await User.findOne({ _id });
+  const user = await User.findOne({ username });
+  const target = await User.findOne({ username: targetUsername });
 
-  if (user.following.includes(targetId)) {
+  if (user.following.includes(target._id)) {
     return res.status(400).json({ error: 'User already followed' });
   }
-  const updateFollowing = { following: user.following.concat(targetId) };
-  const updatedUser = await User.findOneAndUpdate({ _id }, updateFollowing, { new: true });
+  const updateFollowing = { following: user.following.concat(target._id) };
+  const updatedUser = await User.findOneAndUpdate({ username }, updateFollowing, { new: true });
   
   // Update followers list of target
-  const target = await User.findOne({ _id: targetId });
-  const updateFollowers = { followers: target.followers.concat(_id) };
-  await User.findOneAndUpdate({ _id: targetId }, updateFollowers);
+  const updateFollowers = { followers: target.followers.concat(user._id) };
+  await User.findOneAndUpdate({ username: targetUsername }, updateFollowers);
 
   res.status(200).json({ updatedUser });
 }
@@ -93,21 +104,21 @@ const followUser = async (req, res) => {
 
 // unfollow user
 const unfollowUser = async (req, res) => {
-  const { _id, targetId } = req.body;
+  const { username, targetUsername } = req.body;
 
   // Update following list of user
-  const user = await User.findOne({ _id });
+  const user = await User.findOne({ username });
+  const target = await User.findOne({ username: targetUsername });
 
-  if (!user.following.includes(targetId)) {
+  if (!user.following.includes(target._id)) {
     return res.status(400).json({ error: 'User is already not being followed'});
   }
-  const updateFollowing = { following: user.following.filter((followingUser) => followingUser != targetId) };
-  const updatedUser = await User.findOneAndUpdate({ _id }, updateFollowing, { new: true });
+  const updateFollowing = { following: user.following.filter((followingUser) => followingUser != target._id) };
+  const updatedUser = await User.findOneAndUpdate({ username }, updateFollowing, { new: true });
 
   // Update followers list of target
-  const target = await User.findOne({ _id: targetId });
-  const updateFollowers = { followers: target.followers.filter((follower) => follower != _id) };
-  await User.findOneAndUpdate({ _id: targetId }, updateFollowers);
+  const updateFollowers = { followers: target.followers.filter((follower) => follower != user._id) };
+  await User.findOneAndUpdate({ username: targetUsername }, updateFollowers);
 
   res.status(200).json({ updatedUser });
 }
