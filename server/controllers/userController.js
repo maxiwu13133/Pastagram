@@ -48,7 +48,7 @@ const getFollowers = async (req, res) => {
   try {
     const user = await User.findById(_id);
 
-    res.status(200).json({ user });
+    res.status(200).json({ followers: user.followers });
   } catch (error) {
     res.status(400).json({ error: error.message });
   };
@@ -62,7 +62,7 @@ const getFollowing = async (req, res) => {
   try {
     const user = await User.findById(_id);
 
-    res.status(200).json({ user });
+    res.status(200).json({ following: user.following });
   } catch (error) {
     res.status(400).json({ error: error.message });
   };
