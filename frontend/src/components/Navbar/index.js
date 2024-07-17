@@ -25,7 +25,7 @@ import moreUnfocused from '../../assets/Navbar/ig-more-icon-unfocused.png';
 const Navbar = () => {
   // Highlight nav
   const [selectedNav, setSelectedNav] = useState('home');
-
+  
   // Highlight more option
   const [highlightMore, setHighlightMore] = useState(false);
   const moreRef = useRef();
@@ -85,7 +85,7 @@ const Navbar = () => {
 
       {/* Explore */}
       <div className="navbar-option-wrapper">
-        <Link to="/" onClick={ () => setSelectedNav('explore') }>
+        <Link to="/explore/" onClick={ () => setSelectedNav('explore') }>
           <div className={ `navbar-option navbar-explore ${ selectedNav === "explore" ? "navbar-highlighted" : "" }` }>
             <img src={ selectedNav === "explore" ? compassFocused : compassUnfocused } alt="Explore" />
             <h2>Explore</h2>
