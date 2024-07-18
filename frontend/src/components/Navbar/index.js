@@ -24,7 +24,8 @@ import moreUnfocused from '../../assets/Navbar/ig-more-icon-unfocused.png';
 
 const Navbar = () => {
   // Highlight nav
-  const [selectedNav, setSelectedNav] = useState('home');
+  const pathName = window.location.pathname.replace(/\//g,'');
+  const [selectedNav, setSelectedNav] = useState(pathName);
   
   // Highlight more option
   const [highlightMore, setHighlightMore] = useState(false);
@@ -32,9 +33,6 @@ const Navbar = () => {
 
   // User context
   const { user } = useAuthContext();
-
-
-
 
   
   // Remove More option drop down when clicked elsewhere
@@ -65,9 +63,9 @@ const Navbar = () => {
 
       {/* Home */}
       <div className="navbar-option-wrapper">
-        <Link to="/" onClick={ () => setSelectedNav('home') }>
-          <div className={ `navbar-option navbar-home ${ selectedNav === "home" ? "navbar-highlighted" : "" }` }>
-            <img src={ selectedNav === "home" ? houseFocused : houseUnfocused } alt="Home" />
+        <Link to="/" onClick={ () => setSelectedNav('') }>
+          <div className={ `navbar-option navbar-home ${ selectedNav === "" ? "navbar-highlighted" : "" }` }>
+            <img src={ selectedNav === "" ? houseFocused : houseUnfocused } alt="Home" />
             <h2>Home</h2>
           </div>
         </Link>
@@ -95,7 +93,7 @@ const Navbar = () => {
 
       {/* Messages */}
       <div className="navbar-option-wrapper">
-        <Link to="/" onClick={ () => setSelectedNav('messages') }>
+        <Link to="/messages/" onClick={ () => setSelectedNav('messages') }>
           <div className={ `navbar-option navbar-messages ${ selectedNav === "messages" ? "navbar-highlighted" : "" }` }>
             <img src={ selectedNav === "messages" ? messageFocused : messageUnfocused } alt="Messages" />
             <h2>Messages</h2>
@@ -125,9 +123,9 @@ const Navbar = () => {
 
       {/* Profile */}
       <div className="navbar-option-wrapper">
-        <Link to={ `/${ user.username }/`} onClick={ () => setSelectedNav('profile') }>
-          <div className={ `navbar-option navbar-profile ${ selectedNav === "profile" ? "navbar-highlighted" : "" }` }>
-            <img src={ selectedNav === "profile" ? magnifyFocused : magnifyUnfocused } alt="Profile" />
+        <Link to={ `/${ user.username }/`} onClick={ () => setSelectedNav(user.username) }>
+          <div className={ `navbar-option navbar-profile ${ selectedNav === user.username ? "navbar-highlighted" : "" }` }>
+            <img src={ selectedNav === user.username ? magnifyFocused : magnifyUnfocused } alt="Profile" />
             <h2>Profile</h2>
           </div>
         </Link>
