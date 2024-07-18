@@ -42,7 +42,7 @@ function App() {
                 />
                 <Route
                   path="/:username/"
-                  element={ <Profile /> }
+                  element={ user ? <Profile /> : <Navigate to="/login/" /> }
                 />
               </Routes>
             </div> 
