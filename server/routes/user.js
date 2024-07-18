@@ -3,7 +3,7 @@ const router = express.Router();
 
 
 // controller functions
-const { loginUser, signupUser, getFollowers, getFollowing, followUser, unfollowUser } = require('../controllers/userController');
+const { loginUser, signupUser, getCommunity, followUser, unfollowUser } = require('../controllers/userController');
 
 
 // login route
@@ -12,11 +12,8 @@ router.post('/login', loginUser);
 // signup route
 router.post('/signup', signupUser);
 
-// get followers
-router.get('/followers', getFollowers);
-
-// get following
-router.get('/following', getFollowing);
+// get community
+router.get('/community', getCommunity);
 
 // follow a user
 router.patch('/follow', followUser);

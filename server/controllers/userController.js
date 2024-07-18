@@ -52,28 +52,14 @@ const signupUser = async (req, res) => {
 }
 
 
-// get followers of user
-const getFollowers = async (req, res) => {
+// get community
+const getCommunity = async (req, res) => {
   const { username } = req.body;
 
   try {
     const user = await User.findOne({ username });
-
-    res.status(200).json({ followers: user.followers });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  };
-}
-
-
-// get user following
-const getFollowing = async (req, res) => {
-  const { username } = req.body;
-
-  try {
-    const user = await User.findOne({ username });
-
-    res.status(200).json({ following: user.following });
+    
+    res.status(200).json({ followers: user.followers, following: user.following });
   } catch (error) {
     res.status(400).json({ error: error.message });
   };
@@ -123,4 +109,4 @@ const unfollowUser = async (req, res) => {
   res.status(200).json({ updatedUser });
 }
 
-module.exports = { loginUser, signupUser, getFollowers, getFollowing, followUser, unfollowUser };
+module.exports = { loginUser, signupUser, getCommunity, followUser, unfollowUser };
