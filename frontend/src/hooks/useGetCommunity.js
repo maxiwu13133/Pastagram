@@ -1,32 +1,36 @@
-import { useState } from 'react';
-import { useAuthContext } from "./useAuthContext";
+import { useState, useEffect } from 'react';
 
-
-export const useGetCommunity = () => {
+export const useGetCommunity = (username) => {
+  const [followers, setFollowers] = useState([]);
+  const [following, setFollowing] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
 
-  const getCommunity = async (username) => {
-    setIsLoading(true);
-    setError(null);
-
-    const response = await fetch('/api/user/community', {
-      method: 'GET',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ username })
-    });
-    const json = await response.json();
-
-    if (!response.ok) {
-      setIsLoading(false);
-      setError(json.error);
+  useEffect(() => {
+    const getCommunity = async (username) => {
+      setIsLoading(true);
+      setError(null);
+  
+      const response = await fetch('/api/user/community/' + username, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'}
+      });
+      const json = await response.json();
+  
+      if (!response.ok) {
+        setIsLoading(false);
+        setError(json.error);
+      };
+  
+      if (response.ok) {
+        setIsLoading(false);
+        setFollowers(json.followers);
+        setFollowing(json.following);
+      };
     };
 
-    if (response.ok) {
-      setIsLoading(false);
-      return (json);
-    };
-  };
+    getCommunity(username);
+  }, [username])
 
-  return { getCommunity, error, isLoading };
+  return { followers, following, error, isLoading };
 };

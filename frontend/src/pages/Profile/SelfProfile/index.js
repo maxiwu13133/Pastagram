@@ -1,63 +1,86 @@
 import './index.css';
 
+// Pages
+import Loading from '../../Loading'
+
+// hooks
+import { useAuthContext } from '../../../hooks/useAuthContext';
+import { useGetCommunity } from '../../../hooks/useGetCommunity';
+
 // assets
 import pfp from '../../../assets/pintstagram-icon.png';
 
 const SelfProfile = () => {
-  return ( 
+  const { user } = useAuthContext();
+  const { followers, following, error, isLoading } = useGetCommunity(user.username);
+
+  return (
     <div className="s-profile-container">
 
-      {/* Details */}
-      <div className="s-profile-details">
-        <div className="s-profile-pfp-container">
-          <img src={ pfp } alt="pfp" className="s-profile-pfp" />
-        </div>
+      { isLoading && <Loading /> }
 
-        <div className="s-profile-info">
-          <div className="s-profile-username">
-            <h3 className="s-profile-name">maxwuw</h3>
+      { 
+        !isLoading && 
+        <>
+          {/* Details */}
+          <div className="s-profile-details">
+            <div className="s-profile-pfp-container">
+              <img src={ pfp } alt="pfp" className="s-profile-pfp" />
+            </div>
 
-            <button className="s-profile-edit">Edit profile</button>
+            <div className="s-profile-info">
+              <div className="s-profile-username">
+                <h3 className="s-profile-name">{ user.username }</h3>
 
-            <button className="s-profile-archives">View archive</button>
+                <button className="s-profile-edit">Edit profile</button>
+
+                <button className="s-profile-archives">View archive</button>
+              </div>
+
+              { !error && 
+                <div className="s-profile-stats">
+                  <p className="s-profile-post-ct">
+                    <span>2</span> posts
+                  </p>
+
+                  <p className="s-profile-follower-ct">
+                    <span>{ followers.length }</span> followers
+                  </p>
+
+                  <p className="s-profile-following-ct">
+                    <span>{ following.length }</span> following
+                  </p>
+                </div>
+              }
+
+              { error && <div className="s-profile-stats-error">{ error }</div> }
+
+              <div className="s-profile-bio">
+                <p className="s-profile-full-name">Max Wu</p>
+
+                <p className="s-profile-text">Hi this is my bio. Welcome to my page!</p>
+              </div>
+            </div>
           </div>
 
-          <div className="s-profile-stats">
-            <p className="s-profile-post-ct">
-              <span>2</span> posts
-            </p>
+          {/* Highlights */}
+          <div className="s-profile-highlights">
 
-            <p className="s-profile-follower-ct">
-              <span>131</span> followers
-            </p>
-
-            <p className="s-profile-following-ct">
-              <span>118</span> following
-            </p>
           </div>
 
-          <div className="s-profile-bio">
-            <p className="s-profile-full-name">Max Wu</p>
+          {/* Posts */}
+          <div className="s-profile-posts">
 
-            <p className="s-profile-text">Hi this is my bio. Welcome to my page!</p>
           </div>
-        </div>
-      </div>
 
-      {/* Highlights */}
-      <div className="s-profile-highlights">
+          {/* Linkedin Resume */}
+          <div className="s-profile-linkedin">
+            <a target="_blank" rel="noreferrer" href="https://www.linkedin.com/in/maximilian-wu/">Pastagram by Max Wu</a>
+          </div>
+        </>
+      }
 
-      </div>
-
-      {/* Posts */}
-      <div className="s-profile-posts">
-
-      </div>
-
-      {/* Linkedin Resume */}
-      <div className="s-profile-linkedin">
-        <a target="_blank" rel="noreferrer" href="https://www.linkedin.com/in/maximilian-wu/">Pastagram by Max Wu</a>
-      </div>
+      
 
     </div>
    );
