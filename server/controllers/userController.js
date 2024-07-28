@@ -54,7 +54,7 @@ const signupUser = async (req, res) => {
 
 // get community
 const getCommunity = async (req, res) => {
-  const { username } = req.body;
+  const { username } = req.params;
 
   try {
     const user = await User.findOne({ username });

@@ -13,7 +13,7 @@ router.post('/login', loginUser);
 router.post('/signup', signupUser);
 
 // get community
-router.get('/community', getCommunity);
+router.get('/community/:username', getCommunity);
 
 // follow a user
 router.patch('/follow', followUser);
