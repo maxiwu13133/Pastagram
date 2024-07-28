@@ -68,11 +68,28 @@
 .s-profile-stats {
   display: flex;
   flex-direction: row;
+  height: 40px;
+  margin-top: 10px;
+  align-items: center;
+}
+
+.s-profile-stats > p {
+  margin-right: 30px;
+}
+
+.s-profile-stats span {
+  font-weight: 600;
 }
 
 .s-profile-bio {
   display: flex;
   flex-direction: column;
+  margin-top: 20px;
+}
+
+.s-profile-full-name {
+  font-weight: 600;
+  margin-bottom: 5px;
 }
 
 .s-profile-linkedin {

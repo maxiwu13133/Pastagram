@@ -83,6 +83,15 @@
   font-weight: bold;
 }
 
+.navbar-pfp {
+  border-radius: 50%;
+  border: solid 1px lightgray;
+}
+
+.navbar-pfp-highlighted {
+  border: solid 2px black;
+}
+
 .navbar-more-wrapper {
   margin-top: auto;
 }

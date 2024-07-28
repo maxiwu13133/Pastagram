@@ -23,11 +23,17 @@ const SelfProfile = () => {
           </div>
 
           <div className="s-profile-stats">
-            <p className="s-profile-post-ct">2 posts</p>
+            <p className="s-profile-post-ct">
+              <span>2</span> posts
+            </p>
 
-            <p className="s-profile-follower-ct">131 followers</p>
+            <p className="s-profile-follower-ct">
+              <span>131</span> followers
+            </p>
 
-            <p className="s-profile-following-ct">118 following</p>
+            <p className="s-profile-following-ct">
+              <span>118</span> following
+            </p>
           </div>
 
           <div className="s-profile-bio">

@@ -20,6 +20,7 @@ import heartUnfocused from '../../assets/Navbar/ig-notif-icon-unfocused.png';
 import create from '../../assets/Navbar/ig-create-icon.png';
 import moreFocused from '../../assets/Navbar/ig-more-icon-focused.png';
 import moreUnfocused from '../../assets/Navbar/ig-more-icon-unfocused.png';
+import pfp from '../../assets/pintstagram-icon.png';
 
 
 const Navbar = () => {
@@ -94,7 +95,11 @@ const Navbar = () => {
       {/* Messages */}
       <div className="navbar-option-wrapper">
         <Link to="/messages/" onClick={ () => setSelectedNav('messages') }>
-          <div className={ `navbar-option navbar-messages ${ selectedNav === "messages" ? "navbar-highlighted" : "" }` }>
+          <div className={ `
+                            navbar-option 
+                            navbar-messages 
+                            ${ selectedNav === "messages" ? "navbar-highlighted" : "" }` 
+                          }>
             <img src={ selectedNav === "messages" ? messageFocused : messageUnfocused } alt="Messages" />
             <h2>Messages</h2>
           </div>
@@ -104,7 +109,11 @@ const Navbar = () => {
       {/* Notifications */}
       <div className="navbar-option-wrapper">
         <Link onClick={ () => setSelectedNav('notifications') }>
-          <div className={ `navbar-option navbar-notifications ${ selectedNav === "notifications" ? "navbar-highlighted" : "" }` }>
+          <div className={ `
+                            navbar-option 
+                            navbar-notifications 
+                            ${ selectedNav === "notifications" ? "navbar-highlighted" : "" }` 
+                          }>
             <img src={ selectedNav === "notifications" ? heartFocused : heartUnfocused } alt="Notifications" />
             <h2>Notifications</h2>
           </div>
@@ -124,8 +133,15 @@ const Navbar = () => {
       {/* Profile */}
       <div className="navbar-option-wrapper">
         <Link to={ `/${ user.username }/`} onClick={ () => setSelectedNav(user.username) }>
-          <div className={ `navbar-option navbar-profile ${ selectedNav === user.username ? "navbar-highlighted" : "" }` }>
-            <img src={ selectedNav === user.username ? magnifyFocused : magnifyUnfocused } alt="Profile" />
+          <div className={ `
+                            navbar-option 
+                            navbar-profile 
+                            ${ selectedNav === user.username ? "navbar-highlighted" : "" }` 
+                          }>
+            <img 
+              src={ pfp } 
+              alt="Profile" 
+              className={ `navbar-pfp ${ selectedNav === user.username ? "navbar-pfp-highlighted" : "" }` } />
             <h2>Profile</h2>
           </div>
         </Link>
