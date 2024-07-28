@@ -51,6 +51,7 @@
 
 .navbar-option > h2 {
   margin-left: 18px;
+  font-weight: 500;
 }
 
 .navbar-option:hover {
@@ -61,6 +62,21 @@
 .navbar-option:hover > img{
   transform: scale(1.1);
   transition: 0.2s;
+}
+
+.navbar-option:active {
+  background-color: #f8f8f8;
+  transition: 0s;
+}
+
+.navbar-option:active > img {
+  filter: opacity(50%);
+  transform: scale(0.98);
+  transition: 0.2s;
+}
+
+.navbar-option:active > h2 {
+  color: #9f9f9f;
 }
 
 .navbar-highlighted > h2{

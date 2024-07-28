@@ -132,7 +132,7 @@ const Login = () => {
       
       {/* Linkedin Resume */}
       <div className="login-linkedin">
-        <a target="_blank" rel="noreferrer" href="https://www.linkedin.com/in/maximilian-wu/">Pintstagram by Max Wu</a>
+        <a target="_blank" rel="noreferrer" href="https://www.linkedin.com/in/maximilian-wu/">Pastagram by Max Wu</a>
       </div>
 
     </div>
