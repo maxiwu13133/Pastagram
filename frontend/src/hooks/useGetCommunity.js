@@ -7,13 +7,15 @@ export const useGetCommunity = (username) => {
   const [isLoading, setIsLoading] = useState(null);
 
   useEffect(() => {
-    const getCommunity = async (username) => {
+    const getCommunity = async (user) => {
       setIsLoading(true);
       setError(null);
   
-      const response = await fetch('/api/user/community/' + username, {
+      const response = await fetch('/api/user/community/' + user.username, {
         method: 'GET',
-        headers: {'Content-Type': 'application/json'}
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
       const json = await response.json();
   

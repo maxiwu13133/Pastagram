@@ -12,7 +12,7 @@ import pfp from '../../../assets/pintstagram-icon.png';
 
 const SelfProfile = () => {
   const { user } = useAuthContext();
-  const { followers, following, error, isLoading } = useGetCommunity(user.username);
+  const { followers, following, error, isLoading } = useGetCommunity(user);
 
   return (
     <div className="s-profile-container">
@@ -53,7 +53,7 @@ const SelfProfile = () => {
                 </div>
               }
 
-              { error && <div className="s-profile-stats-error">{ error }</div> }
+              { error && <div>{ error }</div> }
 
               <div className="s-profile-bio">
                 <p className="s-profile-full-name">Max Wu</p>
