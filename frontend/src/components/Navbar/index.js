@@ -22,6 +22,11 @@ import moreFocused from '../../assets/Navbar/ig-more-icon-focused.png';
 import moreUnfocused from '../../assets/Navbar/ig-more-icon-unfocused.png';
 import pfp from '../../assets/pintstagram-icon.png';
 
+// components
+import Create from '../Create';
+import Overlay from '../Overlay';
+import CloseButton from '../CloseButton';
+
 
 const Navbar = () => {
   // Highlight nav
@@ -49,6 +54,9 @@ const Navbar = () => {
       document.body.removeEventListener('click', handleHighlightMore);
     };
   }, []);
+
+  // Open and close create modal
+  const [modal, setModal] = useState(false);
 
   return (
     <div className="navbar-container">
@@ -122,7 +130,7 @@ const Navbar = () => {
 
       {/* Create */}
       <div className="navbar-option-wrapper">
-        <Link>
+        <Link onClick={ () => setModal(true) }>
           <div className="navbar-option navbar-create">
             <img src={ create } alt="Create" />
             <h2>Create</h2>
@@ -156,6 +164,17 @@ const Navbar = () => {
           </div>
         </Link>
       </div>
+
+      {/* Create Modal */}
+      { modal && 
+        <>
+          <Create />
+          <div className="create-close-container" onClick={ () => setModal(false) }>
+            <CloseButton className="create-close" width={ 25 } height={ 25 } />
+          </div>
+          <Overlay handleClick={ () => setModal(false) } />
+        </>
+      }
 
     </div>
   );

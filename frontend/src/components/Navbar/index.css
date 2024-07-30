@@ -95,3 +95,16 @@
 .navbar-more-wrapper {
   margin-top: auto;
 }
+
+
+/* Create modal */
+.create-close-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 2;
+}
+
+.create-close-container:hover {
+  cursor: pointer;
+}

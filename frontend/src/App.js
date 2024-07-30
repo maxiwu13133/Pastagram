@@ -11,6 +11,7 @@ import Signup from './pages/Signup';
 import Terms from './pages/Terms';
 import Profile from './pages/Profile';
 
+
 function App() {
   const { user, loadFinish } =  useAuthContext();
 
