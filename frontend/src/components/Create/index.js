@@ -1,4 +1,5 @@
-import { useDropzone } from 'react-dropzone';
+import {useEffect } from 'react';
+
 import './index.css';
 
 // hooks
@@ -13,13 +14,16 @@ const Create = () => {
   const { 
           acceptedFiles,
           getRootProps,
-          isDragActive
         } = useDropzoneC();
   const { 
           acceptedFiles: acceptedFilesNC,
           getRootProps: getRootPropsNC,
           isDragActive: isDragActiveNC
         } = useDropzoneNC();
+
+  useEffect(() => {
+    
+  }, [acceptedFiles, acceptedFilesNC]);
 
   return (
     <div className="create-post" { ...getRootPropsNC() }>

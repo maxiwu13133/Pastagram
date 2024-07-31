@@ -1,7 +1,7 @@
 import { useDropzone } from 'react-dropzone'
 
 export const useDropzoneNC = () => {
-  const {acceptedFiles, getRootProps, getInputProps, isDragActive} = useDropzone({ noClick: true });
+  const {acceptedFiles, getRootProps, isDragActive} = useDropzone({ noClick: true });
 
-  return { acceptedFiles, getRootProps, getInputProps, isDragActive };
+  return { acceptedFiles, getRootProps, isDragActive };
 }
