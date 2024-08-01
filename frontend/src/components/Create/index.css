@@ -5,7 +5,7 @@
 
 .create-post {
   position: absolute;
-  width: 700px;
+  width: 680px;
   height: 720px;
   background-color: white;
   border-radius: 12px;
@@ -31,6 +31,7 @@
   font-weight: 600;
 }
 
+/* No files yet view */
 .create-post-upload {
   width: 100px;
   margin-top: 250px;
@@ -65,6 +66,121 @@
   height: 100%;
 }
 
+/* Files view */
+.create-post-preview-header {
+  border-bottom: solid 1px #dbdbdb;
+  width: 100%;
+  height: 45px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px 0 20px;
+}
+
+.create-post-preview-header > p {
+  font-weight: 600;
+}
+
+.create-post-arrow-container svg:hover {
+  cursor: pointer;
+}
+
+.create-post-arrow-container svg:active {
+  fill: #7e7e7e;
+}
+
+.create-post-preview-next {
+  background: none;
+  border: none;
+  color: #0e95f6;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.create-post-preview-next:hover {
+  cursor: pointer;
+  color: #00377d;
+}
+
+.create-post-preview-next:active {
+  color: #7f9abd;
+}
+
+/* Discard draft */
+.create-post-discard {
+  background-color: white;
+  border-radius: 12px;
+  width: 400px;
+  height: 200px;
+  position: fixed;
+  z-index: 4;
+  top: calc(50vh - 100px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.create-post-discard h2 {
+  font-size: 20px;
+  font-weight: 500;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.create-post-discard-tooltip {
+  font-size: 13px;
+  color: gray;
+  margin-bottom: 20px;
+}
+
+.create-post-discard-confirm {
+  width: 100%;
+  height: 48px;
+  border-top: solid 1px lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ee535f;
+}
+
+.create-post-discard-confirm > p {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.create-post-discard-confirm:hover {
+  cursor: pointer;
+}
+
+.create-post-discard-cancel {
+  width: 100%;
+  height: 48px;
+  border-top: solid 1px lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.create-post-discard-cancel > p{
+  font-size: 14px;
+}
+
+.create-post-discard-cancel:hover {
+  cursor: pointer;
+}
+
+.create-post-discard-overlay {
+  background: rgba(0, 0, 0, 0.65);
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 3;
+}
+
+/* Wrong file view */
 .create-post-wrong-files {
   width: 100%;
   height: 100%;

@@ -1,0 +1,12 @@
+.preview-container {
+  width: 680px;
+  height: 675px;
+  display: flex;
+  justify-content: center;
+}
+
+.preview-img {
+  object-fit: cover;
+  max-width: 680px;
+  height: 675px;
+}
