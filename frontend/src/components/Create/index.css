@@ -57,10 +57,59 @@
 
 .create-post-select-from-pc:hover {
   cursor: pointer;
-  background-color: #1877f2
+  background-color: #1877f2;
 }
 
 .create-post-select-input {
   width: 100%;
   height: 100%;
+}
+
+.create-post-wrong-files {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.create-post-wrong-icon {
+  width: 100px;
+}
+
+.create-post-wrong-text {
+  font-size: 18px;
+  font-weight: 500;
+  margin-top: 20px;
+}
+
+.create-post-wrong-list {
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: 10px;
+  color: #737373;
+}
+
+.create-post-wrong-list span {
+  font-size: 13px;
+  font-weight: 600;
+  color: #737373;
+}
+
+.create-post-wrong-button {
+  border-radius: 8px;
+  border: none;
+  background-color: #0095f6;
+  color: white;
+  width: 140px;
+  height: 35px;
+  margin-top: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.create-post-wrong-button:hover {
+  cursor: pointer;
+  background-color: #1877f2;
 }
