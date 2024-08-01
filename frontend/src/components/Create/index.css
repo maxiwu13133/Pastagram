@@ -1,3 +1,8 @@
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
 .create-post {
   position: absolute;
   width: 700px;
@@ -10,6 +15,7 @@
   flex-direction: column;
   align-items: center;
   z-index: 2;
+  animation: fadeIn 0.5s;
 }
 
 .create-post-header {

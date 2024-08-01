@@ -1,4 +1,4 @@
-import {useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 import './index.css';
 
@@ -11,37 +11,45 @@ import upload from '../../assets/Create/upload-pic.png';
 import uploadFocus from '../../assets/Create/upload-pic-blue.png';
 
 const Create = () => {
+  const [files, setFiles] = useState([]);
+  const [filesSubmitted, setFilesSubmitted] = useState(false);
+
+  const onDrop = useCallback(acceptedFiles => {
+    acceptedFiles.forEach(file => {
+      console.log(file);
+    });
+  })
+  
   const { 
-          acceptedFiles,
           getRootProps,
-        } = useDropzoneC();
+        } = useDropzoneC({ onDrop });
   const { 
-          acceptedFiles: acceptedFilesNC,
           getRootProps: getRootPropsNC,
           isDragActive: isDragActiveNC
-        } = useDropzoneNC();
-
-  useEffect(() => {
-    
-  }, [acceptedFiles, acceptedFilesNC]);
+        } = useDropzoneNC({ onDrop });
 
   return (
-    <div className="create-post" { ...getRootPropsNC() }>
+    <div { ...getRootPropsNC({ className: 'create-post' }) }>
       <header className="create-post-header">
         <p>Create new post</p>
       </header>
 
-      <div className="create-post-photo">
-        <img className="create-post-upload" src={ isDragActiveNC ? uploadFocus : upload } alt="upload" />
-      </div>
-
-      <div className="create-post-tooltip">
-        Drag photos and videos here
-      </div>
-      
-      <button className="create-post-select-from-pc" { ...getRootProps() }>
-        Select from computer
-      </button>
+      {
+        !filesSubmitted &&
+        <>
+          <div className="create-post-photo">
+            <img className="create-post-upload" src={ isDragActiveNC ? uploadFocus : upload } alt="upload" />
+          </div>
+    
+          <div className="create-post-tooltip">
+            Drag photos and videos here
+          </div>
+          
+          <button { ...getRootProps({ className: 'create-post-select-from-pc' }) }>
+            Select from computer
+          </button>
+        </>
+      }
       
     </div>
   );
