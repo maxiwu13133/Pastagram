@@ -15,10 +15,16 @@ const Create = () => {
   const [files, setFiles] = useState([]);
   const [filesSubmitted, setFilesSubmitted] = useState(false);
   const [wrongFiles, setWrongFiles] = useState(null);
+  const [disableDrop, setDisableDrop] = useState(false);
 
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     if (acceptedFiles.length > 0) {
+      setWrongFiles(null);
       setFiles(acceptedFiles);
+      setFilesSubmitted(true);
+      setDisableDrop(true);
+
+      console.log(acceptedFiles);
     } else {
       setWrongFiles(rejectedFiles);
     }
@@ -26,11 +32,11 @@ const Create = () => {
   
   const { 
           getRootProps,
-        } = useDropzoneC({ onDrop });
+        } = useDropzoneC({ onDrop, disabled: disableDrop });
   const { 
           getRootProps: getRootPropsNC,
           isDragActive: isDragActiveNC
-        } = useDropzoneNC({ onDrop });
+        } = useDropzoneNC({ onDrop, disabled: disableDrop });
 
   return (
     <div { ...getRootPropsNC({ className: 'create-post' }) }>
@@ -67,7 +73,7 @@ const Create = () => {
 
           <p className="create-post-wrong-text">This file is not supported</p>
           <p className="create-post-wrong-list"><span>{ wrongFiles[0].file.path }</span> could not be uploaded.</p>
-          <button className="create-post-wrong-button">Select other files</button>
+          <button { ...getRootProps({ className: 'create-post-wrong-button' }) }>Select other files</button>
         </div>
       }
       
