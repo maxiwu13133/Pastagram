@@ -15,12 +15,14 @@ const Preview = ({ files }) => {
           <img src={ cycleArrow } alt="prev img" className="preview-back-arrow" />
         </div>
       }
-      <img 
-        draggable={ false } 
-        className="preview-img" 
-        src={ files[previewIndex].preview } 
-        alt="photos" 
-      />
+      <div className="preview-img-container">
+        <img 
+          draggable={ false } 
+          className="preview-img" 
+          src={ files[previewIndex].preview } 
+          alt="photos" 
+        />
+      </div>
       { files.length > 1 && previewIndex !== files.length - 1 && 
         <div className="preview-next-img">
           <img 
