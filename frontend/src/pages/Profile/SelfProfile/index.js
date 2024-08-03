@@ -25,7 +25,7 @@ const SelfProfile = () => {
           {/* Details */}
           <div className="s-profile-details">
             <div className="s-profile-pfp-container">
-              <img src={ pfp } alt="pfp" className="s-profile-pfp" />
+              <img draggable={ false } src={ pfp } alt="pfp" className="s-profile-pfp" />
             </div>
 
             <div className="s-profile-info">

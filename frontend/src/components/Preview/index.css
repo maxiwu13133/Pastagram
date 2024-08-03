@@ -5,8 +5,50 @@
   justify-content: center;
 }
 
+.preview-back-img, .preview-next-img {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 365px;
+  user-select: none;
+}
+
+.preview-back-img {
+  left: 10px;
+}
+
+.preview-next-img {
+  right: 10px;
+}
+
+.preview-back-img:hover, .preview-next-img:hover {
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.5);
+  transition: 0.2s;
+}
+
+.preview-back-arrow {
+  width: 14px;
+  height: 16px;
+  transform: scaleX(-1);
+}
+
+.preview-next-arrow {
+  width: 14px;
+  height: 16px;
+}
+
 .preview-img {
   object-fit: cover;
-  max-width: 680px;
+  max-width: 100%;
+  min-width: 536px;
   height: 675px;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  user-select: none;
 }

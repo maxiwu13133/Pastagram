@@ -48,7 +48,7 @@
 .create-post-upload {
   width: 100px;
   margin-top: 250px;
-  color: blue;
+  user-select: none;
 }
 
 .create-post-tooltip {
@@ -108,6 +108,7 @@
   color: #0e95f6;
   font-weight: 600;
   font-size: 14px;
+  user-select: none;
 }
 
 .create-post-preview-next:hover {
@@ -205,6 +206,7 @@
 
 .create-post-wrong-icon {
   width: 100px;
+  user-select: none;
 }
 
 .create-post-wrong-text {

@@ -27,7 +27,10 @@ const Create = ({ handleClick }) => {
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     if (acceptedFiles.length > 0) {
       setWrongFiles(null);
-      setFiles(acceptedFiles);
+      setFiles(previousFiles => [
+        ...previousFiles,
+        ...acceptedFiles.map(file => Object.assign(file, { preview: URL.createObjectURL(file) }))
+      ]);
       setFilesSubmitted(true);
       setDisableDrop(true);
     } else {
@@ -117,10 +120,7 @@ const Create = ({ handleClick }) => {
               </>
             }
             <header className="create-post-preview-header">
-              <div className="create-post-arrow-container" onClick={ () => {
-                setDiscardPopup(true)
-                }
-              }>
+              <div className="create-post-arrow-container" onClick={ () => setDiscardPopup(true) }>
                 <ArrowLeft width={ 25 } height={ 40 } />
               </div>
               <p>Crop</p>
