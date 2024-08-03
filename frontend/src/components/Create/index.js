@@ -54,7 +54,12 @@ const Create = () => {
             <p>Create new post</p>
           </header>
           <div className="create-post-photo">
-            <img className="create-post-upload" src={ isDragActiveNC ? uploadFocus : upload } alt="upload" />
+            <img 
+              className="create-post-upload" 
+              draggable={ false } 
+              src={ isDragActiveNC ? uploadFocus : upload } 
+              alt="upload"
+            />
           </div>
     
           <div className="create-post-tooltip">
@@ -98,7 +103,7 @@ const Create = () => {
             <p>File couldn't be uploaded</p>
           </header>
           <div className="create-post-wrong-files">
-            <img src={ wrongFile } alt="Wrong files" className="create-post-wrong-icon" />
+            <img draggable={ false } src={ wrongFile } alt="Wrong files" className="create-post-wrong-icon" />
 
             <p className="create-post-wrong-text">This file is not supported</p>
             <p className="create-post-wrong-list"><span>{ wrongFiles[0].file.path }</span> could not be uploaded.</p>

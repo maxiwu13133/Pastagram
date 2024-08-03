@@ -7,7 +7,7 @@ const Preview = ({ files }) => {
 
   return ( 
     <div className="preview-container">
-      <img className="preview-img" src={ URL.createObjectURL(files[previewIndex]) } alt="photos" />
+      <img draggable={ false } className="preview-img" src={ URL.createObjectURL(files[previewIndex]) } alt="photos" />
     </div>
    );
 }

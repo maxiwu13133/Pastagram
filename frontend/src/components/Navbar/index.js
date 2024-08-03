@@ -65,7 +65,7 @@ const Navbar = () => {
       <div className="navbar-logo-wrapper">
         <Link to="/">
           <div className="navbar-logo">
-            <img src={ logo } alt="Logo" className="navbar-logo-pic" />
+            <img draggable={ false } src={ logo } alt="Logo" className="navbar-logo-pic" />
           </div>
         </Link>
       </div>
@@ -74,7 +74,11 @@ const Navbar = () => {
       <div className="navbar-option-wrapper">
         <Link to="/" onClick={ () => setSelectedNav('') }>
           <div className={ `navbar-option navbar-home ${ selectedNav === "/" ? "navbar-highlighted" : "" }` }>
-            <img src={ selectedNav === "" ? houseFocused : houseUnfocused } alt="Home" />
+            <img 
+              draggable={ false } 
+              src={ selectedNav === "" ? houseFocused : houseUnfocused } 
+              alt="Home" 
+            />
             <h2>Home</h2>
           </div>
         </Link>
@@ -84,7 +88,11 @@ const Navbar = () => {
       <div className="navbar-option-wrapper">
         <Link onClick={ () => setSelectedNav('search') }>
           <div className={ `navbar-option navbar-search ${ selectedNav === "search" ? "navbar-highlighted" : "" }` }>
-            <img src={ selectedNav === "search" ? magnifyFocused : magnifyUnfocused } alt="Search" />
+            <img 
+              draggable={ false } 
+              src={ selectedNav === "search" ? magnifyFocused : magnifyUnfocused } 
+              alt="Search" 
+            />
             <h2>Search</h2>
           </div>
         </Link>
@@ -94,7 +102,11 @@ const Navbar = () => {
       <div className="navbar-option-wrapper">
         <Link to="/explore/" onClick={ () => setSelectedNav('explore') }>
           <div className={ `navbar-option navbar-explore ${ selectedNav === "explore" ? "navbar-highlighted" : "" }` }>
-            <img src={ selectedNav === "explore" ? compassFocused : compassUnfocused } alt="Explore" />
+            <img 
+              draggable={ false } 
+              src={ selectedNav === "explore" ? compassFocused : compassUnfocused } 
+              alt="Explore" 
+            />
             <h2>Explore</h2>
           </div>
         </Link>
@@ -108,7 +120,11 @@ const Navbar = () => {
                             navbar-messages 
                             ${ selectedNav === "messages" ? "navbar-highlighted" : "" }` 
                           }>
-            <img src={ selectedNav === "messages" ? messageFocused : messageUnfocused } alt="Messages" />
+            <img 
+              draggable={ false } 
+              src={ selectedNav === "messages" ? messageFocused : messageUnfocused }
+              alt="Messages"
+            />
             <h2>Messages</h2>
           </div>
         </Link>
@@ -122,7 +138,11 @@ const Navbar = () => {
                             navbar-notifications 
                             ${ selectedNav === "notifications" ? "navbar-highlighted" : "" }` 
                           }>
-            <img src={ selectedNav === "notifications" ? heartFocused : heartUnfocused } alt="Notifications" />
+            <img 
+              draggable={ false } 
+              src={ selectedNav === "notifications" ? heartFocused : heartUnfocused } 
+              alt="Notifications" 
+            />
             <h2>Notifications</h2>
           </div>
         </Link>
@@ -132,7 +152,11 @@ const Navbar = () => {
       <div className="navbar-option-wrapper">
         <Link onClick={ () => setModal(true) }>
           <div className="navbar-option navbar-create">
-            <img src={ create } alt="Create" />
+            <img 
+              draggable={ false } 
+              src={ create } 
+              alt="Create"
+            />
             <h2>Create</h2>
           </div>
         </Link>
@@ -146,10 +170,12 @@ const Navbar = () => {
                             navbar-profile 
                             ${ selectedNav === user.username ? "navbar-highlighted" : "" }` 
                           }>
-            <img 
+            <img
+              draggable={ false } 
               src={ pfp } 
               alt="Profile" 
-              className={ `navbar-pfp ${ selectedNav === user.username ? "navbar-pfp-highlighted" : "" }` } />
+              className={ `navbar-pfp ${ selectedNav === user.username ? "navbar-pfp-highlighted" : "" }` }
+            />
             <h2>Profile</h2>
           </div>
         </Link>
@@ -159,7 +185,11 @@ const Navbar = () => {
       <div className="navbar-option-wrapper navbar-more-wrapper">
         <Link onClick={ () => setHighlightMore(true) }>
           <div ref={ moreRef } className={ `navbar-option navbar-more ${ highlightMore ? "navbar-highlighted" : "" }` }>
-            <img src={ highlightMore ? moreFocused : moreUnfocused } alt="More" />
+            <img 
+              draggable={ false } 
+              src={ highlightMore ? moreFocused : moreUnfocused }
+              alt="More"
+            />
             <h2>More</h2>
           </div>
         </Link>
