@@ -8,7 +8,7 @@ import { useAuthContext } from '../../../hooks/useAuthContext';
 import { useGetCommunity } from '../../../hooks/useGetCommunity';
 
 // assets
-import pfp from '../../../assets/pintstagram-icon.png';
+import pfp from '../../../assets/Logos/pintstagram-icon.png';
 
 const SelfProfile = () => {
   const { user } = useAuthContext();

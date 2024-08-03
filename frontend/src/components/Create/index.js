@@ -149,7 +149,8 @@ const Create = ({ handleClick }) => {
         
       </div>
       
-      <div className="create-close-container" onClick={ () => handleClosePost() }>
+      <div 
+        className="create-close-container" onClick={ () => discardPopup ? setDiscardPopup(false) : handleClosePost() }>
         <CloseButton className="create-close" width={ 25 } height={ 25 } />
       </div>
     </>

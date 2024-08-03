@@ -4,7 +4,7 @@ import { useSignup } from '../../hooks/useSignup';
 import './index.css';
 
 // assets
-import logo from '../../assets/pastagram-logo.png';
+import logo from '../../assets/Logos/pastagram-logo.png';
 
 const Signup = () => {
   const [email, setEmail] = useState('');

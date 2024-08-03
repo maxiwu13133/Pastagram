@@ -6,7 +6,7 @@ import './index.css';
 import { useAuthContext } from '../../hooks/useAuthContext';
 
 // assets
-import logo from '../../assets/pastagram-logo.png';
+import logo from '../../assets/Logos/pastagram-logo.png';
 import houseFocused from '../../assets/Navbar/ig-home-icon-focused.png';
 import houseUnfocused from '../../assets/Navbar/ig-home-icon-unfocused.png';
 import magnifyFocused from '../../assets/Navbar/ig-search-icon-focused.png';
@@ -20,7 +20,7 @@ import heartUnfocused from '../../assets/Navbar/ig-notif-icon-unfocused.png';
 import create from '../../assets/Navbar/ig-create-icon.png';
 import moreFocused from '../../assets/Navbar/ig-more-icon-focused.png';
 import moreUnfocused from '../../assets/Navbar/ig-more-icon-unfocused.png';
-import pfp from '../../assets/pintstagram-icon.png';
+import pfp from '../../assets/Logos/pintstagram-icon.png';
 
 // components
 import Create from '../Create';

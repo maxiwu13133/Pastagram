@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import './index.css';
 
 // assets
-import icon from '../../assets/pintstagram-icon.png';
-import logo from '../../assets/pastagram-logo.png';
+import icon from '../../assets/Logos/pintstagram-icon.png';
+import logo from '../../assets/Logos/pastagram-logo.png';
 
 const Terms = () => {
   return ( 
