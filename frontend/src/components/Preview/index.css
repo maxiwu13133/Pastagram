@@ -1,6 +1,8 @@
 .preview-container {
   width: 680px;
   height: 675px;
+  display: flex;
+  justify-content: center;
 }
 
 /* Arrows */
@@ -59,4 +61,26 @@
   min-width: 536px;
   height: 675px;
   user-select: none;
+}
+
+.preview-img-index {
+  max-width: 96px;
+  height: 6px;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 680px;
+}
+
+.preview-img-index-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #a8a8a8;
+  margin: 0 2px 0 2px;
+}
+
+.preview-img-index-dot-highlighted {
+  background-color: #0095f6;
+  transition: 0.2s;
 }

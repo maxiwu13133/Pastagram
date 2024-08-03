@@ -92,6 +92,7 @@
 
 .create-post-preview-header > p {
   font-weight: 600;
+  margin-left: 10px;
 }
 
 .create-post-arrow-container svg:hover {

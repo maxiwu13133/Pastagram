@@ -7,7 +7,6 @@ import cycleArrow from '../../assets/Preview/next-img-arrow.png';
 const Preview = ({ files }) => {
   const [previewIndex, setPreviewIndex] = useState(0);
 
-
   return ( 
     <div className="preview-container">
       { previewIndex !== 0 && 
@@ -24,14 +23,17 @@ const Preview = ({ files }) => {
         />
       </div>
       { files.length > 1 && previewIndex !== files.length - 1 && 
-        <div className="preview-next-img">
-          <img 
-            src={ cycleArrow } 
-            alt="next img" 
-            className="preview-next-arrow" 
-            onClick={ () => setPreviewIndex(previewIndex + 1) }
-          />
+        <div className="preview-next-img" onClick={ () => setPreviewIndex(previewIndex + 1) }>
+          <img src={ cycleArrow } alt="next img" className="preview-next-arrow" />
         </div> 
+      }
+      { files.length > 1 && 
+        <div className="preview-img-index">
+          { files.map((_, index) => <div 
+            className={`preview-img-index-dot ${ previewIndex === index ? "preview-img-index-dot-highlighted" : "" }` }
+            key={ index }
+          />) }
+        </div>
       }
     </div>
    );
