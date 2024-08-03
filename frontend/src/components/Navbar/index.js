@@ -24,8 +24,6 @@ import pfp from '../../assets/pintstagram-icon.png';
 
 // components
 import Create from '../Create';
-import Overlay from '../Overlay';
-import CloseButton from '../CloseButton';
 
 
 const Navbar = () => {
@@ -196,15 +194,7 @@ const Navbar = () => {
       </div>
 
       {/* Create Modal */}
-      { modal && 
-        <>
-          <Create />
-          <div className="create-close-container" onClick={ () => setModal(false) }>
-            <CloseButton className="create-close" width={ 25 } height={ 25 } />
-          </div>
-          <Overlay handleClick={ () => setModal(false) } />
-        </>
-      }
+      { modal && <Create handleClick={ () => setModal(false) } /> }
 
     </div>
   );

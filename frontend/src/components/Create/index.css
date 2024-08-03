@@ -3,6 +3,19 @@
   100% { opacity: 1; }
 }
 
+.create-overlay {
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.65);
+  position: absolute;
+  margin: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
 .create-post {
   position: absolute;
   width: 680px;
@@ -228,4 +241,20 @@
 .create-post-wrong-button:hover {
   cursor: pointer;
   background-color: #1877f2;
+}
+
+/* Close modal */
+.create-close-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 2;
+}
+
+.create-close-container svg:hover {
+  cursor: pointer;
+}
+
+.create-close-container svg:active {
+  fill: #acacac;
 }
