@@ -1,20 +1,24 @@
 import { useState, useCallback } from 'react';
-
 import './index.css';
+
 
 // hooks
 import { useDropzoneC } from '../../hooks/useDropzoneC.js';
 import { useDropzoneNC } from '../../hooks/useDropzoneNC.js';
 
+
 // components
 import Preview from '../Preview';
 import CloseButton from '../CloseButton';
+import SetCaption from '../SetCaption';
+
 
 // assets
 import upload from '../../assets/Create/upload-pic.png';
 import uploadFocus from '../../assets/Create/upload-pic-blue.png';
 import wrongFile from '../../assets/Create/wrong-file.png';
 import ArrowLeft from '../../components/ArrowLeft';
+
 
 const Create = ({ handleClick }) => {
 
@@ -33,6 +37,7 @@ const Create = ({ handleClick }) => {
       ]);
       setFilesSubmitted(true);
       setDisableDrop(true);
+      setPostStage('preview');
     } else {
       setWrongFiles(rejectedFiles);
     }
@@ -55,6 +60,19 @@ const Create = ({ handleClick }) => {
       setDiscardPopup(true);
     };
   }
+
+
+  // Input next button
+  const [postStage, setPostStage] = useState('submit');
+
+  const handleNext = () => {
+    if (postStage === 'preview') {
+      setPostStage('caption');
+
+      
+    }
+  }
+
 
   return (
     <>
@@ -104,6 +122,7 @@ const Create = ({ handleClick }) => {
                       setFilesSubmitted(false);
                       setDisableDrop(false);
                       setDiscardPopup(false);
+                      setPostStage('submit');
                       } 
                     }
                   >
@@ -120,13 +139,22 @@ const Create = ({ handleClick }) => {
               </>
             }
             <header className="create-post-preview-header">
-              <div className="create-post-arrow-container" onClick={ () => setDiscardPopup(true) }>
+              <div 
+                className="create-post-arrow-container" 
+                onClick={ () => postStage === "preview" ? setDiscardPopup(true) : setPostStage("preview") }
+              >
                 <ArrowLeft width={ 25 } height={ 40 } />
               </div>
               <p>Crop</p>
-              <button className="create-post-preview-next">Next</button>
+              <button 
+                className="create-post-preview-next"
+                onClick={ handleNext }
+              >
+                Next
+              </button>
             </header>
-            <Preview files={ files } />
+            { postStage === "preview" && <Preview files={ files } /> }
+            { postStage === "caption" && <SetCaption files={ files } /> }
           </>
         }
 
