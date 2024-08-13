@@ -5,6 +5,7 @@ import './index.css';
 // hooks
 import { useDropzoneC } from '../../hooks/useDropzoneC.js';
 import { useDropzoneNC } from '../../hooks/useDropzoneNC.js';
+import { useAuthContext } from '../../hooks/useAuthContext.js';
 
 
 // components
@@ -59,6 +60,8 @@ const Create = ({ handleClick }) => {
     };
   }
 
+  // Profile username
+  const { user } = useAuthContext();
 
   // Input next button
   const [captionStage, setCaptionStage] = useState(false);
@@ -157,7 +160,7 @@ const Create = ({ handleClick }) => {
                       <img src={ upload } alt="user" className="create-caption-pfp" />
                     </div>
                     <div className="create-caption-username">
-                      maxwuw
+                      { user.username }
                     </div>
                   </div>
 
