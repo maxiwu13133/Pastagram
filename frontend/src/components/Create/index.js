@@ -10,7 +10,6 @@ import { useDropzoneNC } from '../../hooks/useDropzoneNC.js';
 // components
 import Preview from '../Preview';
 import CloseButton from '../CloseButton';
-import SetCaption from '../SetCaption';
 
 
 // assets
@@ -37,7 +36,6 @@ const Create = ({ handleClick }) => {
       ]);
       setFilesSubmitted(true);
       setDisableDrop(true);
-      setPostStage('preview');
     } else {
       setWrongFiles(rejectedFiles);
     }
@@ -63,43 +61,39 @@ const Create = ({ handleClick }) => {
 
 
   // Input next button
-  const [postStage, setPostStage] = useState('submit');
+  const [captionStage, setCaptionStage] = useState(false);
+  const [caption, setCaption] = useState('');
 
-  const handleNext = () => {
-    if (postStage === 'preview') {
-      setPostStage('caption');
-
-      
-    }
+  const handlePost = () => {
+    console.log(caption);
   }
-
 
   return (
     <>
       <div className="create-overlay" onClick={ () => handleClosePost() } /> 
-      <div { ...getRootPropsNC({ className: 'create-post' }) }>
+      <div { ...getRootPropsNC({ className: `create-post ${ captionStage ? "create-with-caption" : "" }` }) }>
         
         {/* Submit files */}
         {
           !filesSubmitted && !wrongFiles && 
           <>
-            <header className="create-post-header">
+            <header className="create-header">
               <p>Create new post</p>
             </header>
-            <div className="create-post-photo">
+            <div className="create-photo">
               <img 
-                className="create-post-upload" 
+                className="create-upload" 
                 draggable={ false } 
                 src={ isDragActiveNC ? uploadFocus : upload } 
                 alt="upload"
               />
             </div>
       
-            <div className="create-post-tooltip">
+            <div className="create-tooltip">
               Drag photos and videos here
             </div>
             
-            <button { ...getRootProps({ className: 'create-post-select-from-pc' }) }>
+            <button { ...getRootProps({ className: 'create-select-from-pc' }) }>
               Select from computer
             </button>
           </>
@@ -112,49 +106,75 @@ const Create = ({ handleClick }) => {
           
             { discardPopup && 
               <>
-                <div className="create-post-discard">
+                <div className="create-discard">
                   <h2>Discard post?</h2>
-                  <p className="create-post-discard-tooltip">If you leave, your edits won't be saved.</p>
+                  <p className="create-discard-tooltip">If you leave, your edits won't be saved.</p>
                   <div 
-                    className="create-post-discard-confirm" 
+                    className="create-discard-confirm" 
                     onClick={ () => {
                       setFiles([]); 
                       setFilesSubmitted(false);
                       setDisableDrop(false);
                       setDiscardPopup(false);
-                      setPostStage('submit');
+                      setCaptionStage(false);
                       } 
                     }
                   >
                     <p>Discard</p>
                   </div>
                   <div 
-                    className="create-post-discard-cancel"
+                    className="create-discard-cancel"
                     onClick={ () => setDiscardPopup(false) }
                   >
                     <p>Cancel</p>
                   </div>
                 </div>
-                <div className="create-post-discard-overlay" onClick={ () => setDiscardPopup(false) }></div>
+                <div className="create-discard-overlay" onClick={ () => setDiscardPopup(false) }></div>
               </>
             }
-            <header className="create-post-preview-header">
+            <header className="create-preview-header">
               <div 
-                className="create-post-arrow-container" 
-                onClick={ () => postStage === "preview" ? setDiscardPopup(true) : setPostStage("preview") }
+                className="create-arrow-container" 
+                onClick={ () => captionStage ? setCaptionStage(false) : setDiscardPopup(true) }
               >
                 <ArrowLeft width={ 25 } height={ 40 } />
               </div>
-              <p>Crop</p>
+              <p>Create new post</p>
               <button 
-                className="create-post-preview-next"
-                onClick={ handleNext }
+                className="create-preview-next"
+                onClick={ () => captionStage ? handlePost() : setCaptionStage(true) }
               >
-                Next
+                { captionStage ? "Share" : "Next" }
               </button>
             </header>
-            { postStage === "preview" && <Preview files={ files } /> }
-            { postStage === "caption" && <SetCaption files={ files } /> }
+            <div className="create-preview-caption">
+              <Preview files={ files } />
+
+              { captionStage && 
+                <div className="create-caption">
+                  <div className="create-caption-user">
+                    <div className="create-caption-pfp-container">
+                      <img src={ upload } alt="user" className="create-caption-pfp" />
+                    </div>
+                    <div className="create-caption-username">
+                      maxwuw
+                    </div>
+                  </div>
+
+                  <textarea 
+                    className="create-caption-text" 
+                    onChange={ (e) => setCaption(e.target.value) }
+                    value={ caption }
+                    maxlength={ 2200 }
+                  />
+                  <div className="create-caption-char-ct">
+                    <div className="create-caption-char-ct-text">
+                      { caption.length }/2,200
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
           </>
         }
 
@@ -162,15 +182,15 @@ const Create = ({ handleClick }) => {
         {
           wrongFiles &&
           <>
-            <header className="create-post-header">
+            <header className="create-header">
               <p>File couldn't be uploaded</p>
             </header>
-            <div className="create-post-wrong-files">
-              <img draggable={ false } src={ wrongFile } alt="Wrong files" className="create-post-wrong-icon" />
+            <div className="create-wrong-files">
+              <img draggable={ false } src={ wrongFile } alt="Wrong files" className="create-wrong-icon" />
 
-              <p className="create-post-wrong-text">This file is not supported</p>
-              <p className="create-post-wrong-list"><span>{ wrongFiles[0].file.path }</span> could not be uploaded.</p>
-              <button { ...getRootProps({ className: 'create-post-wrong-button' }) }>Select other files</button>
+              <p className="create-wrong-text">This file is not supported</p>
+              <p className="create-wrong-list"><span>{ wrongFiles[0].file.path }</span> could not be uploaded.</p>
+              <button { ...getRootProps({ className: 'create-wrong-button' }) }>Select other files</button>
             </div>
           </>
         }

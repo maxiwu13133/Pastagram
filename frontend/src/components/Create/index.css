@@ -8,6 +8,11 @@
   100% { opacity: 1; width: 400px; height: 200px; }
 }
 
+@keyframes expandCaption {
+  0% { width: 0; }
+  100% { width: 340px; }
+}
+
 .create-overlay {
   width: 100vw;
   height: 100vh;
@@ -27,6 +32,7 @@
   height: 720px;
   background-color: white;
   border-radius: 12px;
+  overflow: hidden;
   top: calc(50vh - 360px);
   left: calc(50vw - 350px);
   display: flex;
@@ -34,9 +40,15 @@
   align-items: center;
   z-index: 2;
   animation: fadeIn 0.3s;
+  transition: 0.5s;
 }
 
-.create-post-header {
+.create-with-caption {
+  width: 1020px;
+  left: calc(50vw - 510px);
+}
+
+.create-header {
   border-bottom: solid 1px #dbdbdb;
   width: 100%;
   height: 45px;
@@ -45,24 +57,24 @@
   align-items: center;
 }
 
-.create-post-header p {
+.create-header p {
   font-weight: 600;
 }
 
 /* No files yet view */
-.create-post-upload {
+.create-upload {
   width: 100px;
   margin-top: 250px;
   user-select: none;
 }
 
-.create-post-tooltip {
+.create-tooltip {
   font-size: 18px;
   font-weight: 500;
   margin-top: 20px;
 }
 
-.create-post-select-from-pc {
+.create-select-from-pc {
   width: 170px;
   height: 35px;
   border-radius: 8px;
@@ -74,18 +86,18 @@
   font-size: 13px;
 }
 
-.create-post-select-from-pc:hover {
+.create-select-from-pc:hover {
   cursor: pointer;
   background-color: #1877f2;
 }
 
-.create-post-select-input {
+.create-select-input {
   width: 100%;
   height: 100%;
 }
 
 /* Files view */
-.create-post-preview-header {
+.create-preview-header {
   border-bottom: solid 1px #dbdbdb;
   width: 100%;
   height: 45px;
@@ -95,20 +107,20 @@
   padding: 0 20px 0 20px;
 }
 
-.create-post-preview-header > p {
+.create-preview-header > p {
   font-weight: 600;
-  margin-left: 10px;
+  margin-left: 15px;
 }
 
-.create-post-arrow-container svg:hover {
+.create-arrow-container svg:hover {
   cursor: pointer;
 }
 
-.create-post-arrow-container svg:active {
+.create-arrow-container svg:active {
   fill: #7e7e7e;
 }
 
-.create-post-preview-next {
+.create-preview-next {
   background: none;
   border: none;
   color: #0e95f6;
@@ -117,17 +129,85 @@
   user-select: none;
 }
 
-.create-post-preview-next:hover {
+.create-preview-next:hover {
   cursor: pointer;
   color: #00377d;
 }
 
-.create-post-preview-next:active {
+.create-preview-next:active {
   color: #7f9abd;
 }
 
+.create-preview-caption {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+/* Captions */
+.create-caption {
+  width: 340px;
+  height: 675px;
+  animation: expandCaption 0.5s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-left: 1px solid lightgray;
+}
+
+.create-caption-user {
+  display: flex;
+  width: 100%;
+  height: 60px;
+  align-items: center;
+}
+
+.create-caption-pfp-container {
+  margin-left: 16px;
+}
+
+.create-caption-pfp {
+  width: 28px;
+}
+
+.create-caption-username {
+  font-size: 13px;
+  font-weight: 600;
+  margin-left: 12px;
+}
+
+.create-caption-text {
+  border: none;
+  width: 100%;
+  height: 168px;
+  resize: none;
+  font-size: 16px;
+  padding: 0 16px 0 16px;
+}
+
+.create-caption-text:focus {
+  outline: none;
+}
+
+.create-caption-char-ct {
+  width: 100%;
+  height: 44px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  border-bottom: 1px solid lightgray;
+}
+
+.create-caption-char-ct-text {
+  font-size: 12px;
+  margin-right: 16px;
+  text-align: end;
+  color: lightgray;
+  user-select: none;
+}
+
 /* Discard draft */
-.create-post-discard {
+.create-discard {
   background-color: white;
   border-radius: 12px;
   width: 400px;
@@ -142,20 +222,20 @@
   animation: popIn 0.2s;
 }
 
-.create-post-discard h2 {
+.create-discard h2 {
   font-size: 20px;
   font-weight: 500;
   margin-top: 30px;
   margin-bottom: 10px;
 }
 
-.create-post-discard-tooltip {
+.create-discard-tooltip {
   font-size: 13px;
   color: gray;
   margin-bottom: 20px;
 }
 
-.create-post-discard-confirm {
+.create-discard-confirm {
   width: 100%;
   height: 48px;
   border-top: solid 1px lightgray;
@@ -165,16 +245,16 @@
   color: #ee535f;
 }
 
-.create-post-discard-confirm > p {
+.create-discard-confirm > p {
   font-size: 14px;
   font-weight: 700;
 }
 
-.create-post-discard-confirm:hover {
+.create-discard-confirm:hover {
   cursor: pointer;
 }
 
-.create-post-discard-cancel {
+.create-discard-cancel {
   width: 100%;
   height: 48px;
   border-top: solid 1px lightgray;
@@ -183,15 +263,15 @@
   align-items: center;
 }
 
-.create-post-discard-cancel > p{
+.create-discard-cancel > p{
   font-size: 14px;
 }
 
-.create-post-discard-cancel:hover {
+.create-discard-cancel:hover {
   cursor: pointer;
 }
 
-.create-post-discard-overlay {
+.create-discard-overlay {
   background: rgba(0, 0, 0, 0.65);
   width: 100vw;
   height: 100vh;
@@ -202,7 +282,7 @@
 }
 
 /* Wrong file view */
-.create-post-wrong-files {
+.create-wrong-files {
   width: 100%;
   height: 100%;
   display: flex;
@@ -211,31 +291,31 @@
   align-items: center;
 }
 
-.create-post-wrong-icon {
+.create-wrong-icon {
   width: 100px;
   user-select: none;
 }
 
-.create-post-wrong-text {
+.create-wrong-text {
   font-size: 18px;
   font-weight: 500;
   margin-top: 20px;
 }
 
-.create-post-wrong-list {
+.create-wrong-list {
   font-size: 13px;
   font-weight: 500;
   margin-top: 10px;
   color: #737373;
 }
 
-.create-post-wrong-list span {
+.create-wrong-list span {
   font-size: 13px;
   font-weight: 600;
   color: #737373;
 }
 
-.create-post-wrong-button {
+.create-wrong-button {
   border-radius: 8px;
   border: none;
   background-color: #0095f6;
@@ -247,7 +327,7 @@
   font-weight: 600;
 }
 
-.create-post-wrong-button:hover {
+.create-wrong-button:hover {
   cursor: pointer;
   background-color: #1877f2;
 }
