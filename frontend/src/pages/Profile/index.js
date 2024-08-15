@@ -24,7 +24,7 @@ const Profile = () => {
       setUsername(pathName);
       setSelfProfile(false);
     };
-  }, [])
+  }, [user.username])
 
 
   return ( 

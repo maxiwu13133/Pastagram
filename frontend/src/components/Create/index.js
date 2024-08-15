@@ -6,6 +6,7 @@ import './index.css';
 import { useDropzoneC } from '../../hooks/useDropzoneC.js';
 import { useDropzoneNC } from '../../hooks/useDropzoneNC.js';
 import { useAuthContext } from '../../hooks/useAuthContext.js';
+import { useUpload } from '../../hooks/useUpload.js';
 
 
 // components
@@ -14,7 +15,7 @@ import CloseButton from '../CloseButton';
 
 
 // assets
-import upload from '../../assets/Create/upload-pic.png';
+import uploadUnfocused from '../../assets/Create/upload-pic.png';
 import uploadFocus from '../../assets/Create/upload-pic-blue.png';
 import wrongFile from '../../assets/Create/wrong-file.png';
 import ArrowLeft from '../../components/ArrowLeft';
@@ -22,7 +23,7 @@ import ArrowLeft from '../../components/ArrowLeft';
 
 const Create = ({ handleClick }) => {
 
-  // Uploading files
+  // Submitting files
   const [files, setFiles] = useState([]);
   const [filesSubmitted, setFilesSubmitted] = useState(false);
   const [wrongFiles, setWrongFiles] = useState(null);
@@ -63,12 +64,16 @@ const Create = ({ handleClick }) => {
   // Profile username
   const { user } = useAuthContext();
 
-  // Input next button
+  // Caption popup
   const [captionStage, setCaptionStage] = useState(false);
   const [caption, setCaption] = useState('');
 
-  const handlePost = () => {
-    console.log(caption);
+
+  // Uploading post
+  const { upload } = useUpload();
+
+  const handlePost = async () => {
+    await upload(files, caption)
   }
 
   return (
@@ -87,7 +92,7 @@ const Create = ({ handleClick }) => {
               <img 
                 className="create-upload" 
                 draggable={ false } 
-                src={ isDragActiveNC ? uploadFocus : upload } 
+                src={ isDragActiveNC ? uploadFocus : uploadUnfocused } 
                 alt="upload"
               />
             </div>
@@ -120,6 +125,7 @@ const Create = ({ handleClick }) => {
                       setDisableDrop(false);
                       setDiscardPopup(false);
                       setCaptionStage(false);
+                      setCaption('');
                       } 
                     }
                   >
@@ -157,7 +163,7 @@ const Create = ({ handleClick }) => {
                 <div className="create-caption">
                   <div className="create-caption-user">
                     <div className="create-caption-pfp-container">
-                      <img src={ upload } alt="user" className="create-caption-pfp" />
+                      <img src={ uploadUnfocused } alt="user" className="create-caption-pfp" />
                     </div>
                     <div className="create-caption-username">
                       { user.username }
@@ -168,7 +174,7 @@ const Create = ({ handleClick }) => {
                     className="create-caption-text" 
                     onChange={ (e) => setCaption(e.target.value) }
                     value={ caption }
-                    maxlength={ 2200 }
+                    maxLength={ 2200 }
                   />
                   <div className="create-caption-char-ct">
                     <div className="create-caption-char-ct-text">
