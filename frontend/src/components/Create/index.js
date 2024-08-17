@@ -70,10 +70,14 @@ const Create = ({ handleClick }) => {
 
 
   // Uploading post
-  const { upload } = useUpload();
+  const { upload, isLoading } = useUpload();
+  const [postingStage, setPostingStage] = useState(false);
 
   const handlePost = async () => {
-    await upload(files, caption)
+    setCaptionStage(false);
+    setPostingStage(true);
+    await upload(files, caption);
+    setFiles([]);
   }
 
   return (
@@ -109,7 +113,7 @@ const Create = ({ handleClick }) => {
 
         {/* File preview */}
         {
-          filesSubmitted && !wrongFiles &&
+          filesSubmitted && !wrongFiles && !postingStage &&
           <>
           
             { discardPopup && 
@@ -202,6 +206,29 @@ const Create = ({ handleClick }) => {
               <button { ...getRootProps({ className: 'create-wrong-button' }) }>Select other files</button>
             </div>
           </>
+        }
+
+        {/* Posting stage */}
+        { postingStage &&
+          <div className="create-posting">
+            <header className="create-header">
+              <p>{ isLoading ? "Sharing" : "Post shared"}</p>
+            </header>
+            { isLoading && 
+              <div className="create-posting-loading">
+
+              </div>
+            }
+            { !isLoading && 
+              <div className="create-posting-finish">
+                <img draggable={ false } src={ wrongFile } alt="Loading" className="create-posting-icon" />
+
+                <p className="create-posting-text">
+                  Your post has been shared.
+                </p>
+              </div>
+            }
+          </div>
         }
         
       </div>

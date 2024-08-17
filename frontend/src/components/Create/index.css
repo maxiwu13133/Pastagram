@@ -332,6 +332,31 @@
   background-color: #1877f2;
 }
 
+/* Posting stage */
+.create-posting {
+  width: 100%;
+  height: 100%;
+}
+
+.create-posting-finish {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.create-posting-icon {
+  width: 96px;
+  margin-bottom: 16px;
+}
+
+.create-posting-text {
+  font-size: 18px;
+  font-weight: 500;
+}
+
 /* Close modal */
 .create-close-container {
   position: absolute;

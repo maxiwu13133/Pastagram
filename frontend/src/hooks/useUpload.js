@@ -11,13 +11,14 @@ export const useUpload = () => {
   const [fileLength, setFileLength] = useState(null);
 
 
+  
+  // upload to cloudinary
   const upload = async (files, caption) => {
     setIsLoading(true);
     setError(null);
     setCaption(caption);
     setFileLength(files.length);
 
-    // upload to cloudinary
     for (const file of files) {
       const data = new FormData();
       data.append('file', file);
@@ -36,6 +37,7 @@ export const useUpload = () => {
     };
   }
 
+  // post to database
   useEffect(() => {
     const createPost = async () => {
       if (!error) {
@@ -58,18 +60,17 @@ export const useUpload = () => {
           setError(json.error);
         }
         if (response.ok) {
-          console.log(json);
           setIsLoading(false);
-          setPostedImages([])
+          setPostedImages([]);
         }
       }
     }
 
-    if (postedImages.length === fileLength) {
+    if (postedImages.length === fileLength && postedImages.length !== 0) {
       createPost();
     }
 
-  }, [postedImages])
+  }, [postedImages, caption, error, fileLength, user.token])
   
 
   return { upload, error, isLoading };
