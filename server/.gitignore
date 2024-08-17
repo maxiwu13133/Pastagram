@@ -3,3 +3,6 @@ node_modules
 
 # Misc
 .env
+
+# Database
+database
