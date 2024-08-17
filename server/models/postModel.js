@@ -8,10 +8,9 @@ const postSchema = new Schema({
     type: ObjectId,
     required: true
   },
-  photo: {
-    type: String,
-    required: true
-  },
+  photos: [{
+    type: String
+  }],
   caption: {
     type: String,
     required: true
