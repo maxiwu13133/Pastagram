@@ -1,0 +1,10 @@
+.postrow-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 4px;
+}
+
+.postrow-container :nth-child(-n + 2) {
+  margin-right: 4px;
+}
