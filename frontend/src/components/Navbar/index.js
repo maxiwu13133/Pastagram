@@ -20,7 +20,7 @@ import heartUnfocused from '../../assets/Navbar/ig-notif-icon-unfocused.png';
 import create from '../../assets/Navbar/ig-create-icon.png';
 import moreFocused from '../../assets/Navbar/ig-more-icon-focused.png';
 import moreUnfocused from '../../assets/Navbar/ig-more-icon-unfocused.png';
-import pfp from '../../assets/Logos/pintstagram-icon.png';
+import pfp from '../../assets/Logos/pastagram-icon.png';
 
 // components
 import Create from '../Create';

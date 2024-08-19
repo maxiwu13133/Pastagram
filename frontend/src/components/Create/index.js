@@ -11,14 +11,14 @@ import { useUpload } from '../../hooks/useUpload.js';
 
 // components
 import Preview from '../Preview';
-import CloseButton from '../CloseButton';
+import CloseButton from './CloseButton';
 
 
 // assets
 import uploadUnfocused from '../../assets/Create/upload-pic.png';
 import uploadFocus from '../../assets/Create/upload-pic-blue.png';
 import wrongFile from '../../assets/Create/wrong-file.png';
-import ArrowLeft from '../../components/ArrowLeft';
+import ArrowLeft from './ArrowLeft';
 
 
 const Create = ({ handleClick }) => {

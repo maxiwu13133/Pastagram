@@ -1,9 +1,10 @@
 .App {
-  width: 100vw;
+  width: calc(100vw - 17px);
   height: 100vh;
-  display: flex;
 }
 
 .pages {
   width: 82.5%;
+  left: 17.5%;
+  position: absolute;
 }

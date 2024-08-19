@@ -1,7 +1,7 @@
 import './index.css';
 
 // Assets
-import logo from '../../assets/Logos/pintstagram-icon.png';
+import logo from '../../assets/Logos/pastagram-icon.png';
 
 
 const Loading = () => {

@@ -17,7 +17,6 @@ const Profile = () => {
   // Check if self profile or another user profile
   useEffect(() => {
     const pathName = window.location.pathname.replace(/\//g,'')
-
     if (pathName === user.username) {
       setSelfProfile(true);
     } else {

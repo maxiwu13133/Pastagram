@@ -6,6 +6,8 @@
   display: flex;
   padding: 12px;
   flex-direction: column;
+  position: fixed;
+  z-index: 10;
 }
 
 .navbar-container a {

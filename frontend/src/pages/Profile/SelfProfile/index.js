@@ -1,26 +1,32 @@
 import './index.css';
 
-// Pages
+// pages
 import Loading from '../../Loading'
 
 // hooks
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { useGetCommunity } from '../../../hooks/useGetCommunity';
+import { useGetPosts } from '../../../hooks/useGetPosts';
+
+// components
+import Grid from '../../../components/Posts/Grid';
+import Posts from '../../../components/Posts';
 
 // assets
-import pfp from '../../../assets/Logos/pintstagram-icon.png';
+import pfp from '../../../assets/Logos/pastagram-icon.png';
 
 const SelfProfile = () => {
   const { user } = useAuthContext();
   const { followers, following, error, isLoading } = useGetCommunity(user);
-
+  const { posts, error: postError,  isLoading: postLoading } = useGetPosts(user.username);
+  
   return (
     <div className="s-profile-container">
 
-      { isLoading && <Loading /> }
+      { (followers === null || posts === null) ? <Loading /> : "" }
 
       { 
-        !isLoading && 
+        !isLoading && !postLoading && 
         <>
           {/* Details */}
           <div className="s-profile-details">
@@ -40,7 +46,7 @@ const SelfProfile = () => {
               { !error && 
                 <div className="s-profile-stats">
                   <p className="s-profile-post-ct">
-                    <span>2</span> posts
+                    <span>{ posts.length }</span> posts
                   </p>
 
                   <p className="s-profile-follower-ct">
@@ -53,7 +59,7 @@ const SelfProfile = () => {
                 </div>
               }
 
-              { error && <div>{ error }</div> }
+              { (error && <div>{ error }</div>) || (postError && <div>{ postError }</div>) }
 
               <div className="s-profile-bio">
                 <p className="s-profile-full-name">Max Wu</p>
@@ -63,19 +69,26 @@ const SelfProfile = () => {
             </div>
           </div>
 
-          {/* Highlights */}
-          <div className="s-profile-highlights">
-
-          </div>
-
           {/* Posts */}
-          <div className="s-profile-posts">
-
+          <div className="s-profile-post-container">
+              <div className="s-profile-post-header">
+                <Grid width={ 12 } height={ 17 } />
+                <p>POSTS</p>
+              </div>
+              <div className="s-profile-posts">
+                <Posts posts={ posts} />
+              </div>
           </div>
 
           {/* Linkedin Resume */}
           <div className="s-profile-linkedin">
-            <a target="_blank" rel="noreferrer" href="https://www.linkedin.com/in/maximilian-wu/">Pastagram by Max Wu</a>
+            <a 
+              target="_blank" 
+              rel="noreferrer" 
+              href="https://www.linkedin.com/in/maximilian-wu/"
+            >
+              Pastagram by Max Wu
+            </a>
           </div>
         </>
       }

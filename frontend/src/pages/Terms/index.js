@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import './index.css';
 
 // assets
-import icon from '../../assets/Logos/pintstagram-icon.png';
+import icon from '../../assets/Logos/pastagram-icon.png';
 import logo from '../../assets/Logos/pastagram-logo.png';
 
 const Terms = () => {
