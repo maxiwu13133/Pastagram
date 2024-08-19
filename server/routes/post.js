@@ -6,9 +6,16 @@ const requireAuth = require('../middleware/requireAuth.js')
 router.use(requireAuth);
 
 // controller functions
-const { createPost } = require('../controllers/postController');
+const { 
+  createPost,
+  getPosts,
+} = require('../controllers/postController');
 
+// create post
 router.post('/', createPost);
+
+// get posts of user
+router.get('/:username', getPosts);
 
 
 module.exports = router
