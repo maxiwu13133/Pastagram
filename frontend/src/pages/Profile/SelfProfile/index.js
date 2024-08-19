@@ -17,7 +17,7 @@ import pfp from '../../../assets/Logos/pastagram-icon.png';
 
 const SelfProfile = () => {
   const { user } = useAuthContext();
-  const { followers, following, error, isLoading } = useGetCommunity(user);
+  const { fullName, bio, followers, following, error, isLoading } = useGetCommunity(user);
   const { posts, error: postError,  isLoading: postLoading } = useGetPosts(user.username);
   
   return (
@@ -62,9 +62,9 @@ const SelfProfile = () => {
               { (error && <div>{ error }</div>) || (postError && <div>{ postError }</div>) }
 
               <div className="s-profile-bio">
-                <p className="s-profile-full-name">Max Wu</p>
+                <p className="s-profile-full-name">{ fullName }</p>
 
-                <p className="s-profile-text">Hi this is my bio. Welcome to my page!</p>
+                <p className="s-profile-text">{ bio }</p>
               </div>
             </div>
           </div>

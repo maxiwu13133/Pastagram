@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 
 export const useGetCommunity = (username) => {
+  const [fullName, setFullName] = useState('');
+  const [bio, setBio] = useState('');
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
   const [error, setError] = useState(null);
@@ -25,14 +27,16 @@ export const useGetCommunity = (username) => {
       };
   
       if (response.ok) {
-        setIsLoading(false);
+        setFullName(json.fullName);
+        setBio(json.bio);
         setFollowers(json.followers);
         setFollowing(json.following);
+        setIsLoading(false);
       };
     };
 
     getCommunity(username);
   }, [username])
 
-  return { followers, following, error, isLoading };
+  return { fullName, bio, followers, following, error, isLoading };
 };

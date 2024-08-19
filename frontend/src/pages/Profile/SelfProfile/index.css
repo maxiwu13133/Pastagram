@@ -129,6 +129,6 @@
   width: 938px;
   display: flex;
   justify-content: space-evenly;
-  height: 1000px;
   margin-top: 16px;
+  margin-bottom: 60px;
 }
