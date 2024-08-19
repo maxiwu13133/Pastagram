@@ -25,8 +25,17 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  followers: [{type: ObjectId, ref: 'User'}],
-  following: [{type: ObjectId, ref: 'User'}]
+  followers: [{
+    type: ObjectId,
+    ref: 'User'
+  }],
+  following: [{
+    type: ObjectId,
+    ref: 'User'
+  }],
+  bio: {
+    type: String
+  }
 });
 
 // static signup method

@@ -12,9 +12,16 @@ const postSchema = new Schema({
     type: String
   }],
   caption: {
-    type: String,
-    required: true
-  }
+    type: String
+  },
+  comments: [{
+    type: ObjectId, 
+    ref: 'Comment'
+  }],
+  likes: [{
+    type: ObjectId,
+    ref: 'User'
+  }]
 }, { timestamps: true });
 
 module.exports = mongoose.model('Post', postSchema);

@@ -18,6 +18,7 @@ const createPost = async (req, res) => {
 // get all posts
 const getPosts = async (req, res) => {
   const params = req.params;
+  
   try {
     const user = await User.findOne({ username: params.username });
     const posts = await Post.find({ user_id: user._id});
