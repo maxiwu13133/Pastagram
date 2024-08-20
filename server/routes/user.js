@@ -3,7 +3,14 @@ const router = express.Router();
 
 
 // controller functions
-const { loginUser, signupUser, getCommunity, followUser, unfollowUser } = require('../controllers/userController');
+const { 
+  loginUser,
+  signupUser,
+  getCommunity,
+  followUser,
+  unfollowUser,
+  updateUser
+} = require('../controllers/userController');
 
 // login route
 router.post('/login', loginUser);

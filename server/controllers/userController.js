@@ -30,7 +30,7 @@ const loginUser = async (req, res) => {
     const token = createToken(user._id);
     const username = await findUsername(identifier);
 
-    res.status(200).json({ username, token });
+    res.status(200).json({ username, token, picture: user.picture });
   } catch (error) {
     res.status(400).json({ error: error.message });
   };
