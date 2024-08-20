@@ -48,7 +48,7 @@ function App() {
                 />
                 <Route
                   path="/account/edit/"
-                  element={ <EditProfile /> }
+                  element={ user ? <EditProfile /> : <Navigate to="/login/" /> }
                 />
               </Routes>
             </div> 

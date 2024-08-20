@@ -3,6 +3,7 @@ import './index.css';
 
 // hooks
 import { useDropzoneC } from '../../hooks/useDropzoneC.js';
+import { useUpdateProfile } from '../../hooks/useUpdateProfile.js';
 
 // assets
 import icon from '../../assets/Logos/pastagram-icon.png';
@@ -12,7 +13,7 @@ const EditProfile = () => {
   const [pfp, setPfp] = useState(null);
   const [bio, setBio] = useState('');
   const [showAdvanced, setShowAdvanced] = useState(null);
-  const [name, setName] = useState('Max Wu');
+  const [fullName, setFullName] = useState('Max Wu');
   const [username, setUsername] = useState('maxwuw');
   const [email, setEmail] = useState('maxwu@gmail.com');
 
@@ -23,6 +24,13 @@ const EditProfile = () => {
     }
   }, []);
   const { getRootProps } = useDropzoneC({ onDrop });
+
+  // update profile
+  const { update, error, isLoading } = useUpdateProfile();
+
+  const handleUpdate = async () => {
+    await update({ email, fullName, username, bio, pfp });
+  }
 
   return ( 
     <div className="edit-container">
@@ -79,8 +87,8 @@ const EditProfile = () => {
 
           <input 
             type="text"
-            onChange={ (e) => setName(e.target.value) }
-            value={ name } 
+            onChange={ (e) => setFullName(e.target.value) }
+            value={ fullName } 
             className="edit-field edit-name" />
         </div>
 
@@ -124,6 +132,12 @@ const EditProfile = () => {
             ${ showAdvanced === false ? "edit-arrow-out" : "" }
           ` } 
         />
+      </div>
+
+      <div className="edit-submit">
+        <button className="edit-submit-button" onClick={ () => handleUpdate() }>
+          Submit
+        </button>
       </div>
     </div>
    );
