@@ -20,6 +20,8 @@ const Profile = () => {
     if (pathName === user.username) {
       setSelfProfile(true);
     } else {
+      console.log(pathName);
+      console.log(user.username);
       setUsername(pathName);
       setSelfProfile(false);
     };

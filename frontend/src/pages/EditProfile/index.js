@@ -6,10 +6,10 @@ import { useDropzoneC } from '../../hooks/useDropzoneC.js';
 import { useUpdateProfile } from '../../hooks/useUpdateProfile.js';
 
 // assets
-import icon from '../../assets/Logos/pastagram-icon.png';
 import downArrow from '../../assets/Profile/down-arrow.png';
 
 const EditProfile = () => {
+  const initialPfp = JSON.parse(localStorage.getItem('user')).picture;
   const [pfp, setPfp] = useState(null);
   const [bio, setBio] = useState('');
   const [showAdvanced, setShowAdvanced] = useState(null);
@@ -42,7 +42,7 @@ const EditProfile = () => {
       </div>
 
       <div className="edit-pfp-container">
-        <img { ...getRootProps({ className: "edit-pfp-img", src: `${ pfp ? pfp.preview : icon }` }) } alt="" />
+        <img { ...getRootProps({ className: "edit-pfp-img", src: `${ pfp ? pfp.preview : initialPfp }` }) } alt="" />
 
         <p>budpeep</p>
 

@@ -48,7 +48,7 @@
 }
 
 .navbar-option > img {
-  width: 24px;
+  width: 28px;
 }
 
 .navbar-option > h2 {
@@ -88,6 +88,8 @@
 .navbar-pfp {
   border-radius: 50%;
   border: solid 1px lightgray;
+  height: 28px;
+  object-fit: cover;
 }
 
 .navbar-pfp-highlighted {

@@ -13,13 +13,11 @@ import { useGetPosts } from '../../../hooks/useGetPosts';
 import Grid from '../../../components/Posts/Grid';
 import Posts from '../../../components/Posts';
 
-// assets
-import pfp from '../../../assets/Logos/pastagram-icon.png';
-
 const SelfProfile = () => {
   const { user } = useAuthContext();
   const { fullName, bio, followers, following, error, isLoading } = useGetCommunity(user);
   const { posts, error: postError,  isLoading: postLoading } = useGetPosts(user.username);
+  const pfp = JSON.parse(localStorage.getItem('user')).picture;
   
   return (
     <div className="s-profile-container">
