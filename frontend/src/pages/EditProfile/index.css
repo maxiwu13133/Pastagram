@@ -1,0 +1,214 @@
+@keyframes arrowIn {
+  0% { transform: rotate(0) }
+  100% { transform: rotate(180deg) }
+}
+
+@keyframes arrowOut {
+  0% { transform: rotate(180deg) }
+  100% { transform: rotate(0) }
+}
+
+@keyframes editIn {
+  100% { transform: translateY(0%) }
+}
+
+@keyframes editOut {
+  0% { height: 300px }
+  100% { height: 0; display: none; }
+}
+
+.edit-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-y: scroll;
+}
+
+/* profile */
+.edit-profile-container {
+  width: 610px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.edit-profile-label {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.edit-pfp-container {
+  width: 610px;
+  height: 88px;
+  display: flex;
+  align-items: center;
+  border-radius: 18px;
+  background-color: #efefef;
+  margin-top: 40px;
+}
+
+.edit-pfp-img {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  outline: solid 1px lightgray;
+  margin-left: 20px;
+  object-fit: cover;
+}
+
+.edit-pfp-img:hover {
+  cursor: pointer;
+}
+
+.edit-pfp-container > p {
+  font-size: 16px;
+  font-weight: 600;
+  margin-left: 20px;
+}
+
+.edit-change-pfp {
+  border-radius: 8px;
+  background-color: #0095f6;
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  width: 124px;
+  height: 32px;
+  border: none;
+  margin-left: auto;
+  margin-right: 20px;
+}
+
+.edit-change-pfp:hover {
+  cursor: pointer;
+  background-color: #1877f2;
+}
+
+.edit-change-pfp:active {
+  opacity: 65%;
+}
+
+/* bio */
+.edit-bio-container {
+  display: flex;
+  flex-direction: column;
+  width: 610px;
+  margin-top: 42px;
+}
+
+.edit-bio-label {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.edit-bio-wrapper {
+  display: flex;
+  border: solid 1px lightgray;
+  border-radius: 14px;
+  width: 100%;
+  height: 100px;
+  overflow: hidden;
+  margin-top: 16px;
+  padding: 8px 0 0 12px;
+  position: relative;
+}
+
+.edit-bio {
+  outline: none;
+  border: none;
+  width: 80%;
+  resize: none;
+  font-size: 16px;
+}
+
+.edit-bio-char-ct {
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  font-size: 12px;
+  color: #737373;
+}
+
+/* edit advanced */
+.edit-advanced {
+  width: 610px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 42px;
+}
+
+/* .edit-advanced-in {
+  animation: editIn 0.5s;
+}
+
+.edit-advanced-out {
+  animation: editOut 0.5s;
+} */
+
+.edit-advanced-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+}
+
+.edit-label {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.edit-field {
+  margin-top: 16px;
+  width: 100%;
+  border: solid 1px lightgray;
+  border-radius: 14px;
+  height: 42px;
+  padding: 0 12px 0 12px;
+  font-size: 16px;
+}
+
+/* advanced button */
+.edit-advanced-button {
+  width: 300px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  border-radius: 14px;
+  border: solid 1px lightgray;
+}
+
+.edit-advanced-button:hover {
+  background-color: #f2f2f2;
+  cursor: pointer;
+}
+
+.edit-advanced-button:active {
+  background-color: #e5e5e5;
+}
+
+.edit-advanced-button > p {
+  font-weight: 500;
+  font-size: 16px;
+  color: #737373;
+  margin-left: 10px;
+  user-select: none;
+}
+
+.edit-advanced-arrow {
+  width: 14px;
+  margin-right: 10px;
+  margin-left: auto;
+}
+
+.edit-arrow-in {
+  animation: arrowIn 0.5s;
+  transform: scaleY(-1);
+}
+
+.edit-arrow-out {
+  animation: arrowOut 0.5s;
+  transform: scaleY(1);
+}

@@ -10,6 +10,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Terms from './pages/Terms';
 import Profile from './pages/Profile';
+import EditProfile from './pages/EditProfile';
 
 
 function App() {
@@ -44,6 +45,10 @@ function App() {
                 <Route
                   path="/:username/"
                   element={ user ? <Profile /> : <Navigate to="/login/" /> }
+                />
+                <Route
+                  path="/account/edit/"
+                  element={ <EditProfile /> }
                 />
               </Routes>
             </div> 

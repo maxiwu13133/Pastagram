@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './index.css';
 
 // pages
@@ -38,7 +39,9 @@ const SelfProfile = () => {
               <div className="s-profile-username">
                 <h3 className="s-profile-name">{ user.username }</h3>
 
-                <button className="s-profile-edit">Edit profile</button>
+                <Link to="/account/edit/">
+                  <button className="s-profile-edit" >Edit profile</button>
+                </Link>
 
                 <button className="s-profile-archives">View archive</button>
               </div>
