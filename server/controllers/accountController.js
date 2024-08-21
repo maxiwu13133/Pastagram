@@ -16,25 +16,21 @@ const getAccountInfo = async (req, res) => {
 
 // update profile
 const updateUser = async (req, res) => {
-  const { email, fullName, username, bio, picture } = req.body;
+  const { email, fullName, username, bio, picture, user_username } = req.body;
   const user_id = req.user._id;
-
 
   try {
     // validation
     const emailExists = await User.findOne({ email });
-    if (!validator.isEmail(email) || emailExists) {
+    if (!validator.isEmail(email) || emailExists && !emailExists._id.equals(user_id)) {
       throw Error('Email is unavailable');
     }
     const usernameExists = await User.findOne({ username });
-    if (usernameExists) {
+    if (usernameExists && !(usernameExists.username === user_username)) {
       throw Error('Username is unavailable');
     }
-
-    // const info = await User.findOne({ _id: user_id });
-    const updateInfo = { email, fullName, username, bio, picture };
+    const updateInfo = picture ? { email, fullName, username, bio, picture } : { email, fullName, username, bio};
     const updatedUser = await User.findOneAndUpdate({ _id: user_id }, updateInfo, { new: true });
-    console.log(updatedUser);
     
     res.status(200).json({ username: updatedUser.username, picture: updatedUser.picture })
   } catch (error) {

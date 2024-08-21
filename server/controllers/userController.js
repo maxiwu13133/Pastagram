@@ -62,6 +62,7 @@ const getCommunity = async (req, res) => {
     const user = await User.findOne({ username });
     
     res.status(200).json({ 
+      email: user.email,
       fullName: user.fullName,
       followers: user.followers,
       following: user.following,
