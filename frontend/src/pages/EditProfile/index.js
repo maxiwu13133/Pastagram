@@ -1,144 +1,164 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import './index.css';
 
 // hooks
 import { useDropzoneC } from '../../hooks/useDropzoneC.js';
 import { useUpdateProfile } from '../../hooks/useUpdateProfile.js';
+import { useGetCommunity } from '../../hooks/useGetCommunity.js';
+import { useAuthContext } from '../../hooks/useAuthContext.js';
+
+// pages
+import Loading from '../Loading';
 
 // assets
-import downArrow from '../../assets/Profile/down-arrow.png';
+import loadSpinner from '../../assets/EditProfile/load-spinner.svg';
+
 
 const EditProfile = () => {
   const initialPfp = JSON.parse(localStorage.getItem('user')).picture;
-  const [pfp, setPfp] = useState(null);
-  const [bio, setBio] = useState('');
-  const [showAdvanced, setShowAdvanced] = useState(null);
-  const [fullName, setFullName] = useState('Max Wu');
-  const [username, setUsername] = useState('maxwuw');
-  const [email, setEmail] = useState('maxwu@gmail.com');
+  const initialUsername = JSON.parse(localStorage.getItem('user')).username;
+
+  const { user } = useAuthContext();
+  const { fullName, bio, email, error, isLoading } = useGetCommunity(user);
+  const [newPfp, setNewPfp] = useState(null);
+  const [newBio, setNewBio] = useState('');
+  const [newFullName, setNewFullName] = useState('');
+  const [newUsername, setNewUsername] = useState('');
+  const [newEmail, setNewEmail] = useState('');
 
   // change pfp
   const onDrop = useCallback(acceptedFiles => {
     if (acceptedFiles.length > 0) {
-      setPfp(Object.assign(acceptedFiles[0], { preview: URL.createObjectURL(acceptedFiles[0]) }));
+      setNewPfp(Object.assign(acceptedFiles[0], { preview: URL.createObjectURL(acceptedFiles[0]) }));
     }
   }, []);
   const { getRootProps } = useDropzoneC({ onDrop });
 
   // update profile
-  const { update, error, isLoading } = useUpdateProfile();
+  const { update, error: updateError, isLoading: updateIsLoading } = useUpdateProfile();
 
   const handleUpdate = async () => {
-    await update({ email, fullName, username, bio, pfp });
+    await update({ 
+      email: newEmail,
+      fullName: newFullName,
+      username: newUsername,
+      bio: newBio,
+      pfp: newPfp
+    });
   }
+
+  // set initial values
+  useEffect(() => {
+    setNewBio(bio);
+    setNewFullName(fullName);
+    setNewUsername(initialUsername);
+    setNewEmail(email);
+  }, [bio, fullName, initialUsername, email]);
 
   return ( 
     <div className="edit-container">
-      {/* Profile */}
-      <div className="edit-profile-container">
-        <p className="edit-profile-label">
-          Edit profile
-        </p>
-      </div>
-
-      <div className="edit-pfp-container">
-        <img { ...getRootProps({ className: "edit-pfp-img", src: `${ pfp ? pfp.preview : initialPfp }` }) } alt="" />
-
-        <p>budpeep</p>
-
-        <button { ...getRootProps({ className: "edit-change-pfp" }) } >
-          Change photo
-        </button>
-      </div>
-
-      {/* Bio */}
-      <div className="edit-bio-container">
-        <p className="edit-bio-label">
-          Bio
-        </p>
-
-        <div className="edit-bio-wrapper">
-          <textarea 
-            className="edit-bio" 
-            onChange={ (e) => setBio(e.target.value) }
-            value={ bio }
-            placeholder="Bio"
-            maxLength={ 150 }
-          />
-
-          <div className="edit-bio-char-ct">
-            { bio.length } / 150
+      { isLoading && <Loading /> }
+      { !isLoading &&
+        <>
+          {/* Profile */}
+          <div className="edit-profile-container">
+            <p className="edit-profile-label">
+              Edit profile
+            </p>
           </div>
-        </div>
-      </div>
 
-      {/* Advanced */}
-      <div 
-        className={ `
-          edit-advanced 
-          ${ showAdvanced === true ? "edit-advanced-in" : "" }
-          ${ showAdvanced === false ? "edit-advanced-out" : "" }
-        ` } 
-      >
-        <div className="edit-advanced-container">
-          <p className="edit-label">
-            Name
-          </p>
+          <div className="edit-pfp-container">
+            <img { ...getRootProps({ className: "edit-pfp-img", src: `${ newPfp ? newPfp.preview : initialPfp }` }) } alt="" />
 
-          <input 
-            type="text"
-            onChange={ (e) => setFullName(e.target.value) }
-            value={ fullName } 
-            className="edit-field edit-name" />
-        </div>
+            <p>{ newUsername }</p>
 
-        <div className="edit-advanced-container">
-          <p className="edit-label">
-            Username
-          </p>
+            <button { ...getRootProps({ className: "edit-change-pfp" }) } >
+              Change photo
+            </button>
+          </div>
 
-          <input 
-            type="text"
-            onChange={ (e) => setUsername(e.target.value) }
-            value={ username } 
-            className="edit-field edit-username" />
-        </div>
-        
-        <div className="edit-advanced-container">
-          <p className="edit-label">
-            Email
-          </p>
+          {/* Bio */}
+          <div className="edit-bio-container">
+            <p className="edit-bio-label">
+              Bio
+            </p>
 
-          <input 
-            type="text"
-            onChange={ (e) => setEmail(e.target.value) }
-            value={ email } 
-            className="edit-field edit-email" />
-        </div>
-      </div>
-      
-      {/* Button dropdown */}
-      <div 
-        className="edit-advanced-button" 
-        onClick={ () => showAdvanced ? setShowAdvanced(false) : setShowAdvanced(true) }
-      >
-        <p>Advanced</p>
-        <img 
-          src={ downArrow } 
-          alt="" 
-          className={ `
-            edit-advanced-arrow 
-            ${ showAdvanced === true ? "edit-arrow-in" : "" }
-            ${ showAdvanced === false ? "edit-arrow-out" : "" }
-          ` } 
-        />
-      </div>
+            <div className="edit-bio-wrapper">
+              <textarea 
+                className="edit-bio" 
+                onChange={ (e) => setNewBio(e.target.value) }
+                value={ newBio }
+                placeholder="Bio"
+                maxLength={ 150 }
+              />
 
-      <div className="edit-submit">
-        <button className="edit-submit-button" onClick={ () => handleUpdate() }>
-          Submit
-        </button>
-      </div>
+              <div className="edit-bio-char-ct">
+                { newBio.length } / 150
+              </div>
+            </div>
+          </div>
+
+          {/* Advanced */}
+          <div className="edit-advanced">
+            <div className="edit-advanced-container">
+              <p className="edit-label">
+                Name
+              </p>
+
+              <input 
+                type="text"
+                onChange={ (e) => setNewFullName(e.target.value) }
+                value={ newFullName } 
+                className="edit-field edit-name" />
+            </div>
+
+            <div className="edit-advanced-container">
+              <p className="edit-label">
+                Username
+              </p>
+
+              <input 
+                type="text"
+                onChange={ (e) => setNewUsername(e.target.value) }
+                value={ newUsername } 
+                className="edit-field edit-username" />
+            </div>
+            
+            <div className="edit-advanced-container">
+              <p className="edit-label">
+                Email
+              </p>
+
+              <input 
+                type="text"
+                onChange={ (e) => setNewEmail(e.target.value) }
+                value={ newEmail } 
+                className="edit-field edit-email" />
+            </div>
+          </div>
+
+          <div className="edit-submit">
+            { 
+              (error && <div className="edit-error">{ error }</div>) ||
+              (updateError && <div className="edit-error">{ updateError }</div>)
+            }
+
+            <button 
+              className="edit-submit-button"
+              onClick={ () => handleUpdate() }
+              disabled={ 
+                newPfp === null &&
+                newBio === bio && 
+                newFullName === fullName &&
+                newUsername === initialUsername &&
+                newEmail === email
+              }
+            >
+              { updateIsLoading ? <img src={ loadSpinner } alt="" className="edit-submit-load" /> : "Submit"}
+            </button>
+          </div>
+        </>
+      }
     </div>
    );
 }

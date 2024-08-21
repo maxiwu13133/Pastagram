@@ -46,7 +46,7 @@ export const useUpdateProfile = () => {
 
   useEffect(() => {
     const updateUser = async() => {
-      const info = { email, fullName, username, bio, picture };
+      const info = { email, fullName, username, bio, picture, user_username: user.username };
 
       const response = await fetch('http://localhost:4000/api/account/update/', {
         method: 'PATCH',
@@ -57,7 +57,6 @@ export const useUpdateProfile = () => {
         body: JSON.stringify(info)
       })
       const json = await response.json();
-
       if (!response.ok) {
         setIsLoading(false);
         setError(json.error);
@@ -66,15 +65,17 @@ export const useUpdateProfile = () => {
       if (response.ok) {
         user.username = json.username;
         user.picture = json.picture;
-        console.log('User:', user);
         localStorage.setItem('user', JSON.stringify(user));
         dispatch({ type: 'LOGIN', payload: user });
-        setIsLoading(false);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 2000)
       }
     }
 
     if (uploadFinish && !error) {
       updateUser();
+      setUploadFinish(false);
     }
   }, [email, fullName, username, bio, picture, error, user, dispatch, uploadFinish])
 

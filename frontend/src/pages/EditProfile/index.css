@@ -1,22 +1,3 @@
-@keyframes arrowIn {
-  0% { transform: rotate(0) }
-  100% { transform: rotate(180deg) }
-}
-
-@keyframes arrowOut {
-  0% { transform: rotate(180deg) }
-  100% { transform: rotate(0) }
-}
-
-@keyframes editIn {
-  100% { transform: translateY(0%) }
-}
-
-@keyframes editOut {
-  0% { height: 300px }
-  100% { height: 0; display: none; }
-}
-
 .edit-container {
   width: 100%;
   height: 100%;
@@ -141,14 +122,6 @@
   margin-top: 42px;
 }
 
-/* .edit-advanced-in {
-  animation: editIn 0.5s;
-}
-
-.edit-advanced-out {
-  animation: editOut 0.5s;
-} */
-
 .edit-advanced-container {
   display: flex;
   flex-direction: column;
@@ -170,46 +143,46 @@
   font-size: 16px;
 }
 
-/* advanced button */
-.edit-advanced-button {
-  width: 300px;
-  height: 48px;
+/* submit button */
+.edit-submit {
+  width: 610px;
   display: flex;
+  justify-content: flex-end;
+  padding-right: 4px;
+}
+
+.edit-error {
+  width: 100%;
+  height: 44px;
+  display: flex;
+  justify-content: center;
   align-items: center;
-  margin-top: 20px;
-  border-radius: 14px;
-  border: solid 1px lightgray;
+  color: #ed4956;
+  font-size: 18px;
 }
 
-.edit-advanced-button:hover {
-  background-color: #f2f2f2;
+.edit-submit-button {
+  width: 212px;
+  height: 44px;
+  color: white;
+  font-weight: 600;
+  font-size: 13px;
+  border: none;
+  background-color: #0095f6;
+  border-radius: 8px;
+}
+
+.edit-submit-button:hover {
   cursor: pointer;
+  background-color: #1877f2;
 }
 
-.edit-advanced-button:active {
-  background-color: #e5e5e5;
+.edit-submit-button:active {
+  opacity: 65%;
 }
 
-.edit-advanced-button > p {
-  font-weight: 500;
-  font-size: 16px;
-  color: #737373;
-  margin-left: 10px;
-  user-select: none;
-}
-
-.edit-advanced-arrow {
-  width: 14px;
-  margin-right: 10px;
-  margin-left: auto;
-}
-
-.edit-arrow-in {
-  animation: arrowIn 0.5s;
-  transform: scaleY(-1);
-}
-
-.edit-arrow-out {
-  animation: arrowOut 0.5s;
-  transform: scaleY(1);
+.edit-submit-button:disabled, :disabled:hover, :disabled:active {
+  background-color: #b1defc;
+  cursor: default;
+  opacity: 100%;
 }

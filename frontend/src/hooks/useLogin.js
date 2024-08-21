@@ -24,7 +24,6 @@ export const useLogin = () => {
     };
 
     if (response.ok) {
-      console.log(json);
       // save user to local storage
       localStorage.setItem('user', JSON.stringify(json));
 
