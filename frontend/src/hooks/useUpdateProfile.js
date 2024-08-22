@@ -35,6 +35,7 @@ export const useUpdateProfile = () => {
         return response.json();
       }).then(data => {
         setPicture(data.url);
+        console.log(data);
         setUploadFinish(true);
       }).catch(error => {
         setError(error);

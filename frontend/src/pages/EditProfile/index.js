@@ -62,11 +62,14 @@ const EditProfile = () => {
     setOldFullName(fullName);
     setOldUsername(initialUsername);
     setOldEmail(email);
+  }, [bio, fullName, initialUsername, email]);
+
+  useEffect(() => {
     setNewBio(oldBio);
     setNewFullName(oldFullName);
     setNewUsername(oldUsername);
     setNewEmail(oldEmail);
-  }, [oldBio, oldFullName, oldUsername, oldEmail, bio, fullName, initialUsername, email]);
+  }, [oldBio, oldFullName, oldUsername, oldEmail])
 
   return ( 
     <div className="edit-container">
