@@ -15,15 +15,20 @@ import loadSpinner from '../../assets/EditProfile/load-spinner.svg';
 
 
 const EditProfile = () => {
-  const initialPfp = JSON.parse(localStorage.getItem('user')).picture;
-  const initialUsername = JSON.parse(localStorage.getItem('user')).username;
+  const storage = JSON.parse(localStorage.getItem('user'));
+  const initialPfp = storage.picture;
+  const initialUsername = storage.username;
 
   const { user } = useAuthContext();
   const { fullName, bio, email, error, isLoading } = useGetCommunity(user);
   const [newPfp, setNewPfp] = useState(null);
+  const [oldBio, setOldBio] = useState('');
   const [newBio, setNewBio] = useState('');
+  const [oldFullName, setOldFullName] = useState('');
   const [newFullName, setNewFullName] = useState('');
+  const [oldUsername, setOldUsername] = useState('');
   const [newUsername, setNewUsername] = useState('');
+  const [oldEmail, setOldEmail] = useState('');
   const [newEmail, setNewEmail] = useState('');
 
   // change pfp
@@ -45,15 +50,23 @@ const EditProfile = () => {
       bio: newBio,
       pfp: newPfp
     });
+    setOldBio(newBio);
+    setOldFullName(newFullName);
+    setOldUsername(newUsername);
+    setOldEmail(newEmail);
   }
 
   // set initial values
   useEffect(() => {
-    setNewBio(bio);
-    setNewFullName(fullName);
-    setNewUsername(initialUsername);
-    setNewEmail(email);
-  }, [bio, fullName, initialUsername, email]);
+    setOldBio(bio);
+    setOldFullName(fullName);
+    setOldUsername(initialUsername);
+    setOldEmail(email);
+    setNewBio(oldBio);
+    setNewFullName(oldFullName);
+    setNewUsername(oldUsername);
+    setNewEmail(oldEmail);
+  }, [oldBio, oldFullName, oldUsername, oldEmail, bio, fullName, initialUsername, email]);
 
   return ( 
     <div className="edit-container">
@@ -148,10 +161,11 @@ const EditProfile = () => {
               onClick={ () => handleUpdate() }
               disabled={ 
                 newPfp === null &&
-                newBio === bio && 
-                newFullName === fullName &&
-                newUsername === initialUsername &&
-                newEmail === email
+                newBio === oldBio && 
+                newFullName === oldFullName &&
+                newUsername === oldUsername &&
+                newEmail === oldEmail && 
+                !updateIsLoading
               }
             >
               { updateIsLoading ? <img src={ loadSpinner } alt="" className="edit-submit-load" /> : "Submit"}
