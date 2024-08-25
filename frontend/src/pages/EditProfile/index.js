@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import './index.css';
 
 // hooks
@@ -15,13 +15,16 @@ import loadSpinner from '../../assets/EditProfile/load-spinner.svg';
 
 
 const EditProfile = () => {
+
   const storage = JSON.parse(localStorage.getItem('user'));
-  const initialPfp = storage.picture;
   const initialUsername = storage.username;
+  const [initialPfp, setInitialPfp] = useState({});
 
   const { user } = useAuthContext();
+
   const { fullName, bio, email, error, isLoading } = useGetCommunity(user);
-  const [newPfp, setNewPfp] = useState(null);
+  const [oldPfp, setOldPfp] = useState({});
+  const [newPfp, setNewPfp] = useState({});
   const [oldBio, setOldBio] = useState('');
   const [newBio, setNewBio] = useState('');
   const [oldFullName, setOldFullName] = useState('');
@@ -50,26 +53,34 @@ const EditProfile = () => {
       bio: newBio,
       pfp: newPfp
     });
+    setOldPfp(newPfp);
     setOldBio(newBio);
     setOldFullName(newFullName);
     setOldUsername(newUsername);
     setOldEmail(newEmail);
   }
 
-  // set initial values
+  // disable submit button if no changes made since last save
+  useMemo(() => {
+    setInitialPfp({ preview: storage.picture });
+  }, [storage.picture]);
+
   useEffect(() => {
+    setOldPfp(initialPfp);
     setOldBio(bio);
     setOldFullName(fullName);
     setOldUsername(initialUsername);
     setOldEmail(email);
-  }, [bio, fullName, initialUsername, email]);
+  }, [initialPfp, bio, fullName, initialUsername, email]);
 
   useEffect(() => {
+    setNewPfp(oldPfp);
     setNewBio(oldBio);
     setNewFullName(oldFullName);
     setNewUsername(oldUsername);
     setNewEmail(oldEmail);
-  }, [oldBio, oldFullName, oldUsername, oldEmail])
+  }, [oldPfp, oldBio, oldFullName, oldUsername, oldEmail])
+
 
   return ( 
     <div className="edit-container">
@@ -84,7 +95,7 @@ const EditProfile = () => {
           </div>
 
           <div className="edit-pfp-container">
-            <img { ...getRootProps({ className: "edit-pfp-img", src: `${ newPfp ? newPfp.preview : initialPfp }` }) } alt="" />
+            <img { ...getRootProps({ className: "edit-pfp-img", src: newPfp.preview }) } alt="" />
 
             <p>{ newUsername }</p>
 
@@ -163,7 +174,7 @@ const EditProfile = () => {
               className="edit-submit-button"
               onClick={ () => handleUpdate() }
               disabled={ 
-                newPfp === null &&
+                newPfp === oldPfp &&
                 newBio === oldBio && 
                 newFullName === oldFullName &&
                 newUsername === oldUsername &&
