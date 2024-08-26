@@ -34,7 +34,7 @@ const Terms = () => {
       
       {/* Linkedin Resume */}
       <div className="terms-linkedin">
-        <a target="_blank" rel="noreferrer" href="https://www.linkedin.com/in/maximilian-wu/">Pintstagram by Max Wu</a>
+        <a target="_blank" rel="noreferrer" href="https://www.linkedin.com/in/maximilian-wu/">Pastagram by Max Wu</a>
       </div>
 
     </div>

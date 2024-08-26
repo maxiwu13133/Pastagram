@@ -33,10 +33,12 @@ const EditProfile = () => {
   const [newUsername, setNewUsername] = useState('');
   const [oldEmail, setOldEmail] = useState('');
   const [newEmail, setNewEmail] = useState('');
+  const [pfpChanged, setPfpChanged] = useState(false);
 
   // change pfp
   const onDrop = useCallback(acceptedFiles => {
     if (acceptedFiles.length > 0) {
+      setPfpChanged(true);
       setNewPfp(Object.assign(acceptedFiles[0], { preview: URL.createObjectURL(acceptedFiles[0]) }));
     }
   }, []);
@@ -51,13 +53,15 @@ const EditProfile = () => {
       fullName: newFullName,
       username: newUsername,
       bio: newBio,
-      pfp: newPfp
+      pfp: newPfp,
+      pfpChanged
     });
     setOldPfp(newPfp);
     setOldBio(newBio);
     setOldFullName(newFullName);
     setOldUsername(newUsername);
     setOldEmail(newEmail);
+    setPfpChanged(false);
   }
 
   // disable submit button if no changes made since last save

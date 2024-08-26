@@ -15,7 +15,7 @@ export const useUpdateProfile = () => {
 
 
   // upload to cloudinary
-  const update = async ({ email, fullName, username, bio, pfp }) => {
+  const update = async ({ email, fullName, username, bio, pfp, pfpChanged }) => {
     setIsLoading(true);
     setError(null);
     setEmail(email);
@@ -23,7 +23,7 @@ export const useUpdateProfile = () => {
     setUsername(username);
     setBio(bio);
 
-    if (pfp) {
+    if (pfpChanged) {
       const data = new FormData();
       data.append('file', pfp);
       data.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
