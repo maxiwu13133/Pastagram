@@ -13,9 +13,7 @@ const accountRoutes = require('./routes/account');
 const app = express();
 
 // middleware
-app.use(express.json());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json({ limit: '200mb' }));
 app.use(cors());
 
 app.use((req, res, next) => {

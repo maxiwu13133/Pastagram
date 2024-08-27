@@ -6,7 +6,7 @@ import './index.css';
 import { useDropzoneC } from '../../hooks/useDropzoneC.js';
 import { useDropzoneNC } from '../../hooks/useDropzoneNC.js';
 import { useAuthContext } from '../../hooks/useAuthContext.js';
-import { useUpload } from '../../hooks/useUpload.js';
+import { useCreatePost } from '../../hooks/useCreatePost.js';
 
 
 // components
@@ -28,10 +28,24 @@ const Create = ({ handleClick }) => {
   const [filesSubmitted, setFilesSubmitted] = useState(false);
   const [wrongFiles, setWrongFiles] = useState(null);
   const [disableDrop, setDisableDrop] = useState(false);
+  const [images, setImages] = useState([]);
+
+  const fileToBase = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImages(currentImages => [...currentImages, reader.result]);
+    }
+  }
 
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     if (acceptedFiles.length > 0) {
       setWrongFiles(null);
+
+      for (let i = 0; i < acceptedFiles.length; i++) {
+        fileToBase(acceptedFiles[i]);
+      }
+
       setFiles(previousFiles => [
         ...previousFiles,
         ...acceptedFiles.map(file => Object.assign(file, { preview: URL.createObjectURL(file) }))
@@ -70,14 +84,19 @@ const Create = ({ handleClick }) => {
 
 
   // Uploading post
-  const { upload, isLoading } = useUpload();
+  const { createPost, isLoading } = useCreatePost()
   const [postingStage, setPostingStage] = useState(false);
-
   const handlePost = async () => {
     setCaptionStage(false);
     setPostingStage(true);
-    await upload(files, caption);
+
+    const response = await createPost(images, caption);
+    if (response) {
+      console.log("Success:", response);
+    }
+    
     setFiles([]);
+    setImages([]);
   }
 
   return (
