@@ -1,11 +1,11 @@
-import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import './index.css';
 
 // hooks
 import { useDropzoneC } from '../../hooks/useDropzoneC.js';
-import { useUpdateProfile } from '../../hooks/useUpdateProfile.js';
 import { useGetCommunity } from '../../hooks/useGetCommunity.js';
 import { useAuthContext } from '../../hooks/useAuthContext.js';
+import { useUpdate } from '../../hooks/useUpdate.js';
 
 // pages
 import Loading from '../Loading';
@@ -15,14 +15,8 @@ import loadSpinner from '../../assets/EditProfile/load-spinner.svg';
 
 
 const EditProfile = () => {
-
-  const storage = JSON.parse(localStorage.getItem('user'));
-  const initialUsername = storage.username;
-  const [initialPfp, setInitialPfp] = useState({});
-
   const { user } = useAuthContext();
-
-  const { fullName, bio, email, error, isLoading } = useGetCommunity(user);
+  const { fullName, bio, email, pfp, error, isLoading } = useGetCommunity(user);
   const [oldPfp, setOldPfp] = useState({});
   const [newPfp, setNewPfp] = useState({});
   const [oldBio, setOldBio] = useState('');
@@ -33,49 +27,41 @@ const EditProfile = () => {
   const [newUsername, setNewUsername] = useState('');
   const [oldEmail, setOldEmail] = useState('');
   const [newEmail, setNewEmail] = useState('');
-  const [pfpChanged, setPfpChanged] = useState(false);
 
   // change pfp
   const onDrop = useCallback(acceptedFiles => {
     if (acceptedFiles.length > 0) {
-      setPfpChanged(true);
-      setNewPfp(Object.assign(acceptedFiles[0], { preview: URL.createObjectURL(acceptedFiles[0]) }));
+      setNewPfp(Object.assign(acceptedFiles[0], { url: URL.createObjectURL(acceptedFiles[0]) }));
     }
   }, []);
   const { getRootProps } = useDropzoneC({ onDrop });
 
   // update profile
-  const { update, error: updateError, isLoading: updateIsLoading } = useUpdateProfile();
+  const { updateProfile, error: updateError, isLoading: updateIsLoading } = useUpdate();
 
   const handleUpdate = async () => {
-    await update({ 
+    updateProfile({ 
       email: newEmail,
       fullName: newFullName,
       username: newUsername,
       bio: newBio,
-      pfp: newPfp,
-      pfpChanged
+      pfp: newPfp
     });
     setOldPfp(newPfp);
     setOldBio(newBio);
     setOldFullName(newFullName);
     setOldUsername(newUsername);
     setOldEmail(newEmail);
-    setPfpChanged(false);
   }
 
   // disable submit button if no changes made since last save
-  useMemo(() => {
-    setInitialPfp({ preview: storage.picture });
-  }, [storage.picture]);
-
   useEffect(() => {
-    setOldPfp(initialPfp);
+    setOldPfp(pfp);
     setOldBio(bio);
     setOldFullName(fullName);
-    setOldUsername(initialUsername);
+    setOldUsername(user.username);
     setOldEmail(email);
-  }, [initialPfp, bio, fullName, initialUsername, email]);
+  }, [pfp, bio, fullName, user.username, email]);
 
   useEffect(() => {
     setNewPfp(oldPfp);
@@ -99,7 +85,7 @@ const EditProfile = () => {
           </div>
 
           <div className="edit-pfp-container">
-            <img { ...getRootProps({ className: "edit-pfp-img", src: newPfp.preview }) } alt="" />
+            <img { ...getRootProps({ className: "edit-pfp-img", src: newPfp.url }) } alt="" />
 
             <p>{ newUsername }</p>
 

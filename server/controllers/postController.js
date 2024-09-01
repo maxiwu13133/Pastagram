@@ -33,7 +33,7 @@ const createPost = async (req, res) => {
 
     for (let file of files) {
       const response = await cloudinary.uploader.upload(file);
-      images.push(response.url);
+      images.push({ public_id: response.public_id, url: response.url });
     }
 
     const post = await Post.create({user_id: user._id, photos: images, caption });

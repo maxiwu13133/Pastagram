@@ -66,7 +66,8 @@ const getCommunity = async (req, res) => {
       fullName: user.fullName,
       followers: user.followers,
       following: user.following,
-      bio: user.bio 
+      bio: user.bio,
+      pfp: user.pfp
     });
   } catch (error) {
     res.status(400).json({ error: error.message });

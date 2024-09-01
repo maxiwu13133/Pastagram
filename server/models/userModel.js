@@ -36,8 +36,9 @@ const userSchema = new Schema({
   bio: {
     type: String
   },
-  picture: {
-    type: String
+  pfp: {
+    public_id: String,
+    url: String
   }
 });
 

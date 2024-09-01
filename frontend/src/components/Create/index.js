@@ -12,13 +12,14 @@ import { useCreatePost } from '../../hooks/useCreatePost.js';
 // components
 import Preview from '../Preview';
 import CloseButton from './CloseButton';
-
+import ArrowLeft from './ArrowLeft';
 
 // assets
 import uploadUnfocused from '../../assets/Create/upload-pic.png';
 import uploadFocus from '../../assets/Create/upload-pic-blue.png';
 import wrongFile from '../../assets/Create/wrong-file.png';
-import ArrowLeft from './ArrowLeft';
+import tailSpin from '../../assets/Create/tail-spin.svg';
+import icon from '../../assets/Logos/pastagram-icon.png';
 
 
 const Create = ({ handleClick }) => {
@@ -235,12 +236,12 @@ const Create = ({ handleClick }) => {
             </header>
             { isLoading && 
               <div className="create-posting-loading">
-
+                <img draggable={ false } src={ tailSpin } alt="Loading" className="create-posting-loading-icon" />
               </div>
             }
             { !isLoading && 
               <div className="create-posting-finish">
-                <img draggable={ false } src={ wrongFile } alt="Loading" className="create-posting-icon" />
+                <img draggable={ false } src={ icon } alt="Loading" className="create-posting-icon" />
 
                 <p className="create-posting-text">
                   Your post has been shared.

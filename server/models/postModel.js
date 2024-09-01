@@ -9,7 +9,8 @@ const postSchema = new Schema({
     required: true
   },
   photos: [{
-    type: String
+    public_id: String,
+    url: String
   }],
   caption: {
     type: String

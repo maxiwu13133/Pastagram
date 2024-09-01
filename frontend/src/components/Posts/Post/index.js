@@ -16,7 +16,7 @@ const Post = ({ post }) => {
 
       { photos.length > 1 ? <img src={ multipleFiles } alt="" className="post-multiple" /> : ""}
       
-      <img src={ photos[0] } alt="Post" className="post-img" />
+      <img src={ photos[0].url } alt="Post" className="post-img" />
     </div>
    );
 }

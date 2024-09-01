@@ -6,6 +6,7 @@ export const useGetCommunity = (username) => {
   const [bio, setBio] = useState('');
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
+  const [pfp, setPfp] = useState({});
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
 
@@ -33,6 +34,7 @@ export const useGetCommunity = (username) => {
         setBio(json.bio);
         setFollowers(json.followers);
         setFollowing(json.following);
+        setPfp(json.pfp);
         setIsLoading(false);
       };
     };
@@ -40,5 +42,5 @@ export const useGetCommunity = (username) => {
     getCommunity(username);
   }, [username])
 
-  return { email, fullName, bio, followers, following, error, isLoading };
+  return { email, fullName, bio, followers, following, pfp, error, isLoading };
 };

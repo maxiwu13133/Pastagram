@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './index.css';
 
@@ -12,12 +13,18 @@ import { useGetPosts } from '../../../hooks/useGetPosts';
 // components
 import Grid from '../../../components/Posts/Grid';
 import Posts from '../../../components/Posts';
+import Create from '../../../components/Create';
+
+// assets
+import cameraIcon from '../../../assets/Profile/camera-icon.png';
 
 const SelfProfile = () => {
   const { user } = useAuthContext();
-  const { fullName, bio, followers, following, error, isLoading } = useGetCommunity(user);
+  const { fullName, bio, followers, following, pfp, error, isLoading } = useGetCommunity(user);
   const { posts, error: postError,  isLoading: postLoading } = useGetPosts(user.username);
-  const pfp = JSON.parse(localStorage.getItem('user')).picture;
+
+  // create modal
+  const [modal, setModal] = useState(false);
   
   return (
     <div className="s-profile-container">
@@ -30,7 +37,7 @@ const SelfProfile = () => {
           {/* Details */}
           <div className="s-profile-details">
             <div className="s-profile-pfp-container">
-              <img draggable={ false } src={ pfp } alt="pfp" className="s-profile-pfp" />
+              <img draggable={ false } src={ pfp.url } alt="pfp" className="s-profile-pfp" />
             </div>
 
             <div className="s-profile-info">
@@ -77,7 +84,27 @@ const SelfProfile = () => {
                 <p>POSTS</p>
               </div>
               <div className="s-profile-posts">
-                <Posts posts={ posts} />
+                { posts.length > 0 && <Posts posts={ posts} /> }
+                { posts.length === 0 && 
+                  <div className="s-profile-empty-posts">
+                    <Link className="s-profile-create-icon-container" onClick={ () => setModal(true) }>
+                      <img src={ cameraIcon } alt="" className="s-profile-share-icon" />
+                    </Link>
+
+                    <h2 className="s-profile-share-title">Share Photos</h2>
+
+                    <div className="s-profile-share-text">
+                      When you share photos, they will appear on your profile.
+                    </div>
+
+                    <button className="s-profile-share-create" onClick={ () => setModal(true) }>
+                      Share your first photo
+                    </button>
+
+                    {/* Create Modal */}
+                    { modal && <Create handleClick={ () => setModal(false) } /> }
+                  </div> 
+                }
               </div>
           </div>
 
@@ -93,8 +120,6 @@ const SelfProfile = () => {
           </div>
         </>
       }
-
-      
 
     </div>
    );
