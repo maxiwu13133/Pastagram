@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export const useGetCommunity = (username) => {
+export const useGetCommunity = ({ username }) => {
   const [email, setEmail] = useState('');
   const [fullName, setFullName] = useState('');
   const [bio, setBio] = useState('');
@@ -11,11 +11,10 @@ export const useGetCommunity = (username) => {
   const [isLoading, setIsLoading] = useState(null);
 
   useEffect(() => {
-    const getCommunity = async (user) => {
+    const getCommunity = async (username) => {
       setIsLoading(true);
       setError(null);
-  
-      const response = await fetch('http://localhost:4000/api/user/community/' + user.username, {
+      const response = await fetch('http://localhost:4000/api/user/community/' + username, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'

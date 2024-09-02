@@ -21,8 +21,8 @@ import defaultPfp from '../../../assets/Profile/default-pfp.jpg';
 
 const SelfProfile = () => {
   const { user } = useAuthContext();
-  const { fullName, bio, followers, following, pfp, error, isLoading } = useGetCommunity(user);
-  const { posts, error: postError,  isLoading: postLoading } = useGetPosts(user.username);
+  const { fullName, bio, followers, following, pfp, error, isLoading } = useGetCommunity({ username: user.username });
+  const { posts, error: postError,  isLoading: postLoading } = useGetPosts({ username: user.username });
 
   // create modal
   const [modal, setModal] = useState(false);
@@ -49,7 +49,6 @@ const SelfProfile = () => {
                   <button className="s-profile-edit" >Edit profile</button>
                 </Link>
 
-                <button className="s-profile-archives">View archive</button>
               </div>
 
               { !error && 
@@ -80,33 +79,33 @@ const SelfProfile = () => {
 
           {/* Posts */}
           <div className="s-profile-post-container">
-              <div className="s-profile-post-header">
-                <Grid width={ 12 } height={ 17 } />
-                <p>POSTS</p>
-              </div>
-              <div className="s-profile-posts">
-                { posts.length > 0 && <Posts posts={ posts} /> }
-                { posts.length === 0 && 
-                  <div className="s-profile-empty-posts">
-                    <Link className="s-profile-create-icon-container" onClick={ () => setModal(true) }>
-                      <img src={ cameraIcon } alt="" className="s-profile-share-icon" />
-                    </Link>
+            <div className="s-profile-post-header">
+              <Grid width={ 12 } height={ 17 } />
+              <p>POSTS</p>
+            </div>
+            <div className="s-profile-posts">
+              { posts.length > 0 && <Posts posts={ posts} /> }
+              { posts.length === 0 && 
+                <div className="s-profile-empty-posts">
+                  <Link className="s-profile-create-icon-container" onClick={ () => setModal(true) }>
+                    <img src={ cameraIcon } alt="" className="s-profile-share-icon" />
+                  </Link>
 
-                    <h2 className="s-profile-share-title">Share Photos</h2>
+                  <h2 className="s-profile-share-title">Share Photos</h2>
 
-                    <div className="s-profile-share-text">
-                      When you share photos, they will appear on your profile.
-                    </div>
+                  <div className="s-profile-share-text">
+                    When you share photos, they will appear on your profile.
+                  </div>
 
-                    <button className="s-profile-share-create" onClick={ () => setModal(true) }>
-                      Share your first photo
-                    </button>
+                  <button className="s-profile-share-create" onClick={ () => setModal(true) }>
+                    Share your first photo
+                  </button>
 
-                    {/* Create Modal */}
-                    { modal && <Create handleClick={ () => setModal(false) } /> }
-                  </div> 
-                }
-              </div>
+                  {/* Create Modal */}
+                  { modal && <Create handleClick={ () => setModal(false) } /> }
+                </div> 
+              }
+            </div>
           </div>
 
           {/* Linkedin Resume */}

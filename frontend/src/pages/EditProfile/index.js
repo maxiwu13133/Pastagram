@@ -17,7 +17,7 @@ import defaultPfp from '../../assets/Profile/default-pfp.jpg';
 
 const EditProfile = () => {
   const { user } = useAuthContext();
-  const { fullName, bio, email, pfp, error, isLoading } = useGetCommunity(user);
+  const { fullName, bio, email, pfp, error, isLoading } = useGetCommunity({ username: user.username });
   const [oldPfp, setOldPfp] = useState({});
   const [newPfp, setNewPfp] = useState({});
   const [pfpChanged, setPfpChanged] = useState(false);

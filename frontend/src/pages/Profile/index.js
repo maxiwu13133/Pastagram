@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import './index.css';
 
 // Hooks
@@ -12,26 +13,25 @@ import UserProfile from './UserProfile';
 const Profile = () => {
   const { user } = useAuthContext();
   const [selfProfile, setSelfProfile] = useState(null);
-  const [username, setUsername] = useState('');
+  const [userProfile, setUserProfile] = useState(null);
+  const { username } = useParams();
 
   // Check if self profile or another user profile
   useEffect(() => {
-    const pathName = window.location.pathname.replace(/\//g,'')
-    if (pathName === user.username) {
+    if (username === user.username) {
       setSelfProfile(true);
+      setUserProfile(null);
     } else {
-      console.log(pathName);
-      console.log(user.username);
-      setUsername(pathName);
-      setSelfProfile(false);
+      setUserProfile(true);
+      setSelfProfile(null);
     };
-  }, [user.username])
+  }, [username, user.username])
 
 
   return ( 
     <div className="profile-container">
       { selfProfile && <SelfProfile /> }
-      { !selfProfile && <UserProfile username={ username } /> }
+      { userProfile && <UserProfile username={ username } /> }
     </div>
    );
 };
