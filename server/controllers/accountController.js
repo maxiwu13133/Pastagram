@@ -66,10 +66,12 @@ const deletePfp = async (req, res) => {
   try {
     const user = await User.findOne({ _id: user_id });
     const public_id = user.pfp.public_id;
-    
-    const response = await cloudinary.uploader.destroy(public_id)
-  
-    res.status(200).json({ result: response.result })
+    if (public_id) {
+      const response = await cloudinary.uploader.destroy(public_id);
+      res.status(200).json({ result: response.result });
+      return;
+    }
+    res.status(200).json({ result: "ok" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
