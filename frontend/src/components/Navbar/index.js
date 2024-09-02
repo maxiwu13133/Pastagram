@@ -21,6 +21,8 @@ import heartUnfocused from '../../assets/Navbar/ig-notif-icon-unfocused.png';
 import create from '../../assets/Navbar/ig-create-icon.png';
 import moreFocused from '../../assets/Navbar/ig-more-icon-focused.png';
 import moreUnfocused from '../../assets/Navbar/ig-more-icon-unfocused.png';
+import defaultPfp from '../../assets/Profile/default-pfp.jpg';
+
 
 // components
 import Create from '../Create';
@@ -36,7 +38,7 @@ const Navbar = () => {
   const moreRef = useRef();
 
   // User context
-  const { user } = useAuthContext();
+  const { user, dispatch } = useAuthContext();
 
   
   // Remove More option drop down when clicked elsewhere
@@ -90,7 +92,11 @@ const Navbar = () => {
           {/* Search */}
           <div className="navbar-option-wrapper">
             <Link onClick={ () => setSelectedNav('search') }>
-              <div className={ `navbar-option navbar-search ${ selectedNav === "search" ? "navbar-highlighted" : "" }` }>
+              <div className={ `
+                navbar-option
+                navbar-search
+                ${ selectedNav === "search" ? "navbar-highlighted" : "" }
+              ` }>
                 <img 
                   draggable={ false } 
                   src={ selectedNav === "search" ? magnifyFocused : magnifyUnfocused } 
@@ -104,7 +110,11 @@ const Navbar = () => {
           {/* Explore */}
           <div className="navbar-option-wrapper">
             <Link to="/explore/" onClick={ () => setSelectedNav('explore') }>
-              <div className={ `navbar-option navbar-explore ${ selectedNav === "explore" ? "navbar-highlighted" : "" }` }>
+              <div className={ `
+                navbar-option
+                navbar-explore
+                ${ selectedNav === "explore" ? "navbar-highlighted" : "" }
+              ` }>
                 <img 
                   draggable={ false } 
                   src={ selectedNav === "explore" ? compassFocused : compassUnfocused } 
@@ -175,7 +185,7 @@ const Navbar = () => {
               ` }>
                 <img
                   draggable={ false } 
-                  src={ pfp.url } 
+                  src={ pfp.url ? pfp.url : defaultPfp } 
                   alt="Profile" 
                   className={ `navbar-pfp ${ selectedNav === user.username ? "navbar-pfp-highlighted" : "" }` }
                 />
@@ -186,8 +196,20 @@ const Navbar = () => {
 
           {/* More */}
           <div className="navbar-option-wrapper navbar-more-wrapper">
-            <Link onClick={ () => setHighlightMore(true) }>
-              <div ref={ moreRef } className={ `navbar-option navbar-more ${ highlightMore ? "navbar-highlighted" : "" }` }>
+            <div className={ `navbar-more-modal ${ highlightMore ? "" : "navbar-more-option-hide" }` }>
+              <div className="navbar-more-option" onClick={ () => dispatch({ type: 'LOGOUT', payload: null }) }>
+                Log out
+              </div>
+            </div>
+            <Link onClick={ () => highlightMore ? setHighlightMore(false) : setHighlightMore(true) }>
+              <div 
+                ref={ moreRef }
+                className={ `
+                  navbar-option
+                  navbar-more
+                  ${ highlightMore ? "navbar-highlighted" : "" }
+                ` }
+              >
                 <img 
                   draggable={ false } 
                   src={ highlightMore ? moreFocused : moreUnfocused }

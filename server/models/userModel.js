@@ -34,7 +34,8 @@ const userSchema = new Schema({
     ref: 'User'
   }],
   bio: {
-    type: String
+    type: String,
+    default: ""
   },
   pfp: {
     public_id: String,

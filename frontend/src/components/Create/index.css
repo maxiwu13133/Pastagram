@@ -27,7 +27,7 @@
 }
 
 .create-post {
-  position: absolute;
+  position: fixed;
   width: 680px;
   height: 720px;
   background-color: white;

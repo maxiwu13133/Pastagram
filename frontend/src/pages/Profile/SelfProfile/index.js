@@ -17,6 +17,7 @@ import Create from '../../../components/Create';
 
 // assets
 import cameraIcon from '../../../assets/Profile/camera-icon.png';
+import defaultPfp from '../../../assets/Profile/default-pfp.jpg';
 
 const SelfProfile = () => {
   const { user } = useAuthContext();
@@ -37,7 +38,7 @@ const SelfProfile = () => {
           {/* Details */}
           <div className="s-profile-details">
             <div className="s-profile-pfp-container">
-              <img draggable={ false } src={ pfp.url } alt="pfp" className="s-profile-pfp" />
+              <img draggable={ false } src={ pfp.url ? pfp.url : defaultPfp } alt="pfp" className="s-profile-pfp" />
             </div>
 
             <div className="s-profile-info">

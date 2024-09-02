@@ -12,6 +12,7 @@ import Loading from '../Loading';
 
 // assets
 import loadSpinner from '../../assets/EditProfile/load-spinner.svg';
+import defaultPfp from '../../assets/Profile/default-pfp.jpg';
 
 
 const EditProfile = () => {
@@ -89,7 +90,7 @@ const EditProfile = () => {
           </div>
 
           <div className="edit-pfp-container">
-            <img { ...getRootProps({ className: "edit-pfp-img", src: newPfp.url }) } alt="" />
+            <img { ...getRootProps({ className: "edit-pfp-img", src: newPfp.url ? newPfp.url : defaultPfp }) } alt="" />
 
             <p>{ newUsername }</p>
 
