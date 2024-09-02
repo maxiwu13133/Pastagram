@@ -11,6 +11,22 @@ export const useUpdate = () => {
     setError(null);
 
     if (pfpChanged) {
+
+      const response = await fetch('http://localhost:4000/api/account/', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${ user.token }`
+        }
+      })
+      const json = await response.json();
+    
+      if (!response.ok) {
+        setError(json.error);
+        console.log("Error:", json.error);
+        return;
+      }
+
       const reader = new FileReader();
       reader.readAsDataURL(pfp);
       reader.onloadend = async () => {
@@ -42,7 +58,6 @@ export const useUpdate = () => {
           setTimeout(() => {
             setIsLoading(false);
           }, 2000);
-          console.log("Change:", json);
           return json;
         }
       }
@@ -75,7 +90,6 @@ export const useUpdate = () => {
         setTimeout(() => {
           setIsLoading(false);
         }, 2000);
-        console.log("No change:", json);
         return json;
       }
     }

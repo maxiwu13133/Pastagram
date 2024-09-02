@@ -17,7 +17,7 @@ const getAccountInfo = async (req, res) => {
 }
 
 
-// upload and create post
+// upload pfp and update profile
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -45,7 +45,7 @@ const updateUser = async (req, res) => {
 
       const updateInfo = { email, fullName, username, bio, pfp: image };
       const updatedUser = await User.findOneAndUpdate({ _id: user_id }, updateInfo, { new: true });
-
+      
       res.status(200).json({ username: updatedUser.username, hello: "hello", pfp: updatedUser.pfp });
       return;
     }
@@ -59,4 +59,20 @@ const updateUser = async (req, res) => {
 }
 
 
-module.exports = { getAccountInfo, updateUser };
+// delete pfp from cloudinary
+const deletePfp = async (req, res) => {
+  const user_id = req.user._id;
+
+  try {
+    const user = await User.findOne({ _id: user_id });
+    const public_id = user.pfp.public_id;
+    
+    const response = await cloudinary.uploader.destroy(public_id)
+  
+    res.status(200).json({ result: response.result })
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+module.exports = { getAccountInfo, updateUser, deletePfp };
