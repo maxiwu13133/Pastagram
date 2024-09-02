@@ -19,6 +19,7 @@ const EditProfile = () => {
   const { fullName, bio, email, pfp, error, isLoading } = useGetCommunity(user);
   const [oldPfp, setOldPfp] = useState({});
   const [newPfp, setNewPfp] = useState({});
+  const [pfpChanged, setPfpChanged] = useState(false);
   const [oldBio, setOldBio] = useState('');
   const [newBio, setNewBio] = useState('');
   const [oldFullName, setOldFullName] = useState('');
@@ -32,6 +33,7 @@ const EditProfile = () => {
   const onDrop = useCallback(acceptedFiles => {
     if (acceptedFiles.length > 0) {
       setNewPfp(Object.assign(acceptedFiles[0], { url: URL.createObjectURL(acceptedFiles[0]) }));
+      setPfpChanged(true);
     }
   }, []);
   const { getRootProps } = useDropzoneC({ onDrop });
@@ -45,13 +47,15 @@ const EditProfile = () => {
       fullName: newFullName,
       username: newUsername,
       bio: newBio,
-      pfp: newPfp
+      pfp: newPfp,
+      pfpChanged
     });
     setOldPfp(newPfp);
     setOldBio(newBio);
     setOldFullName(newFullName);
     setOldUsername(newUsername);
     setOldEmail(newEmail);
+    setPfpChanged(false);
   }
 
   // disable submit button if no changes made since last save
