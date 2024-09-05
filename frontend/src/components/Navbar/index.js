@@ -58,7 +58,7 @@ const Navbar = () => {
   // Open and close create modal
   const [modal, setModal] = useState(false);
 
-  // Get profile picture from localstorage
+  // Get profile picture
   const { pfp, isLoading } = useGetCommunity(user);
 
   return (

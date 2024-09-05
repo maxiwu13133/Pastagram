@@ -44,9 +44,9 @@ const EditProfile = () => {
 
   const handleUpdate = async () => {
     updateProfile({ 
-      email: newEmail,
+      email: newEmail.toLowerCase(),
       fullName: newFullName,
-      username: newUsername,
+      username: newUsername.toLowerCase(),
       bio: newBio,
       pfp: newPfp,
       pfpChanged

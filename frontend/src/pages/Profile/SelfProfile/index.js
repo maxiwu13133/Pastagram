@@ -84,7 +84,7 @@ const SelfProfile = () => {
               <p>POSTS</p>
             </div>
             <div className="s-profile-posts">
-              { posts.length > 0 && <Posts posts={ posts} /> }
+              { posts.length > 0 && <Posts posts={ posts } /> }
               { posts.length === 0 && 
                 <div className="s-profile-empty-posts">
                   <Link className="s-profile-create-icon-container" onClick={ () => setModal(true) }>

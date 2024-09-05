@@ -44,9 +44,24 @@
   align-items: center;
 }
 
+.userprofile-follow {
+  border: none;
+  height: 32px;
+  width: 80px;
+  color: white;
+  font-weight: 600;
+  font-size: 13px;
+  background-color: #0095f6;
+  border-radius: 8px;
+}
+
+.userprofile-follow:hover {
+  cursor: pointer;
+  background-color: #1877f2
+}
+
 .userprofile-name {
   margin-right: 20px;
-  font-size: 22px;
 }
 
 .userprofile-stats {
@@ -79,4 +94,72 @@
 .userprofile-text {
   word-wrap: break-word;
   margin-top: 10px;
+}
+
+/* posts */
+.userprofile-post-container {
+  width: 940px;
+  border-top: solid 1px lightgray;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: calc(100vh - 330px);
+}
+
+.userprofile-post-header {
+  margin-top: 16px;
+  display: flex;
+}
+
+.userprofile-post-header p {
+  font-weight: 500;
+  font-size: 14px;
+  margin-left: 4px;
+}
+
+.userprofile-posts {
+  width: 938px;
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 16px;
+  margin-bottom: 60px;
+}
+
+/* No posts */
+.userprofile-empty-posts {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 310px;
+  align-items: center;
+  justify-content: center;
+}
+
+.userprofile-no-posts-icon {
+  height: 62px;
+  width: 62px;
+}
+
+.userprofile-no-posts {
+  font-weight: 800;
+  margin-top: 20px;
+  font-size: 28px;
+}
+
+/* linkedin */
+.userprofile-full-name {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.userprofile-linkedin {
+  position: relative;
+  bottom: 10px;
+}
+
+.userprofile-linkedin a {
+  font-size: 12px;
+  color: gray;
+  text-decoration: none;
 }

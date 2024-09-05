@@ -46,7 +46,7 @@ const updateUser = async (req, res) => {
       const updateInfo = { email, fullName, username, bio, pfp: image };
       const updatedUser = await User.findOneAndUpdate({ _id: user_id }, updateInfo, { new: true });
       
-      res.status(200).json({ username: updatedUser.username, hello: "hello", pfp: updatedUser.pfp });
+      res.status(200).json({ username: updatedUser.username, pfp: updatedUser.pfp });
       return;
     }
     const updateInfo = { email, fullName, username, bio, pfp: pfp };

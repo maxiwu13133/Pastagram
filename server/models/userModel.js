@@ -27,11 +27,13 @@ const userSchema = new Schema({
   },
   followers: [{
     type: ObjectId,
-    ref: 'User'
+    ref: 'User',
+    default: []
   }],
   following: [{
     type: ObjectId,
-    ref: 'User'
+    ref: 'User',
+    default: []
   }],
   bio: {
     type: String,

@@ -62,6 +62,7 @@ const getCommunity = async (req, res) => {
     const user = await User.findOne({ username });
     
     res.status(200).json({ 
+      _id: user._id,
       email: user.email,
       fullName: user.fullName,
       followers: user.followers,
@@ -80,20 +81,23 @@ const followUser = async (req, res) => {
   const { username, targetUsername } = req.body;
 
   // Update following list of user
-  const user = await User.findOne({ username });
-  const target = await User.findOne({ username: targetUsername });
+  try {
+    const user = await User.findOne({ username });
+    const target = await User.findOne({ username: targetUsername });
+    if (user.following.includes(target._id)) {
+      return res.status(200).json({ error: 'User already followed' });
+    }
+    const updateFollowing = { following: user.following.concat(target._id) };
+    const newUser = await User.findOneAndUpdate({ username }, updateFollowing, { new: true });
+    
+    // Update followers list of target
+    const updateFollowers = { followers: target.followers.concat(user._id) };
+    const newTargetUser = await User.findOneAndUpdate({ username: targetUsername }, updateFollowers);
 
-  if (user.following.includes(target._id)) {
-    return res.status(400).json({ error: 'User already followed' });
+    res.status(200).json({ newUser, newTargetUser });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
-  const updateFollowing = { following: user.following.concat(target._id) };
-  const updatedUser = await User.findOneAndUpdate({ username }, updateFollowing, { new: true });
-  
-  // Update followers list of target
-  const updateFollowers = { followers: target.followers.concat(user._id) };
-  await User.findOneAndUpdate({ username: targetUsername }, updateFollowers);
-
-  res.status(200).json({ updatedUser });
 }
 
 
@@ -102,20 +106,24 @@ const unfollowUser = async (req, res) => {
   const { username, targetUsername } = req.body;
 
   // Update following list of user
-  const user = await User.findOne({ username });
-  const target = await User.findOne({ username: targetUsername });
+  try {
+    const user = await User.findOne({ username });
+    const target = await User.findOne({ username: targetUsername });
 
-  if (!user.following.includes(target._id)) {
-    return res.status(400).json({ error: 'User is already not being followed'});
+    if (!user.following.includes(target._id)) {
+      return res.status(200).json({ error: 'User is already not being followed'});
+    }
+    const updateFollowing = { following: user.following.filter(followingUser => !followingUser.equals(target._id)) };
+    const newUser = await User.findOneAndUpdate({ username }, updateFollowing, { new: true });
+
+    // Update followers list of target
+    const updateFollowers = { followers: target.followers.filter((follower) => !follower.equals(user._id)) };
+    const newTargetUser = await User.findOneAndUpdate({ username: targetUsername }, updateFollowers);
+
+    res.status(200).json({ newUser, newTargetUser });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
-  const updateFollowing = { following: user.following.filter((followingUser) => followingUser != target._id) };
-  const updatedUser = await User.findOneAndUpdate({ username }, updateFollowing, { new: true });
-
-  // Update followers list of target
-  const updateFollowers = { followers: target.followers.filter((follower) => follower != user._id) };
-  await User.findOneAndUpdate({ username: targetUsername }, updateFollowers);
-
-  res.status(200).json({ updatedUser });
 }
 
 module.exports = { loginUser, signupUser, getCommunity, followUser, unfollowUser };
