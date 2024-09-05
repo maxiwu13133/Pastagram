@@ -49,7 +49,7 @@ const Create = ({ handleClick }) => {
 
       setFiles(previousFiles => [
         ...previousFiles,
-        ...acceptedFiles.map(file => Object.assign(file, { preview: URL.createObjectURL(file) }))
+        ...acceptedFiles.map(file => Object.assign(file, { url: URL.createObjectURL(file) }))
       ]);
       setFilesSubmitted(true);
       setDisableDrop(true);
@@ -91,10 +91,7 @@ const Create = ({ handleClick }) => {
     setCaptionStage(false);
     setPostingStage(true);
 
-    const response = await createPost(images, caption);
-    if (response) {
-      console.log("Success:", response);
-    }
+    await createPost(images, caption);
     
     setFiles([]);
     setImages([]);
@@ -181,8 +178,9 @@ const Create = ({ handleClick }) => {
               </button>
             </header>
             <div className="create-preview-caption">
-              <Preview files={ files } />
-
+              <div className="create-preview-container">
+                <Preview files={ files } /> 
+              </div>
               { captionStage && 
                 <div className="create-caption">
                   <div className="create-caption-user">
@@ -254,7 +252,9 @@ const Create = ({ handleClick }) => {
       </div>
       
       <div 
-        className="create-close-container" onClick={ () => discardPopup ? setDiscardPopup(false) : handleClosePost() }>
+        className="create-close-container" 
+        onClick={ () => discardPopup ? setDiscardPopup(false) : handleClosePost() }
+      >
         <CloseButton className="create-close" width={ 25 } height={ 25 } />
       </div>
     </>

@@ -58,6 +58,17 @@ const Navbar = () => {
   // Open and close create modal
   const [modal, setModal] = useState(false);
 
+
+  // Stop scroll when modal open
+  useEffect(() => {
+    if (modal) {
+      document.body.style.overflowY = 'hidden';
+    } else {
+      document.body.style.overflowY = 'scroll';
+    }
+  }, [modal])
+
+  
   // Get profile picture
   const { pfp, isLoading } = useGetCommunity(user);
 

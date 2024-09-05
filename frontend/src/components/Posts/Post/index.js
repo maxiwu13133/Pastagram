@@ -1,15 +1,31 @@
+import { useState, useEffect } from 'react';
 import './index.css';
 
 // assets
 import multipleFiles from '../../../assets/Profile/multiple-files.png';
 import chatBubble from '../../../assets/Profile/chat-bubble.png';
 
+// components
+import PostView from '../../PostView';
+
 const Post = ({ post }) => {
   const { photos, comments } = post;
-  
+  const [viewOpen, setViewOpen] = useState(false);
+
+  useEffect(() => {
+    if (viewOpen) {
+      document.body.style.overflowY = 'hidden';
+    } else {
+      document.body.style.overflowY = 'scroll';
+    }
+  }, [viewOpen])
+
   return ( 
     <div className="post-container">
-      <div className="post-overlay">
+
+      { viewOpen && <PostView post={ post } closeModal={ () => setViewOpen(false) } /> }
+
+      <div className="post-overlay" onClick={ () => setViewOpen(true) }>
         <img src={ chatBubble } alt="" className="post-comments" />
         <p>{ comments.length }</p>
       </div>

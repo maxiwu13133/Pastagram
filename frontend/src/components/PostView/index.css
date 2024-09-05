@@ -1,0 +1,46 @@
+.postview-overlay {
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.65);
+  position: fixed;
+  margin: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+.postview-container {
+  height: 864px;
+  width: 1364px;
+  background-color: white;
+  position: fixed;
+  top: calc(50vh - 432px);
+  left: calc(50vw - 682px);
+  border-radius: 4px;
+  display: flex;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.postview-preview{
+  height: 100%;
+  width: 864px;
+}
+
+/* Close modal */
+.postview-close-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 2;
+}
+
+.postview-close-container svg:hover {
+  cursor: pointer;
+}
+
+.postview-close-container svg:active {
+  fill: #acacac;
+}

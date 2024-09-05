@@ -1,6 +1,7 @@
 .App {
   width: calc(100vw - 17px);
   height: 100vh;
+  overflow: auto;
 }
 
 .pages {

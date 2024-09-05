@@ -12,6 +12,11 @@ const commentSchema = new Schema({
   text: {
     type: String,
     required: true
+  },
+  likes: {
+    type: Number,
+    required: true,
+    default: 0
   }
 }, { timestamps: true });
 

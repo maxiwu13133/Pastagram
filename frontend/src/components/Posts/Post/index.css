@@ -29,6 +29,7 @@
   width: 20px;
   height: 20px;
   opacity: 0;
+  user-select: none;
 }
 
 .post-overlay:hover * {
@@ -41,6 +42,11 @@
   font-weight: 600;
   opacity: 0;
   margin-left: 6px;
+  user-select: none;
+}
+
+.post-overlay:active {
+  background: rgba(128, 128, 128, 0.5);
 }
 
 .post-multiple {
@@ -55,4 +61,8 @@
   max-width: 310px;
   height: 310px;
   user-select: none;
+}
+
+.post-img:active {
+  opacity: 50;
 }

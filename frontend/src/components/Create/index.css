@@ -97,6 +97,11 @@
 }
 
 /* Files view */
+.create-preview-container {
+  width: 680px;
+  height: 675px;
+}
+
 .create-preview-header {
   border-bottom: solid 1px #dbdbdb;
   width: 100%;

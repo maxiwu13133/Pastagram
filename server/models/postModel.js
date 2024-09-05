@@ -17,7 +17,8 @@ const postSchema = new Schema({
   },
   comments: [{
     type: ObjectId, 
-    ref: 'Comment'
+    ref: 'Comment',
+    default: []
   }],
   likes: [{
     type: ObjectId,

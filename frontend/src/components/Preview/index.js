@@ -18,7 +18,7 @@ const Preview = ({ files }) => {
         <img 
           draggable={ false } 
           className="preview-img" 
-          src={ files[previewIndex].preview } 
+          src={ files[previewIndex].url } 
           alt="photos" 
         />
       </div>
