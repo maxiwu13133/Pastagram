@@ -36,7 +36,7 @@ const UserProfile = ({ username }) => {
     setTimeout(() => {
       setNewFollowers(prevFollowers => prevFollowers + 1);
       setIsFollowing(true);
-    }, 2000);
+    }, 1000);
   };
 
   const handleUnfollow = async () => {
@@ -44,7 +44,7 @@ const UserProfile = ({ username }) => {
     setTimeout(() => {
       setNewFollowers(prevFollowers => prevFollowers - 1);
       setIsFollowing(false);
-    }, 2000);
+    }, 1000);
   };
 
   // update page
