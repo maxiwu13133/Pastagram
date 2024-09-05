@@ -27,7 +27,9 @@ export const useFollowUser = () => {
     }
 
     if (response.ok) {
-      console.log(json);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
     }
   }
 

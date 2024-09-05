@@ -1,8 +1,12 @@
+import { useState, useEffect } from 'react';
 import './index.css';
 
 // hooks
 import { useGetCommunity } from '../../../hooks/useGetCommunity';
 import { useGetPosts } from '../../../hooks/useGetPosts';
+import { useAuthContext } from '../../../hooks/useAuthContext';
+import { useFollowUser } from '../../../hooks/useFollowUser';
+import { useUnfollowUser } from '../../../hooks/useUnfollowUser';
 
 // components
 import Grid from '../../../components/Posts/Grid';
@@ -11,9 +15,7 @@ import Posts from '../../../components/Posts';
 // assets
 import cameraIcon from '../../../assets/Profile/camera-icon.png';
 import defaultPfp from '../../../assets/Profile/default-pfp.jpg';
-import { useAuthContext } from '../../../hooks/useAuthContext';
-import { useFollowUser } from '../../../hooks/useFollowUser';
-import { useUnfollowUser } from '../../../hooks/useUnfollowUser';
+import loadSpinner from '../../../assets/EditProfile/load-spinner.svg';
 
 
 const UserProfile = ({ username }) => {
@@ -21,16 +23,35 @@ const UserProfile = ({ username }) => {
   const { id } = useGetCommunity({ username: user.username });
   const { fullName, bio, followers, following, pfp, isLoading } = useGetCommunity({ username });
   const { posts } = useGetPosts({ username });
+  const [newFollowers, setNewFollowers] = useState(0);
+  const [isFollowing, setIsFollowing] = useState(null);
+
+
+  // update following
   const { followUser, error: followError, isLoading: followIsLoading } = useFollowUser();
   const { unfollowUser, error: unfollowError, isLoading: unfollowIsLoading } = useUnfollowUser();
 
   const handleFollow = async () => {
     await followUser({ username: user.username, targetUsername: username });
-  }
+    setTimeout(() => {
+      setNewFollowers(prevFollowers => prevFollowers + 1);
+      setIsFollowing(true);
+    }, 2000);
+  };
 
   const handleUnfollow = async () => {
     await unfollowUser({ username: user.username, targetUsername: username });
-  }
+    setTimeout(() => {
+      setNewFollowers(prevFollowers => prevFollowers - 1);
+      setIsFollowing(false);
+    }, 2000);
+  };
+
+  // update page
+  useEffect(() => {
+    setNewFollowers(followers.length);
+    setIsFollowing(followers.includes(id));
+  }, [followers, id]);
   
   return ( 
     <div className="userprofile-container">
@@ -48,10 +69,18 @@ const UserProfile = ({ username }) => {
 
                 <button 
                   className="userprofile-follow"
-                  onClick={ () => followers.includes(id) ? handleUnfollow() : handleFollow() }
+                  onClick={ () => isFollowing ? handleUnfollow() : handleFollow() }
                 >
-                  { followers.includes(id) ? "Unfollow" : "Follow" }
+                  {
+                    (followIsLoading || unfollowIsLoading) ? 
+                      <img src={ loadSpinner } alt="" className="userprofile-loading"/> : 
+                      isFollowing ? "Unfollow" : "Follow"
+                  }
                 </button>
+
+                <div className="userprofile-error">
+                  { followError || unfollowError }
+                </div>
               </div>
 
               <div className="userprofile-stats">
@@ -60,7 +89,7 @@ const UserProfile = ({ username }) => {
                 </p>
 
                 <p className="userprofile-follower-ct">
-                  <span>{ followers.length }</span> followers
+                  <span>{ newFollowers }</span> followers
                 </p>
 
                 <p className="userprofile-following-ct">

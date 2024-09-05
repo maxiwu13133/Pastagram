@@ -60,6 +60,16 @@
   background-color: #1877f2
 }
 
+.userprofile-error {
+  text-align: center;
+  color: #ed4956;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 30px;
+}
+
 .userprofile-name {
   margin-right: 20px;
 }

@@ -27,7 +27,9 @@ export const useUnfollowUser = () => {
     }
 
     if (response.ok) {
-      console.log(json);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
     }
   }
 
