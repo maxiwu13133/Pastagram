@@ -27,6 +27,7 @@
 .postview-preview{
   height: 100%;
   width: 864px;
+  background-color: black;
 }
 
 .postview-details {

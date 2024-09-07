@@ -4,6 +4,7 @@ import './index.css';
 // components
 import CloseButton from '../Create/CloseButton';
 import Preview from '../Preview';
+import Comments from '../Comments';
 
 // assets
 import defaultPfp from '../../assets/Profile/default-pfp.jpg';
@@ -74,7 +75,7 @@ const PostView = ({ post, closeModal, username, pfp, setPosts }) => {
 
           {/* Comments */}
           <div className="postview-comments">
-
+            <Comments post={ post } />
           </div>
 
           {/* Likes */}
