@@ -58,4 +58,22 @@ const getPosts = async (req, res) => {
   }
 }
 
-module.exports = { createPost, getPosts };
+// delete post
+const deletePost = async (req, res) => {
+  const post = req.body;
+
+  try {
+
+    for (let photo of post.photos) {
+      await cloudinary.uploader.destroy(photo.public_id);
+    };
+
+    const response = await Post.deleteOne({ _id: post._id})
+    
+    res.status(200).json({ result: response });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+module.exports = { createPost, getPosts, deletePost };

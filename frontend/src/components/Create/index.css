@@ -381,7 +381,7 @@
 .create-close-container {
   position: fixed;
   top: 20px;
-  right: 20px;
+  right: 32px;
   z-index: 2;
 }
 

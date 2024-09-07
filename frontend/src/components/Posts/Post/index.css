@@ -58,7 +58,7 @@
 
 .post-img {
   object-fit: cover;
-  max-width: 310px;
+  width: 310px;
   height: 310px;
   user-select: none;
 }

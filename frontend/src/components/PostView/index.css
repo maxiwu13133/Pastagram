@@ -29,11 +29,171 @@
   width: 864px;
 }
 
+.postview-details {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 500px;
+  border-left: 1px solid lightgray;
+}
+
+/* header */
+.postview-header {
+  height: 60px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 14px 4px 14px 16px;
+  border-bottom: 1px solid #ececec;
+}
+
+.postview-header-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.postview-header-name {
+  margin-left: 14px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #545454;
+}
+
+.postview-dots-container {
+  margin-left: auto;
+  margin-right: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.postview-dots {
+  width: 18px;
+  height: 18px;
+}
+
+.postview-dots-container:hover {
+  cursor: pointer;
+  opacity: 50%;
+}
+
+.postview-dots-container:active {
+  opacity: 25%;
+}
+
+/* delete */
+.postview-delete-overlay {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.65);
+  top: 0;
+  right: 0;
+}
+
+.postview-delete-popup {
+  position: fixed;
+  width: 400px;
+  height: 200px;
+  top: calc(50vh - 100px);
+  right: calc(50vw - 200px);
+  background-color: white;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.postview-delete-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 110px;
+}
+
+.postview-delete-text > h2 {
+  font-weight: 500;
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.postview-delete-text > p {
+  font-weight: 300;
+  font-size: 14px;
+}
+
+.postview-delete-confirm {
+  border-top: 1px solid lightgray;
+  width: 100%;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  font-size: 14px;
+  color: #ed4956;
+  user-select: none;
+}
+
+.postview-delete-confirm:hover {
+  cursor: pointer;
+}
+
+.postview-delete-confirm:active {
+  background-color: #dddddd;
+}
+
+.postview-delete-cancel {
+  border-top: 1px solid lightgray;
+  width: 100%;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  font-size: 14px;
+  user-select: none;
+}
+
+.postview-delete-cancel:hover {
+  cursor: pointer;
+}
+
+.postview-delete-cancel:active {
+  background-color: #dddddd;
+}
+
+/* comments */
+.postview-comments {
+  height: 644px;
+  width: 100%;
+  border-bottom: 1px solid #ececec;
+  padding: 16px;
+}
+
+/* likes */
+.postview-likes {
+  height: 72px;
+  width: 100%;
+  border-bottom: 1px solid #ececec;
+}
+
+/* write */
+.postview-write {
+  height: 88px;
+  width: 100%;
+}
+
 /* Close modal */
 .postview-close-container {
   position: fixed;
   top: 20px;
-  right: 20px;
+  right: 32px;
   z-index: 2;
 }
 

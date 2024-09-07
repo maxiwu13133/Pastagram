@@ -8,7 +8,7 @@ import chatBubble from '../../../assets/Profile/chat-bubble.png';
 // components
 import PostView from '../../PostView';
 
-const Post = ({ post }) => {
+const Post = ({ post, username, pfp, setPosts }) => {
   const { photos, comments } = post;
   const [viewOpen, setViewOpen] = useState(false);
 
@@ -23,7 +23,15 @@ const Post = ({ post }) => {
   return ( 
     <div className="post-container">
 
-      { viewOpen && <PostView post={ post } closeModal={ () => setViewOpen(false) } /> }
+      { viewOpen && 
+        <PostView 
+          post={ post }
+          closeModal={ () => setViewOpen(false) }
+          username={ username }
+          pfp={ pfp }
+          setPosts={ setPosts }
+        />
+      }
 
       <div className="post-overlay" onClick={ () => setViewOpen(true) }>
         <img src={ chatBubble } alt="" className="post-comments" />

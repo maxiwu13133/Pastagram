@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './index.css';
 
@@ -22,7 +22,22 @@ import defaultPfp from '../../../assets/Profile/default-pfp.jpg';
 const SelfProfile = () => {
   const { user } = useAuthContext();
   const { fullName, bio, followers, following, pfp, error, isLoading } = useGetCommunity({ username: user.username });
-  const { posts, error: postError,  isLoading: postLoading } = useGetPosts({ username: user.username });
+  const { posts: p, error: postError,  isLoading: postLoading } = useGetPosts({ username: user.username });
+  const [posts, setPosts] = useState([]);
+  const [deletedNotif, setDeletedNotif] = useState(false);
+
+  useEffect(() => {
+    setPosts(p);
+  }, [p]);
+
+  useEffect(() => {
+    if (posts.length !== p.length) {
+      setDeletedNotif(true);
+      setTimeout(() => {
+        setDeletedNotif(false);
+      }, 3000);
+    }
+  }, [posts, p.length]);
 
   // create modal
   const [modal, setModal] = useState(false);
@@ -84,7 +99,9 @@ const SelfProfile = () => {
               <p>POSTS</p>
             </div>
             <div className="s-profile-posts">
-              { posts.length > 0 && <Posts posts={ posts } /> }
+              { posts.length > 0 && 
+                <Posts posts={ posts } username={ user.username } pfp={ pfp.url } setPosts={ setPosts } />
+              }
               { posts.length === 0 && 
                 <div className="s-profile-empty-posts">
                   <Link className="s-profile-create-icon-container" onClick={ () => setModal(true) }>
@@ -106,6 +123,11 @@ const SelfProfile = () => {
                 </div> 
               }
             </div>
+          </div>
+
+          {/* Deleted Notif */}
+          <div className={ `s-profile-deleted-notif ${ deletedNotif ? "s-profile-deleted-notif-show" : "" }` }>
+            Post deleted.
           </div>
 
           {/* Linkedin Resume */}

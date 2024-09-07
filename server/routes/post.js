@@ -9,6 +9,7 @@ router.use(requireAuth);
 const { 
   createPost,
   getPosts,
+  deletePost,
 } = require('../controllers/postController');
 
 // create post
@@ -16,6 +17,9 @@ router.post('/', createPost);
 
 // get posts of user
 router.get('/:username', getPosts);
+
+// delete post
+router.delete('/delete', deletePost);
 
 
 module.exports = router

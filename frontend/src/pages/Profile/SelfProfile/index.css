@@ -183,3 +183,24 @@
 .s-profile-share-create:active {
   opacity: 50%;
 }
+
+/* deleted notif */
+.s-profile-deleted-notif {
+  width: 100vw;
+  height: 40px;
+  position: fixed;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  bottom: -40px;
+  background-color: #1d1d1d;
+  left: 0;
+  z-index: 2;
+  color: white;
+  padding-left: 16px;
+  transition: 0.5s;
+}
+
+.s-profile-deleted-notif-show {
+  bottom: 0;
+}
