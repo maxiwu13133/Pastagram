@@ -52,6 +52,7 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .postview-header-name {
@@ -188,6 +189,50 @@
 .postview-write {
   height: 88px;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px;
+}
+
+.postview-write-text {
+  border: none;
+  outline: none;
+  resize: none;
+  width: 451px;
+  height: 100%;
+  padding: 4px;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.postview-write-post {
+  border: none;
+  color: #0f9bf6;
+  background: none;
+  font-weight: 600;
+  font-size: 14px;
+  width: 36px;
+}
+
+.postview-write-post:hover {
+  cursor: pointer;
+  color: #053a6d;
+}
+
+.postview-write-post:active {
+  opacity: 50%;
+}
+
+.postview-write-post:disabled {
+  opacity: 40%;
+}
+
+.postview-write-post:disabled:hover {
+  opacity: 40%;
+  cursor: default;
+  color: #0f9bf6;
+  background: none;
 }
 
 /* Close modal */

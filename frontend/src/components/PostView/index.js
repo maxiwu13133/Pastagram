@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './index.css';
 
 // components
@@ -12,8 +12,12 @@ import dots from '../../assets/PostView/three-dots.png';
 
 // hooks
 import { useDeletePost } from '../../hooks/useDeletePost';
+import { useAuthContext } from '../../hooks/useAuthContext';
+import { useCreateComment } from '../../hooks/useCreateComment';
+
 
 const PostView = ({ post, closeModal, username, pfp, setPosts }) => {
+  const { user } = useAuthContext();
   const [deletePopup, setDeletePopup] = useState(false);
 
   // delete post
@@ -25,6 +29,18 @@ const PostView = ({ post, closeModal, username, pfp, setPosts }) => {
     setDeletePopup(false);
     closeModal();
   }
+
+  // create comment
+  const { createComment } = useCreateComment();
+  const [comment, setComment] = useState('');
+
+  const handleCreate = async () => {
+    const newComment = await createComment({ post, text: comment });
+    setComment('');
+  }
+
+  // update comments
+  const [comments, setComments] = useState([]);
 
   return ( 
     <div className="postview">
@@ -68,14 +84,16 @@ const PostView = ({ post, closeModal, username, pfp, setPosts }) => {
               </>
             }
 
-            <div className="postview-dots-container" onClick={ () => setDeletePopup(true) }>
-              <img src={ dots } alt="" className="postview-dots" />
-            </div>
+            { user.username === username && 
+              <div className="postview-dots-container" onClick={ () => setDeletePopup(true) }>
+                <img src={ dots } alt="" className="postview-dots" />
+              </div>
+            }
           </div>
 
           {/* Comments */}
           <div className="postview-comments">
-            <Comments post={ post } />
+            <Comments post={ post } username={ username } pfp={ pfp } />
           </div>
 
           {/* Likes */}
@@ -85,7 +103,20 @@ const PostView = ({ post, closeModal, username, pfp, setPosts }) => {
 
           {/* Write */}
           <div className="postview-write">
+            <textarea 
+              placeholder="Add a comment..."
+              className="postview-write-text"
+              onChange={ (e) => setComment(e.target.value) }
+              value={ comment }
+            />
 
+            <button 
+              className="postview-write-post"
+              onClick={ () => handleCreate() }
+              disabled={ comment.length === 0 }
+            >
+              Post
+            </button>
           </div>
         </div>
       </div>

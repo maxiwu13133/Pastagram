@@ -16,10 +16,7 @@ export const useGetCommunity = ({ username }) => {
       setIsLoading(true);
       setError(null);
       const response = await fetch('http://localhost:4000/api/user/community/' + username, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
+        method: 'GET'
       });
       const json = await response.json();
   

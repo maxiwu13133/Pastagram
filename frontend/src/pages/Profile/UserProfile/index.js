@@ -112,7 +112,7 @@ const UserProfile = ({ username }) => {
               <p>POSTS</p>
             </div>
             <div className="userprofile-posts">
-              { posts.length > 0 && <Posts posts={ posts } /> }
+              { posts.length > 0 && <Posts posts={ posts } username={ username } /> }
               { posts.length === 0 && 
                 <div className="userprofile-empty-posts">
                   <img src={ cameraIcon } alt="" className="userprofile-no-posts-icon" />

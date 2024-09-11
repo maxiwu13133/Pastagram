@@ -2,12 +2,12 @@ require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
 const accountRoutes = require('./routes/account');
+const commentRoutes = require('./routes/comment');
 
 // express app
 const app = express();
@@ -25,6 +25,7 @@ app.use((req, res, next) => {
 app.use('/api/user', userRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/account', accountRoutes);
+app.use('/api/comment', commentRoutes);
 
 // connect to db
 mongoose.connect(process.env.MONGO_URI)
