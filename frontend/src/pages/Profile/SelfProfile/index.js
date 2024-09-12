@@ -24,20 +24,29 @@ const SelfProfile = () => {
   const { fullName, bio, followers, following, pfp, error, isLoading } = useGetCommunity({ username: user.username });
   const { posts: p, error: postError,  isLoading: postLoading } = useGetPosts({ username: user.username });
   const [posts, setPosts] = useState([]);
+  const [postsUpdating, setPostsUpdating] = useState(null);
   const [deletedNotif, setDeletedNotif] = useState(false);
 
   useEffect(() => {
-    setPosts(p);
+    if (p.length !== 0 ) {
+      setPostsUpdating(true)
+      setPosts(p);
+      setPostsUpdating(false);
+    }
   }, [p]);
 
   useEffect(() => {
-    if (posts.length !== p.length && posts.length !== 0) {
+    if (posts.length !== p.length && postsUpdating === false) {
       setDeletedNotif(true);
       setTimeout(() => {
         setDeletedNotif(false);
       }, 3000);
     }
-  }, [posts, p.length]);
+
+    if (posts.length !== p.length) {
+
+    }
+  }, [posts, p.length, postsUpdating]);
 
   // create modal
   const [modal, setModal] = useState(false);
