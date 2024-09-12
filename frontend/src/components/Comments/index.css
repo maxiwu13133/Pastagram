@@ -1,15 +1,13 @@
 .comments-container {
   width: 100%;
-  height: 100%;
+  height: 644px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: flex-start;
-  overflow-y: scroll;
-}
-
-.comments-container::-webkit-scrollbar {
-  display: none;
+  scrollbar-width: none;
+  overflow: hidden;
+  overflow-y: auto;
+  padding: 16px;
 }
 
 /* no caption or comments */
