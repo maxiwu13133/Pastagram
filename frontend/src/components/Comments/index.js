@@ -10,6 +10,8 @@ import Comment from './Comment';
 
 const Comments = ({ post, username, pfp }) => {
 
+  const reversedComments = [...post.comments].reverse();
+
   return ( 
     <div className="comments-container">
 
@@ -45,7 +47,7 @@ const Comments = ({ post, username, pfp }) => {
         post.comments.length > 0 && 
         
         <>
-          { post.comments.map((comment, i) => <Comment comment={ comment } key={ i } />) }
+          { reversedComments.map((comment, i) => <Comment comment={ comment } key={ i } />) }
         </>
       }
     </div>

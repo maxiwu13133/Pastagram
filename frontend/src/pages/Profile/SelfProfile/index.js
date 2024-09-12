@@ -31,7 +31,7 @@ const SelfProfile = () => {
   }, [p]);
 
   useEffect(() => {
-    if (posts.length !== p.length) {
+    if (posts.length !== p.length && posts.length !== 0) {
       setDeletedNotif(true);
       setTimeout(() => {
         setDeletedNotif(false);
