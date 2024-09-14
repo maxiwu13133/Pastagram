@@ -8,7 +8,7 @@ import { useAuthContext } from '../../../hooks/useAuthContext';
 // assets
 import defaultPfp from '../../../assets/Profile/default-pfp.jpg';
 
-const Comments = ({ comment }) => {
+const Comment = ({ comment, setIsLoading, last }) => {
   const { user } = useAuthContext();
   const [userId, setUserId] = useState('');
   const [username, setUsername] = useState('');
@@ -19,6 +19,7 @@ const Comments = ({ comment }) => {
 
   useEffect(() => {
     const getComments = async () => {
+      setIsLoading(true);
       const response = await fetch('http://localhost:4000/api/comment/' + comment, {
         method: 'GET',
         headers: {
@@ -55,13 +56,17 @@ const Comments = ({ comment }) => {
       if (response.ok) {
         setUsername(json.username);
         setPfp(json.pfp);
+        
+        if (last) {
+          setIsLoading(false);
+        }
       }
     }
 
     if (userId !== '') {
       getUser(userId);
     }
-  }, [userId])
+  }, [userId, last, setIsLoading])
 
   return ( 
     <div className="comment-container">
@@ -80,4 +85,4 @@ const Comments = ({ comment }) => {
    );
 }
  
-export default Comments;
+export default Comment;

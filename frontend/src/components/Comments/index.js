@@ -1,8 +1,6 @@
+import { useState } from 'react';
 import { formatDistanceToNowStrict } from 'date-fns';
 import './index.css';
-
-// hooks
-import { useGetComments } from '../../hooks/useGetComments';
 
 // components
 import Comment from './Comment';
@@ -11,6 +9,20 @@ import Comment from './Comment';
 const Comments = ({ post, username, pfp }) => {
 
   const reversedComments = [...post.comments].reverse();
+
+  // comments loading
+  const [isLoading, setIsLoading] = useState(null);
+
+  const commentPlaceholder = () => {
+    return <div className="comments-placeholder">
+      <div className="comments-placeholder-pfp" />
+
+      <div className="comments-placeholder-details">
+        <div className="comments-placeholder-top" />
+        <div className="comments-placeholder-bottom" />
+      </div>
+    </div>
+  }
 
   return ( 
     <div className="comments-container">
@@ -42,12 +54,29 @@ const Comments = ({ post, username, pfp }) => {
         </div>
       }
 
+      {/* Comments loading */}
+      {
+        isLoading &&
+        <div className="comments-loading">
+          { [...Array(20)].map(_ => commentPlaceholder()) }
+        </div>
+      }
+
       {/* Comments */}
       {
-        post.comments.length > 0 && 
+        post.comments.length > 0 &&
         
         <>
-          { reversedComments.map((comment, i) => <Comment comment={ comment } key={ i } />) }
+          { 
+            reversedComments.map(
+              (comment, i) => <Comment 
+                comment={ comment }
+                key={ i }
+                setIsLoading={ setIsLoading }
+                last={ i === reversedComments.length - 1 ? true : false }
+              />
+            )
+          }
         </>
       }
     </div>

@@ -1,3 +1,15 @@
+@keyframes popIn {
+  0% { 
+    opacity: 0;
+    width: 440px;
+    height: 220px;
+    top: calc(50vh - 110px);
+    right: calc(50vw - 220px);
+  }
+
+  100% { opacity: 1; width: 400px; height: 200px; }
+}
+
 .postview-overlay {
   width: 100vw;
   height: 100vh;
@@ -107,6 +119,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  animation: popIn 0.2s;
 }
 
 .postview-delete-text {

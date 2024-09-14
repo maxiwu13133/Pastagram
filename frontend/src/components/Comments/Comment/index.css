@@ -19,6 +19,7 @@
   width: 400px;
   min-height: 40px;
   margin-left: 14px;
+  word-break: break-word;
 }
 
 .comment-text {
