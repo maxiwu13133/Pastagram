@@ -8,7 +8,8 @@ router.use(requireAuth);
 // controller functions
 const { 
   getComments,
-  createComment
+  createComment,
+  likeComment
 } = require('../controllers/commentController');
 
 // get comments of post
@@ -16,6 +17,9 @@ router.get('/:id', getComments);
 
 // create comment on post
 router.post('/', createComment);
+
+// like comment
+router.patch('/', likeComment);
 
 
 module.exports = router

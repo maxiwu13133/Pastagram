@@ -5,6 +5,8 @@ import './index.css';
 // components
 import Comment from './Comment';
 
+// assets
+import defaultPfp from '../../assets/Profile/default-pfp.jpg';
 
 const Comments = ({ post, username, pfp }) => {
 
@@ -13,8 +15,8 @@ const Comments = ({ post, username, pfp }) => {
   // comments loading
   const [isLoading, setIsLoading] = useState(null);
 
-  const commentPlaceholder = () => {
-    return <div className="comments-placeholder">
+  const commentPlaceholder = (i) => {
+    return <div className="comments-placeholder" key={ i } >
       <div className="comments-placeholder-pfp" />
 
       <div className="comments-placeholder-details">
@@ -40,7 +42,7 @@ const Comments = ({ post, username, pfp }) => {
       { 
         post.caption && 
         <div className="comments-caption">
-          <img src={ pfp } alt="" className="comments-caption-pfp" />
+          <img src={ pfp ? pfp : defaultPfp } alt="" className="comments-caption-pfp" />
 
           <div className="comments-caption-details">
             <div className="comments-caption-text">
@@ -58,7 +60,7 @@ const Comments = ({ post, username, pfp }) => {
       {
         isLoading &&
         <div className="comments-loading">
-          { [...Array(20)].map(_ => commentPlaceholder()) }
+          { [...Array(20)].map((_, i) => commentPlaceholder(i)) }
         </div>
       }
 

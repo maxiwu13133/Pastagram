@@ -43,3 +43,23 @@
   font-size: 12px;
   color: gray;
 }
+
+.comment-likes {
+  height: 100%;
+  width: 21px;
+}
+
+.comment-likes-icon {
+  height: 11px;
+  width: 12px;
+  margin-top: 11px;
+}
+
+.comment-likes-icon:hover {
+  cursor: pointer;
+  opacity: 50%;
+}
+
+.comment-likes-icon:active {
+  opacity: 30%;
+}
