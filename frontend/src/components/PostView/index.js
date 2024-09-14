@@ -48,6 +48,13 @@ const PostView = ({ post, closeModal, username, pfp, setPosts }) => {
     setComments(response.newComments);
   }
 
+  // post if enter button pressed as well
+  const handlePost = (e) => {
+    if (e.keyCode === 13) {
+      handleCreate();
+    }
+  }
+
   return ( 
     <div className="postview">
       <div className="postview-overlay" onClick={ () => closeModal() } />
@@ -121,6 +128,7 @@ const PostView = ({ post, closeModal, username, pfp, setPosts }) => {
               className="postview-write-text"
               onChange={ (e) => setComment(e.target.value) }
               value={ comment }
+              onKeyDown={ (e) => handlePost(e) }
             />
 
             <button 
