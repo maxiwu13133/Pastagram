@@ -30,17 +30,23 @@ const PostView = ({ post, closeModal, username, pfp, setPosts }) => {
     closeModal();
   }
 
+  // update comments in real time
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    setComments(post.comments);
+  },[post.comments])
+
+
   // create comment
   const { createComment } = useCreateComment();
   const [comment, setComment] = useState('');
 
   const handleCreate = async () => {
-    const newComment = await createComment({ post, text: comment });
+    const response = await createComment({ post, text: comment });
     setComment('');
+    setComments(response.newComments);
   }
-
-  // update comments
-  const [comments, setComments] = useState([]);
 
   return ( 
     <div className="postview">
@@ -93,7 +99,14 @@ const PostView = ({ post, closeModal, username, pfp, setPosts }) => {
 
           {/* Comments */}
           <div className="postview-comments">
-            <Comments post={ post } username={ username } pfp={ pfp } />
+            <Comments 
+              caption={ post.caption }
+              comments={ comments }
+              setComments={ setComments }
+              createdAt={ post.createdAt }
+              username={ username }
+              pfp={ pfp }
+            />
           </div>
 
           {/* Likes */}

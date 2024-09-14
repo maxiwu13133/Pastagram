@@ -8,9 +8,10 @@ import Comment from './Comment';
 // assets
 import defaultPfp from '../../assets/Profile/default-pfp.jpg';
 
-const Comments = ({ post, username, pfp }) => {
+const Comments = ({ caption, comments, createdAt, username, pfp }) => {
 
-  const reversedComments = [...post.comments].reverse();
+  
+  const reversedComments = [...comments].reverse();
 
   // comments loading
   const [isLoading, setIsLoading] = useState(null);
@@ -31,7 +32,7 @@ const Comments = ({ post, username, pfp }) => {
 
       {/* No caption and comments */}
       {
-        post.caption === "" && post.comments.length === 0 && 
+        caption === "" && comments.length === 0 && 
         <div className="comments-empty">
           <h2>No comments yet.</h2>
           <p>Start the conversation.</p>
@@ -40,17 +41,17 @@ const Comments = ({ post, username, pfp }) => {
 
       {/* Caption */}
       { 
-        post.caption && 
+        caption && 
         <div className="comments-caption">
           <img src={ pfp ? pfp : defaultPfp } alt="" className="comments-caption-pfp" />
 
           <div className="comments-caption-details">
             <div className="comments-caption-text">
-              <p><span>{ username } </span>{ post.caption }</p>
+              <p><span>{ username } </span>{ caption }</p>
             </div>
 
             <div className="comments-caption-time">
-              { formatDistanceToNowStrict(new Date(post.createdAt), { addSuffix: true }) }
+              { formatDistanceToNowStrict(new Date(createdAt), { addSuffix: true }) }
             </div>
           </div>
         </div>
@@ -66,7 +67,7 @@ const Comments = ({ post, username, pfp }) => {
 
       {/* Comments */}
       {
-        post.comments.length > 0 &&
+        comments.length > 0 &&
         
         <>
           { 

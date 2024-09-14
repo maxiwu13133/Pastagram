@@ -28,7 +28,7 @@ const createComment = async (req, res) => {
     const updateComments = { comments: post.comments.concat(comment) };
     const newPost = await Post.findOneAndUpdate({ _id:  p._id }, updateComments, { new: true });
     
-    res.status(200).json({ newPost });
+    res.status(200).json({ newComments: newPost.comments });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
