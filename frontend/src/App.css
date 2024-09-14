@@ -10,3 +10,7 @@
   position: absolute;
   height: 100%;
 }
+
+.remove {
+  display: none;
+}

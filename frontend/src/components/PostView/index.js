@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { formatDistanceToNowStrict } from 'date-fns';
 import './index.css';
 
 // components
@@ -9,15 +10,21 @@ import Comments from '../Comments';
 // assets
 import defaultPfp from '../../assets/Profile/default-pfp.jpg';
 import dots from '../../assets/PostView/three-dots.png';
+import chatBubble from '../../assets/PostView/chat-bubble-hollow.png';
+import heartFilled from '../../assets/PostView/heart-filled.png';
+import heartHollow from '../../assets/PostView/heart-hollow.png';
 
 // hooks
 import { useDeletePost } from '../../hooks/useDeletePost';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useCreateComment } from '../../hooks/useCreateComment';
+import { useLikePost } from '../../hooks/useLikePost';
+import { useGetCommunity } from '../../hooks/useGetCommunity';
 
 
 const PostView = ({ post, closeModal, username, pfp, setPosts }) => {
   const { user } = useAuthContext();
+  const { id } = useGetCommunity({ username: user.username });
   const [deletePopup, setDeletePopup] = useState(false);
 
   // delete post
@@ -54,6 +61,24 @@ const PostView = ({ post, closeModal, username, pfp, setPosts }) => {
       handleCreate();
     }
   }
+
+  // focus text area when comment icon clicked
+  const [focusTextarea, setFocusTextarea] = useState(null);
+  const textareaRef = useRef(null);
+
+  useEffect(() => {
+    textareaRef.current.focus();
+  }, [focusTextarea])
+
+  // like post
+  const { likePost } = useLikePost();
+  const [likes, setLikes] = useState(post.likes);
+
+  const handleLike = async () => {
+    const response = await likePost({ post, user });
+    setLikes(response.newPost.likes);
+  }
+
 
   return ( 
     <div className="postview">
@@ -118,7 +143,34 @@ const PostView = ({ post, closeModal, username, pfp, setPosts }) => {
 
           {/* Likes */}
           <div className="postview-likes">
+            <div className="postview-likes-icons">
+              <div className="postview-likes-icon-container">
+                <img 
+                  src={ likes.includes(id) ? heartFilled : heartHollow }
+                  alt=""
+                  className="postview-likes-heart"
+                  onClick={ () => handleLike() }
+                  draggable={ false }
+                />
+              </div>
+              <div className="postview-likes-icon-container">
+                <img 
+                  src={ chatBubble }
+                  alt=""
+                  className="postview-likes-comment"
+                  onClick={ () => focusTextarea ? setFocusTextarea(false) : setFocusTextarea(true) }
+                  draggable={ false }
+                />
+              </div>
+            </div>
 
+            <div className="postview-likes-details">
+
+            </div>
+
+            <div className="postview-likes-time">
+
+            </div>
           </div>
 
           {/* Write */}
@@ -129,6 +181,7 @@ const PostView = ({ post, closeModal, username, pfp, setPosts }) => {
               onChange={ (e) => setComment(e.target.value) }
               value={ comment }
               onKeyDown={ (e) => handlePost(e) }
+              ref={ textareaRef }
             />
 
             <button 

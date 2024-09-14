@@ -76,4 +76,30 @@ const deletePost = async (req, res) => {
   }
 }
 
-module.exports = { createPost, getPosts, deletePost };
+// like and unlike a post
+const likePost = async (req, res) => {
+  const { id, username } = req.body;
+
+  try {
+    const user = await User.findOne({ username });
+    const post = await Post.findOne({ _id: id });
+
+    if (post.likes.includes(user._id)) {
+      const updatedPost = { likes: post.likes.filter(like => !like.equals(user._id)) };
+      const newPost = await Post.findOneAndUpdate({ _id: id }, updatedPost, { new: true });
+
+      return res.status(200).json({ newPost, result: 'unliked' });
+    }
+
+    const updatedPost = { likes: post.likes.concat(user._id) };
+    const newPost = await Post.findOneAndUpdate({ _id: id }, updatedPost, { new: true });
+
+
+    res.status(200).json({ newPost, result: 'liked' });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+
+module.exports = { createPost, getPosts, deletePost, likePost };

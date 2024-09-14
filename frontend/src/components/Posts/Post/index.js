@@ -4,12 +4,13 @@ import './index.css';
 // assets
 import multipleFiles from '../../../assets/Profile/multiple-files.png';
 import chatBubble from '../../../assets/Profile/chat-bubble.png';
+import heartWhite from '../../../assets/Profile/heart-white.png';
 
 // components
 import PostView from '../../PostView';
 
 const Post = ({ post, username, pfp, setPosts }) => {
-  const { photos, comments } = post;
+  const { photos, comments, likes } = post;
   const [viewOpen, setViewOpen] = useState(false);
 
   useEffect(() => {
@@ -34,6 +35,9 @@ const Post = ({ post, username, pfp, setPosts }) => {
       }
 
       <div className="post-overlay" onClick={ () => setViewOpen(true) }>
+        <img src={ heartWhite } alt="" className={ `post-likes ${ likes.length === 0 ? 'remove' : '' }` } />
+        <p className={ `post-likes-length ${ likes.length === 0 ? 'remove' : '' }` }>{ likes.length }</p>
+
         <img src={ chatBubble } alt="" className="post-comments" />
         <p>{ comments.length }</p>
       </div>

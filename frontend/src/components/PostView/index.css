@@ -185,21 +185,55 @@
 
 /* comments */
 .postview-comments {
-  height: 644px;
+  height: 628px;
   width: 100%;
   border-bottom: 1px solid #ececec;
 }
 
 /* likes */
 .postview-likes {
-  height: 72px;
+  height: 104px;
   width: 100%;
   border-bottom: 1px solid #ececec;
+  display: flex;
+  flex-direction: column;
+  padding: 6px 8px;
+}
+
+.postview-likes-icons {
+  display: flex;
+  width: 100%;
+  height: 40px;
+}
+
+.postview-likes-icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 40px;
+  padding: 8px;
+}
+
+.postview-likes-heart, .postview-likes-comment {
+  width: 24px;
+  height: 24px;
+}
+
+.postview-likes-heart:hover, .postview-likes-comment:hover {
+  cursor: pointer;
+  opacity: 50%;
+}
+
+.postview-likes-heart:active, .postview-likes-comment:active {
+  opacity: 30%;
+  width: 22px;
+  height: 22px;
 }
 
 /* write */
 .postview-write {
-  height: 88px;
+  height: 72px;
   width: 100%;
   display: flex;
   justify-content: center;

@@ -25,11 +25,15 @@
   background: rgba(0, 0, 0, 0.3);
 }
 
-.post-comments {
+.post-likes, .post-comments {
   width: 20px;
   height: 20px;
   opacity: 0;
   user-select: none;
+}
+
+.post-likes-length {
+  margin-right: 30px;
 }
 
 .post-overlay:hover * {
