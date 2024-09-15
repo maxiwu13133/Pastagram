@@ -9,7 +9,7 @@ import heartWhite from '../../../assets/Profile/heart-white.png';
 // components
 import PostView from '../../PostView';
 
-const Post = ({ post, username, pfp, setPosts }) => {
+const Post = ({ post, username, pfp, setPosts, posts }) => {
   const { photos, comments, likes } = post;
   const [viewOpen, setViewOpen] = useState(false);
 
@@ -31,6 +31,7 @@ const Post = ({ post, username, pfp, setPosts }) => {
           username={ username }
           pfp={ pfp }
           setPosts={ setPosts }
+          posts={ posts }
         />
       }
 

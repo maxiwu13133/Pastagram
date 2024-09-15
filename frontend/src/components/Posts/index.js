@@ -22,7 +22,7 @@ const Posts = ({ posts, username, pfp, setPosts }) => {
   return (
     <div className="posts-container">
       { postChunks.map((chunk, index) => 
-        <PostsRow key={ index } chunk={ chunk } username={ username } pfp={ pfp } setPosts={ setPosts } />)
+        <PostsRow key={ index } chunk={ chunk } username={ username } pfp={ pfp } setPosts={ setPosts } posts={ posts } />)
       }
     </div>
   )

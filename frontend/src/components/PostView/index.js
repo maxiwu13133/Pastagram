@@ -22,7 +22,7 @@ import { useLikePost } from '../../hooks/useLikePost';
 import { useGetCommunity } from '../../hooks/useGetCommunity';
 
 
-const PostView = ({ post, closeModal, username, pfp, setPosts }) => {
+const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
   const { user } = useAuthContext();
   const { id } = useGetCommunity({ username: user.username });
   const [deletePopup, setDeletePopup] = useState(false);
@@ -52,7 +52,9 @@ const PostView = ({ post, closeModal, username, pfp, setPosts }) => {
   const handleCreate = async () => {
     const response = await createComment({ post, text: comment });
     setComment('');
-    setComments(response.newComments);
+    // setComments(response.newComments);
+    const index = posts.findIndex(obj => obj._id === post._id);
+    posts[index].comments = response.newComments;
   }
 
   // post if enter button pressed as well
@@ -67,16 +69,26 @@ const PostView = ({ post, closeModal, username, pfp, setPosts }) => {
   const textareaRef = useRef(null);
 
   useEffect(() => {
-    textareaRef.current.focus();
+    if (focusTextarea !== null) {
+      textareaRef.current.focus();
+    }
   }, [focusTextarea])
 
   // like post
   const { likePost } = useLikePost();
-  const [likes, setLikes] = useState(post.likes);
+  const [likes, setLikes] = useState([]);
+
+  useEffect(() => {
+    setLikes(post.likes);
+  }, [post.likes])
 
   const handleLike = async () => {
     const response = await likePost({ post, user });
-    setLikes(response.newPost.likes);
+    // setLikes(response.newPost.likes);
+    const index = posts.findIndex(obj => obj._id === post._id);
+    console.log('Before:', posts[index].likes);
+    posts[index].likes = response.newPost.likes;
+    console.log('After:', posts[index].likes);
   }
 
 
@@ -165,7 +177,10 @@ const PostView = ({ post, closeModal, username, pfp, setPosts }) => {
             </div>
 
             <div className="postview-likes-details">
-
+              { 
+                likes.length === 0 ? "Be the first to like this" : 
+                likes.length === 1 ? "1 like" : `${ likes.length } likes`
+              }
             </div>
 
             <div className="postview-likes-time">
