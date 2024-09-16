@@ -8,6 +8,7 @@ import { useGetCommunity } from '../../hooks/useGetCommunity';
 
 // assets
 import logo from '../../assets/Logos/pastagram-logo.png';
+import icon from '../../assets/Logos/pastagram-icon.png';
 import houseFocused from '../../assets/Navbar/ig-home-icon-focused.png';
 import houseUnfocused from '../../assets/Navbar/ig-home-icon-unfocused.png';
 import magnifyFocused from '../../assets/Navbar/ig-search-icon-focused.png';
@@ -26,6 +27,7 @@ import defaultPfp from '../../assets/Profile/default-pfp.jpg';
 
 // components
 import Create from '../Create';
+import Search from '../Search';
 
 
 const Navbar = () => {
@@ -39,7 +41,6 @@ const Navbar = () => {
 
   // User context
   const { user, dispatch } = useAuthContext();
-
   
   // Remove More option drop down when clicked elsewhere
   const handleHighlightMore = (e) => {
@@ -47,13 +48,6 @@ const Navbar = () => {
       setHighlightMore(false);
     };
   };
-
-  useEffect(() => {
-    document.body.addEventListener('click', handleHighlightMore);
-    return () => {
-      document.body.removeEventListener('click', handleHighlightMore);
-    };
-  }, []);
 
   // Open and close create modal
   const [modal, setModal] = useState(false);
@@ -68,59 +62,106 @@ const Navbar = () => {
     }
   }, [modal])
 
+
+  // open and close search modal
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [lastNav, setLastNav] = useState(pathName);
+
+  const handleSearch = () => {
+    if (selectedNav === 'search') {
+      setSelectedNav(lastNav);
+      setSearchOpen(false);
+      return;
+    }
+
+    setLastNav(selectedNav);
+    setSelectedNav('search');
+    setSearchOpen(true);
+  }
+
+  
+  // close more option when body clicked
+  useEffect(() => {
+    document.body.addEventListener('click', handleHighlightMore);
+    return () => {
+      document.body.removeEventListener('click', handleHighlightMore);
+    };
+  }, []);
+
+  // change nav 
+  const changeNav = (nav) => {
+    setSelectedNav(nav);
+    setSearchOpen(false);
+  }
+
   
   // Get profile picture
   const { pfp, isLoading } = useGetCommunity(user);
 
   return (
-    <div className="navbar-container">
+    <div className={ `navbar-container ${ selectedNav === 'search' ? "navbar-collapse" : "" }` }>
 
       { !isLoading && 
         <>
+          {/* Search Modal */}
+          <Search searchOpen={ searchOpen } />
+
           {/* Logo */}
           <div className="navbar-logo-wrapper">
             <Link to="/">
               <div className="navbar-logo">
-                <img draggable={ false } src={ logo } alt="Logo" className="navbar-logo-pic" />
+                <img 
+                  draggable={ false }
+                  src={ icon }
+                  alt=""
+                  className={ `navbar-icon-pic ${selectedNav === "search" ? "" : "navbar-icon-out" }` }
+                />
+                <img 
+                  draggable={ false }
+                  src={ logo }
+                  alt=""
+                  className={ `navbar-logo-pic ${ selectedNav === "search" ? "navbar-logo-out" : "" }` }
+                />
               </div>
             </Link>
           </div>
 
           {/* Home */}
           <div className="navbar-option-wrapper">
-            <Link to="/" onClick={ () => setSelectedNav('') }>
+            <Link to="/" onClick={ () => changeNav('') }>
               <div className={ `navbar-option navbar-home ${ selectedNav === "/" ? "navbar-highlighted" : "" }` }>
                 <img 
                   draggable={ false } 
                   src={ selectedNav === "" ? houseFocused : houseUnfocused } 
                   alt="Home" 
                 />
-                <h2>Home</h2>
+                { !(selectedNav === "search") && <h2>Home</h2> }
               </div>
             </Link>
           </div>
 
           {/* Search */}
           <div className="navbar-option-wrapper">
-            <Link onClick={ () => setSelectedNav('search') }>
+            <Link onClick={ () => handleSearch() }>
               <div className={ `
                 navbar-option
                 navbar-search
-                ${ selectedNav === "search" ? "navbar-highlighted" : "" }
-              ` }>
+                ${ selectedNav === "search" ? "navbar-highlighted-search" : "" }
+              ` }
+              >
                 <img 
                   draggable={ false } 
                   src={ selectedNav === "search" ? magnifyFocused : magnifyUnfocused } 
                   alt="Search" 
                 />
-                <h2>Search</h2>
+                { !(selectedNav === "search") && <h2>Search</h2> }
               </div>
             </Link>
           </div>
 
           {/* Explore */}
           <div className="navbar-option-wrapper">
-            <Link to="/explore/" onClick={ () => setSelectedNav('explore') }>
+            <Link to="/explore/" onClick={ () => changeNav('explore') }>
               <div className={ `
                 navbar-option
                 navbar-explore
@@ -131,14 +172,14 @@ const Navbar = () => {
                   src={ selectedNav === "explore" ? compassFocused : compassUnfocused } 
                   alt="Explore" 
                 />
-                <h2>Explore</h2>
+                { !(selectedNav === "search") && <h2>Explore</h2> }
               </div>
             </Link>
           </div>
 
           {/* Messages */}
           <div className="navbar-option-wrapper">
-            <Link to="/messages/" onClick={ () => setSelectedNav('messages') }>
+            <Link to="/messages/" onClick={ () => changeNav('messages') }>
               <div className={ `
                 navbar-option 
                 navbar-messages 
@@ -149,14 +190,14 @@ const Navbar = () => {
                   src={ selectedNav === "messages" ? messageFocused : messageUnfocused }
                   alt="Messages"
                 />
-                <h2>Messages</h2>
+                { !(selectedNav === "search") && <h2>Messages</h2> }
               </div>
             </Link>
           </div>
 
           {/* Notifications */}
           <div className="navbar-option-wrapper">
-            <Link onClick={ () => setSelectedNav('notifications') }>
+            <Link onClick={ () => changeNav('notifications') }>
               <div className={ `
                 navbar-option 
                 navbar-notifications 
@@ -167,7 +208,7 @@ const Navbar = () => {
                   src={ selectedNav === "notifications" ? heartFocused : heartUnfocused } 
                   alt="Notifications" 
                 />
-                <h2>Notifications</h2>
+                { !(selectedNav === "search") && <h2>Notifications</h2> }
               </div>
             </Link>
           </div>
@@ -181,14 +222,14 @@ const Navbar = () => {
                   src={ create } 
                   alt="Create"
                 />
-                <h2>Create</h2>
+                { !(selectedNav === "search") && <h2>Create</h2> }
               </div>
             </Link>
           </div>
 
           {/* Profile */}
           <div className="navbar-option-wrapper">
-            <Link to={ `/${ user.username }/`} onClick={ () => setSelectedNav(user.username) }>
+            <Link to={ `/${ user.username }/`} onClick={ () => changeNav(user.username) }>
               <div className={ `
                 navbar-option 
                 navbar-profile 
@@ -200,7 +241,7 @@ const Navbar = () => {
                   alt="Profile" 
                   className={ `navbar-pfp ${ selectedNav === user.username ? "navbar-pfp-highlighted" : "" }` }
                 />
-                <h2>Profile</h2>
+                { !(selectedNav === "search") && <h2>Profile</h2> }
               </div>
             </Link>
           </div>
@@ -226,7 +267,7 @@ const Navbar = () => {
                   src={ highlightMore ? moreFocused : moreUnfocused }
                   alt="More"
                 />
-                <h2>More</h2>
+                { !(selectedNav === "search") && <h2>More</h2> }
               </div>
             </Link>
           </div>

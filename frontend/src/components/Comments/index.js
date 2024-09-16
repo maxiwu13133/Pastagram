@@ -18,11 +18,11 @@ const Comments = ({ caption, comments, createdAt, username, pfp }) => {
 
   const commentPlaceholder = (i) => {
     return <div className="comments-placeholder" key={ i } >
-      <div className="comments-placeholder-pfp" />
+      <div className={ `comments-placeholder-pfp comments-placeholder-delay-${ Math.floor(Math.random() * 3) }` } />
 
       <div className="comments-placeholder-details">
-        <div className="comments-placeholder-top" />
-        <div className="comments-placeholder-bottom" />
+        <div className={ `comments-placeholder-top comments-placeholder-delay-${ Math.floor(Math.random() * 3) }` } />
+        <div className={ `comments-placeholder-bot comments-placeholder-delay-${ Math.floor(Math.random() * 3) }` } />
       </div>
     </div>
   }

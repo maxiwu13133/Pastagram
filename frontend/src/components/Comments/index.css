@@ -71,7 +71,6 @@
 }
 
 /* comments loading */
-
 @keyframes gradient {
 	0% {
 		background-position: 0% 50%;
@@ -105,7 +104,7 @@
   background: conic-gradient(at top right, slategray, white);
   background-size: 400% 400%;
   opacity: 24%;
-	animation: gradient 3s ease infinite;
+	animation: gradient 2.5s ease infinite;
 }
 
 .comments-placeholder-details {
@@ -125,10 +124,10 @@
   border-radius: 4px;
   background-size: 400% 400%;
   opacity: 24%;
-	animation: gradient 2s ease infinite;
+	animation: gradient 1.5s ease infinite;
 }
 
-.comments-placeholder-bottom {
+.comments-placeholder-bot {
   width: 100px;
   height: 15px;
   background: conic-gradient(at top right, slategray, white);
@@ -137,3 +136,17 @@
   opacity: 24%;
 	animation: gradient 2s ease infinite;
 }
+
+/* animation delay */
+.comments-placeholder-delay-0 {
+  animation-delay: 0.1s;
+}
+
+.comments-placeholder-delay-1 {
+  animation-delay: 0.2s;
+}
+
+.comments-placeholder-delay-2 {
+  animation-delay: 0.3s;
+}
+
