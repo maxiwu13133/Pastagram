@@ -8,8 +8,9 @@ const getComments = async (req, res) => {
 
   try {
     const comment = await Comment.findOne({ _id: id });
+    const user = await User.findOne({ _id: comment.user_id });
     
-    res.status(200).json({ comment });
+    res.status(200).json({ comment, username: user.username, pfp: user.pfp });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

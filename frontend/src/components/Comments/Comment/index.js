@@ -14,7 +14,6 @@ import heartHollow from '../../../assets/PostView/heart-hollow.png';
 const Comment = ({ comment, setIsLoading, last }) => {
   const { user } = useAuthContext();
   const { id } = useGetCommunity({ username: user.username });
-  const [userId, setUserId] = useState('');
   const [username, setUsername] = useState('');
   const [pfp, setPfp] = useState({});
   const [text, setText] = useState('');
@@ -38,40 +37,17 @@ const Comment = ({ comment, setIsLoading, last }) => {
       }
 
       if (response.ok) {
-        setUserId(json.comment.user_id);
         setText(json.comment.text);
         setLikes(json.comment.likes);
         setCreatedAt(json.comment.createdAt);
+        setUsername(json.username);
+        setPfp(json.pfp);
+        setIsLoading(false);
       }
     }
 
     getComments();
   }, [comment, setIsLoading, user.token]);
-
-  useEffect(() => {
-    const getUser = async (userId) => {
-      const response = await fetch('http://localhost:4000/api/user/' + userId, {
-        method: 'GET'
-      })
-      const json = await response.json();
-
-      if (!response.ok) {
-        console.log('Error:', json.error);
-      }
-      if (response.ok) {
-        setUsername(json.username);
-        setPfp(json.pfp);
-        
-        if (last) {
-          setIsLoading(false);
-        }
-      }
-    }
-
-    if (userId !== '') {
-      getUser(userId);
-    }
-  }, [userId, last, setIsLoading])
 
   // handle like and unliking comment
   const handleLike = async () => {

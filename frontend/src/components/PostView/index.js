@@ -21,7 +21,6 @@ import { useCreateComment } from '../../hooks/useCreateComment';
 import { useLikePost } from '../../hooks/useLikePost';
 import { useGetCommunity } from '../../hooks/useGetCommunity';
 
-
 const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
   const { user } = useAuthContext();
   const { id } = useGetCommunity({ username: user.username });
@@ -86,11 +85,8 @@ const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
     const response = await likePost({ post, user });
     // setLikes(response.newPost.likes);
     const index = posts.findIndex(obj => obj._id === post._id);
-    console.log('Before:', posts[index].likes);
     posts[index].likes = response.newPost.likes;
-    console.log('After:', posts[index].likes);
   }
-
 
   return ( 
     <div className="postview">
@@ -177,14 +173,16 @@ const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
             </div>
 
             <div className="postview-likes-details">
-              { 
-                likes.length === 0 ? "Be the first to like this" : 
-                likes.length === 1 ? "1 like" : `${ likes.length } likes`
-              }
+              <div className="postview-likes-cnt">
+                { 
+                  likes.length === 0 ? "Be the first to like this" : 
+                  likes.length === 1 ? "1 like" : `${ likes.length } likes`
+                }
+              </div>
             </div>
 
             <div className="postview-likes-time">
-
+              { formatDistanceToNowStrict(new Date(post.createdAt), { addSuffix: true }) }
             </div>
           </div>
 
