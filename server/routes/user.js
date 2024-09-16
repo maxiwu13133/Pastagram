@@ -9,7 +9,6 @@ const {
   getCommunity,
   followUser,
   unfollowUser,
-  getUser
 } = require('../controllers/userController');
 
 // login route
@@ -26,9 +25,6 @@ router.patch('/follow', followUser);
 
 // unfollow a user
 router.patch('/unfollow', unfollowUser);
-
-// get username and pfp for comments
-router.get('/:id', getUser);
 
 
 module.exports = router;

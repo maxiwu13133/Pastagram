@@ -126,17 +126,8 @@ const unfollowUser = async (req, res) => {
   }
 }
 
-// get user for comments
-const getUser = async (req, res) => {
-  const id = req.params.id;
-
-  try {
-    const user = await User.findOne({ _id: id });
-
-    res.status(200).json({ username: user.username, pfp: user.pfp });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-}
-
-module.exports = { loginUser, signupUser, getCommunity, followUser, unfollowUser, getUser };
+module.exports = { 
+  loginUser, signupUser, // account
+  getCommunity, // user info
+  followUser, unfollowUser, // user and user interaction
+};

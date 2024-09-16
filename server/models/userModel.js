@@ -42,7 +42,12 @@ const userSchema = new Schema({
   pfp: {
     public_id: String,
     url: String
-  }
+  },
+  searches: [{
+    type: ObjectId,
+    ref: 'User',
+    default: []
+  }]
 });
 
 // static signup method
