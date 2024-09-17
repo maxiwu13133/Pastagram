@@ -9,8 +9,12 @@ router.use(requireAuth);
 const {
   getSearches,
   addSearch,
-  removeSearch
+  removeSearch,
+  getUsers
 } = require('../controllers/searchController');
+
+// get users
+router.get('/', getUsers);
 
 // get searches of a user
 router.get('/:username', getSearches);

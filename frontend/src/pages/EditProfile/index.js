@@ -46,7 +46,7 @@ const EditProfile = () => {
     updateProfile({ 
       email: newEmail.toLowerCase(),
       fullName: newFullName,
-      username: newUsername.toLowerCase(),
+      username: newUsername.toLowerCase().replace(/\s+/g, ''),
       bio: newBio,
       pfp: newPfp,
       pfpChanged

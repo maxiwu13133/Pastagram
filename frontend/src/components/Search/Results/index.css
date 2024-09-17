@@ -1,0 +1,33 @@
+.results-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.results-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.results-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.results-clear {
+  border: none;
+  color: #0f9bf6;
+  font-size: 13px;
+  font-weight: 600;
+  background: none;
+}
+
+.results-clear:hover {
+  cursor: pointer;
+  color: #1f4f7d;
+}
+
+.results-clear:active {
+  opacity: 50%;
+}

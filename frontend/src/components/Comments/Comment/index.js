@@ -11,7 +11,7 @@ import defaultPfp from '../../../assets/Profile/default-pfp.jpg';
 import heartFilled from '../../../assets/PostView/heart-filled.png';
 import heartHollow from '../../../assets/PostView/heart-hollow.png';
 
-const Comment = ({ comment, setIsLoading, last }) => {
+const Comment = ({ comment, setIsLoading }) => {
   const { user } = useAuthContext();
   const { id } = useGetCommunity({ username: user.username });
   const [username, setUsername] = useState('');

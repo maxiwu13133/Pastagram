@@ -46,6 +46,16 @@ const removeSearch = async (req, res) => {
   }
 }
 
+// get all users for search
+const getUsers = async (req, res) => {
+  try {
+    res.status(200).json({ users: [{name: 'Max'}, {name: 'Maxi'}] });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
 module.exports = {
-  getSearches, addSearch, removeSearch
+  getSearches, addSearch, removeSearch,
+  getUsers
 };

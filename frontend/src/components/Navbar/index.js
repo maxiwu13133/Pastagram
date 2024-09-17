@@ -93,7 +93,6 @@ const Navbar = () => {
     setSelectedNav(nav);
     setSearchOpen(false);
   }
-
   
   // Get profile picture
   const { pfp, isLoading } = useGetCommunity(user);
