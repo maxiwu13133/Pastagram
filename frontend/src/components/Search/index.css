@@ -10,7 +10,7 @@
 
 /* search */
 .search-container {
-  width: 396px;
+  width: 397px;
   height: 100vh;
   position: fixed;
   left: 4%;
@@ -107,5 +107,4 @@
   height: calc(100vh - 158px);
   display: flex;
   flex-direction: column;
-  padding: 24px;
 }

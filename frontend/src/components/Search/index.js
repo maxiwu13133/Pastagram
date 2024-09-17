@@ -21,6 +21,8 @@ const Search = ({ searchOpen }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   // search results when search bar has value
+  const [results, setResults] = useState([]);
+
   const searchUsers = async (value) => {
     const processedValue = value.toLowerCase().replace(/\s+/g, '');
     if (processedValue.length !== 0) {
@@ -36,11 +38,10 @@ const Search = ({ searchOpen }) => {
         console.log('Error:', json.error);
       }
       if (response.ok) {
-        const results = json.users.filter(user => user.name.toLowerCase().includes(processedValue));
-        console.log(results);
+        const filteredResults = json.users.filter(user => user.username.toLowerCase().includes(processedValue));
+        setResults(filteredResults);
       }
     }
-    
   }
 
 
@@ -87,9 +88,7 @@ const Search = ({ searchOpen }) => {
       </div>
 
       <div className="search-results-container">
-        <div className="search-results">
-          <Results searchTerm={ searchTerm } />
-        </div>
+        <Results searchTerm={ searchTerm } results={ results } />
       </div>
     </div>
    );
