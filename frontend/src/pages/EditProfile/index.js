@@ -31,6 +31,7 @@ const EditProfile = () => {
   const [oldEmail, setOldEmail] = useState('');
   const [newEmail, setNewEmail] = useState('');
 
+
   // change pfp
   const onDrop = useCallback(acceptedFiles => {
     if (acceptedFiles.length > 0) {
@@ -39,6 +40,7 @@ const EditProfile = () => {
     }
   }, []);
   const { getRootProps } = useDropzoneC({ onDrop });
+
 
   // update profile
   const { updateProfile, error: updateError, isLoading: updateIsLoading } = useUpdate();
@@ -60,6 +62,20 @@ const EditProfile = () => {
     setPfpChanged(false);
   }
 
+  
+  // updated profile notification
+  const [updatedNotif, setUpdatedNotif] = useState(false);
+
+  useEffect(() => {
+    if (updateIsLoading === false) {
+      setUpdatedNotif(true);
+      setTimeout(() => {
+        setUpdatedNotif(false);
+      }, 3000);
+    }
+  }, [updateIsLoading]);
+
+
   // disable submit button if no changes made since last save
   useEffect(() => {
     setOldPfp(pfp);
@@ -77,11 +93,13 @@ const EditProfile = () => {
     setNewEmail(oldEmail);
   }, [oldPfp, oldBio, oldFullName, oldUsername, oldEmail])
 
+
   // close search bar when moving to sub page
   const { dispatch } = useSearchContext();
   useEffect(() => {
     dispatch({ type: 'CLOSE_MODAL' });
   }, [dispatch]);
+
 
   return ( 
     <div className="edit-container">
@@ -185,6 +203,11 @@ const EditProfile = () => {
             >
               { updateIsLoading ? <img src={ loadSpinner } alt="" className="edit-submit-load" /> : "Submit"}
             </button>
+          </div>
+          
+          {/* Profile Updated Notif */}
+          <div className={ `edit-updated-notif ${ updatedNotif ? "edit-updated-notif-show" : "" }` }>
+            Profile saved.
           </div>
         </>
       }
