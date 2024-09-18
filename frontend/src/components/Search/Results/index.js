@@ -4,7 +4,7 @@ import './index.css';
 // hooks
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { useSearchContext } from '../../../hooks/useSearchContext';
-// import { useUpdateSearches } from '../../../hooks/useUpdateSearches';
+import { useUpdateSearches } from '../../../hooks/useUpdateSearches';
 
 // assets
 import defaultPfp from '../../../assets/Profile/default-pfp.jpg';
@@ -13,7 +13,7 @@ import closeButton from '../../../assets/Search/close-button-gray.png';
 const Results = ({ searchTerm, setSearchTerm, results }) => {
   const { user } = useAuthContext();
   const { recentSearches, dispatch } = useSearchContext();
-  // const { addSearch, removeSearch } = useUpdateSearches();
+  const { addSearch, removeSearch, clearSearch } = useUpdateSearches();
 
   // add search to recents
   const handleClick = ({ e, result, remove }) => {
@@ -24,6 +24,7 @@ const Results = ({ searchTerm, setSearchTerm, results }) => {
         type: 'REMOVE_SEARCH',
         payload: { _id: result._id }
       });
+      removeSearch({ username: user.username, search: result._id });
     }
 
     if (!remove) {
@@ -32,7 +33,14 @@ const Results = ({ searchTerm, setSearchTerm, results }) => {
         type: 'ADD_SEARCH',
         payload: { _id: result._id, username: result.username, pfp: result.pfp, fullName: result.fullName }
       });
+      addSearch({ username: user.username, search: result._id });
     }
+  }
+
+  // clear search history
+  const handleClear = () => {
+    dispatch({ type: 'CLEAR_SEARCH' });
+    clearSearch({ username: user.username });
   }
 
   // format results
@@ -78,7 +86,7 @@ const Results = ({ searchTerm, setSearchTerm, results }) => {
           recentSearches && 
           recentSearches.length !== 0 &&
           searchTerm.replace(/\s+/g, '').length === 0 && 
-          <button className="results-clear" onClick={ () => dispatch({ type: 'CLEAR_SEARCH' }) }>
+          <button className="results-clear" onClick={ () => handleClear() }>
             Clear all
           </button>
         }

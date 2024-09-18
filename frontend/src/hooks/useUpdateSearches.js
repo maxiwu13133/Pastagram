@@ -15,7 +15,7 @@ export const useUpdateSearches = () => {
 
     const data = { username, search };
 
-    const response = await fetch('http://localhost:4000/api/search/', {
+    const response = await fetch('http://localhost:4000/api/search/add', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ export const useUpdateSearches = () => {
 
     const data = { username, search };
 
-    const response = await fetch('http://localhost:4000/api/search/', { 
+    const response = await fetch('http://localhost:4000/api/search/remove', { 
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -61,5 +61,32 @@ export const useUpdateSearches = () => {
     }
   }
 
-  return { addSearch, removeSearch, error, isLoading };
+  const clearSearch = async ({ username }) => {
+    setIsLoading(true);
+    setError(null);
+
+    const data = { username };
+    
+    const response = await fetch('http://localhost:4000/api/search/clear', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${ user.token }`
+      },
+      body: JSON.stringify(data)
+    })
+    const json = await response.json();
+    
+    if (!response.ok) {
+      setError(json.error);
+      setIsLoading(false);
+    }
+    if (response.ok) {
+      setIsLoading(false);
+      return json;
+    }
+    
+  }
+
+  return { addSearch, removeSearch, clearSearch, error, isLoading };
 }

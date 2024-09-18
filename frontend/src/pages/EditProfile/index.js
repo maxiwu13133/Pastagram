@@ -6,6 +6,7 @@ import { useDropzoneC } from '../../hooks/useDropzoneC.js';
 import { useGetCommunity } from '../../hooks/useGetCommunity.js';
 import { useAuthContext } from '../../hooks/useAuthContext.js';
 import { useUpdate } from '../../hooks/useUpdate.js';
+import { useSearchContext } from '../../hooks/useSearchContext.js';
 
 // pages
 import Loading from '../Loading';
@@ -76,6 +77,11 @@ const EditProfile = () => {
     setNewEmail(oldEmail);
   }, [oldPfp, oldBio, oldFullName, oldUsername, oldEmail])
 
+  // close search bar when moving to sub page
+  const { dispatch } = useSearchContext();
+  useEffect(() => {
+    dispatch({ type: 'CLOSE_MODAL' });
+  }, [dispatch]);
 
   return ( 
     <div className="edit-container">

@@ -119,6 +119,12 @@
   cursor: pointer;
 }
 
+.results-close-icon:active {
+  opacity: 50%;
+  width: 14px;
+  height: 14px;
+}
+
 /* not searching and no recent searches */
 .results-empty {
   width: 100%;

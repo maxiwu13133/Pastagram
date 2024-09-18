@@ -8,7 +8,7 @@ export const SearchContext = createContext();
 export const searchReducer = (state, action) => {
   switch (action.type) {
     case 'SET_SEARCHES':
-      return { recentSearches: action.payload, openModal: state.openModal };
+      return { recentSearches: action.payload, openModal: false };
     case 'ADD_SEARCH':
       const filteredSearches = state.recentSearches.filter(search => search._id !== action.payload._id);
       return { recentSearches: [action.payload, ...filteredSearches], openModal: false };
@@ -46,6 +46,7 @@ export const SearchContextProvider = ({ children }) => {
       const json = await response.json();
       if (response.ok) {
         dispatch({ type: 'SET_SEARCHES', payload: json.searches });
+        console.log(json.searches);
       }
     }
 

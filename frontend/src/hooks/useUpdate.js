@@ -92,7 +92,7 @@ export const useUpdate = () => {
         dispatch({ type: 'LOGIN', payload: newAuth });
         setTimeout(() => {
           setIsLoading(false);
-        }, 2000);
+        }, 1000);
         return json;
       }
     }
