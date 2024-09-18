@@ -102,7 +102,7 @@ const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
         {/* Details */}
         <div className="postview-details">
           <div className="postview-header">
-            <img src={ pfp ? pfp : defaultPfp } alt="" className="postview-header-icon" />
+            <img src={ pfp?.url ? pfp.url : defaultPfp } alt="" className="postview-header-icon" />
 
             <div className="postview-header-name">
               { username }

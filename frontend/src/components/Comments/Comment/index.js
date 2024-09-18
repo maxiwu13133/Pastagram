@@ -72,6 +72,30 @@ const Comment = ({ comment, setIsLoading }) => {
     }
   }
 
+  // format time display
+  const formatTime = (createdAt) => {
+    const date = new Date(createdAt);
+    const secondsSinceCreated = new Date().getTime() - date.getTime();
+
+    if (secondsSinceCreated / (1000 * 3600 * 24) > 7) {
+      return Math.floor(secondsSinceCreated / (1000 * 3600 * 24) / 7) + 'w';
+    }
+
+    const formattedTime = formatDistanceToNowStrict(date, { addSuffix: true });
+    const shortenedTime = formattedTime
+    .replace('seconds', 's')
+    .replace('second', 's')
+    .replace('minutes', 'm')
+    .replace('minute', 'm')
+    .replace('hours', 'h')
+    .replace('hour', 'h')
+    .replace('day', 'd')
+    .replace('days', 'd')
+    .replace('ago', '')
+    .replace(/\s+/g, '');
+    return shortenedTime;
+  }
+
   return ( 
     <div className="comment-container">
       <img src={ pfp.url ? pfp.url : defaultPfp } alt="" className="comment-pfp" draggable={ false } />
@@ -82,7 +106,13 @@ const Comment = ({ comment, setIsLoading }) => {
         </div>
 
         <div className="comment-options">
-          { formatDistanceToNowStrict(new Date(createdAt), { addSuffix: true }) }
+          <p>{ formatTime(createdAt) }</p>
+          <p className="comment-options-likes">
+            { 
+              likes.length === 0 ? "" :
+              likes.length === 1 ? "1 like" : `${ likes.length } likes`
+            }
+          </p>
         </div>
       </div>
 

@@ -10,8 +10,8 @@ import defaultPfp from '../../assets/Profile/default-pfp.jpg';
 
 const Comments = ({ caption, comments, createdAt, username, pfp }) => {
 
-  
   const reversedComments = [...comments].reverse();
+
 
   // comments loading
   const [isLoading, setIsLoading] = useState(null);
@@ -26,6 +26,32 @@ const Comments = ({ caption, comments, createdAt, username, pfp }) => {
       </div>
     </div>
   }
+
+
+  // format time display
+  const formatTime = (createdAt) => {
+    const date = new Date(createdAt);
+    const secondsSinceCreated = new Date().getTime() - date.getTime();
+
+    if (secondsSinceCreated / (1000 * 3600 * 24) > 7) {
+      return Math.floor(secondsSinceCreated / (1000 * 3600 * 24) / 7) + 'w';
+    }
+
+    const formattedTime = formatDistanceToNowStrict(date, { addSuffix: true });
+    const shortenedTime = formattedTime
+    .replace('seconds', 's')
+    .replace('second', 's')
+    .replace('minutes', 'm')
+    .replace('minute', 'm')
+    .replace('hours', 'h')
+    .replace('hour', 'h')
+    .replace('day', 'd')
+    .replace('days', 'd')
+    .replace('ago', '')
+    .replace(/\s+/g, '');
+    return shortenedTime;
+  }
+
 
   return ( 
     <div className="comments-container">
@@ -43,7 +69,7 @@ const Comments = ({ caption, comments, createdAt, username, pfp }) => {
       { 
         caption && 
         <div className="comments-caption">
-          <img src={ pfp ? pfp : defaultPfp } alt="" className="comments-caption-pfp" />
+          <img src={ pfp?.url ? pfp.url : defaultPfp } alt="" className="comments-caption-pfp" />
 
           <div className="comments-caption-details">
             <div className="comments-caption-text">
@@ -51,7 +77,7 @@ const Comments = ({ caption, comments, createdAt, username, pfp }) => {
             </div>
 
             <div className="comments-caption-time">
-              { formatDistanceToNowStrict(new Date(createdAt), { addSuffix: true }) }
+              { formatTime(createdAt) }
             </div>
           </div>
         </div>
