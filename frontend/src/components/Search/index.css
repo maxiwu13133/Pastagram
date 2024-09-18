@@ -24,8 +24,7 @@
 }
 
 .search-container-show {
-  transition: 0.3s;
-  animation: easeIn 0.3s;
+  animation: easeIn 0.8s;
 }
 
 .search-container-hide {

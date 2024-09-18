@@ -4,6 +4,7 @@ import './index.css';
 
 // Hooks
 import { useAuthContext } from '../../hooks/useAuthContext';
+import { useSearchContext } from '../../hooks/useSearchContext';
 import { useGetCommunity } from '../../hooks/useGetCommunity';
 
 // assets
@@ -52,7 +53,6 @@ const Navbar = () => {
   // Open and close create modal
   const [modal, setModal] = useState(false);
 
-
   // Stop scroll when modal open
   useEffect(() => {
     if (modal) {
@@ -64,19 +64,19 @@ const Navbar = () => {
 
 
   // open and close search modal
-  const [searchOpen, setSearchOpen] = useState(false);
+  const { openModal, dispatch: searchDispatch } = useSearchContext();
   const [lastNav, setLastNav] = useState(pathName);
 
   const handleSearch = () => {
     if (selectedNav === 'search') {
       setSelectedNav(lastNav);
-      setSearchOpen(false);
+      searchDispatch({ type: 'CLOSE_MODAL'});
       return;
     }
 
     setLastNav(selectedNav);
     setSelectedNav('search');
-    setSearchOpen(true);
+    searchDispatch({ type: 'OPEN_MODAL'});
   }
 
   
@@ -91,19 +91,19 @@ const Navbar = () => {
   // change nav 
   const changeNav = (nav) => {
     setSelectedNav(nav);
-    setSearchOpen(false);
+    searchDispatch({ type: 'CLOSE_MODAL'});
   }
   
   // Get profile picture
   const { pfp, isLoading } = useGetCommunity(user);
 
   return (
-    <div className={ `navbar-container ${ selectedNav === 'search' ? "navbar-collapse" : "" }` }>
+    <div className={ `navbar-container ${ openModal ? "navbar-collapse" : "" }` }>
 
       { !isLoading && 
         <>
           {/* Search Modal */}
-          <Search searchOpen={ searchOpen } />
+          <Search />
 
           {/* Logo */}
           <div className="navbar-logo-wrapper">
@@ -113,13 +113,13 @@ const Navbar = () => {
                   draggable={ false }
                   src={ icon }
                   alt=""
-                  className={ `navbar-icon-pic ${selectedNav === "search" ? "" : "navbar-icon-out" }` }
+                  className={ `navbar-icon-pic ${ openModal ? "" : "navbar-icon-out" }` }
                 />
                 <img 
                   draggable={ false }
                   src={ logo }
                   alt=""
-                  className={ `navbar-logo-pic ${ selectedNav === "search" ? "navbar-logo-out" : "" }` }
+                  className={ `navbar-logo-pic ${ openModal ? "navbar-logo-out" : "" }` }
                 />
               </div>
             </Link>
@@ -134,7 +134,7 @@ const Navbar = () => {
                   src={ selectedNav === "" ? houseFocused : houseUnfocused } 
                   alt="Home" 
                 />
-                { !(selectedNav === "search") && <h2>Home</h2> }
+                { !openModal && <h2>Home</h2> }
               </div>
             </Link>
           </div>
@@ -145,15 +145,15 @@ const Navbar = () => {
               <div className={ `
                 navbar-option
                 navbar-search
-                ${ selectedNav === "search" ? "navbar-highlighted-search" : "" }
+                ${ openModal ? "navbar-highlighted-search" : "" }
               ` }
               >
                 <img 
                   draggable={ false } 
-                  src={ selectedNav === "search" ? magnifyFocused : magnifyUnfocused } 
+                  src={ openModal ? magnifyFocused : magnifyUnfocused } 
                   alt="Search" 
                 />
-                { !(selectedNav === "search") && <h2>Search</h2> }
+                { !openModal && <h2>Search</h2> }
               </div>
             </Link>
           </div>
@@ -171,7 +171,7 @@ const Navbar = () => {
                   src={ selectedNav === "explore" ? compassFocused : compassUnfocused } 
                   alt="Explore" 
                 />
-                { !(selectedNav === "search") && <h2>Explore</h2> }
+                { !openModal && <h2>Explore</h2> }
               </div>
             </Link>
           </div>
@@ -189,7 +189,7 @@ const Navbar = () => {
                   src={ selectedNav === "messages" ? messageFocused : messageUnfocused }
                   alt="Messages"
                 />
-                { !(selectedNav === "search") && <h2>Messages</h2> }
+                { !openModal && <h2>Messages</h2> }
               </div>
             </Link>
           </div>
@@ -207,7 +207,7 @@ const Navbar = () => {
                   src={ selectedNav === "notifications" ? heartFocused : heartUnfocused } 
                   alt="Notifications" 
                 />
-                { !(selectedNav === "search") && <h2>Notifications</h2> }
+                { !openModal && <h2>Notifications</h2> }
               </div>
             </Link>
           </div>
@@ -221,7 +221,7 @@ const Navbar = () => {
                   src={ create } 
                   alt="Create"
                 />
-                { !(selectedNav === "search") && <h2>Create</h2> }
+                { !openModal && <h2>Create</h2> }
               </div>
             </Link>
           </div>
@@ -240,7 +240,7 @@ const Navbar = () => {
                   alt="Profile" 
                   className={ `navbar-pfp ${ selectedNav === user.username ? "navbar-pfp-highlighted" : "" }` }
                 />
-                { !(selectedNav === "search") && <h2>Profile</h2> }
+                { !openModal && <h2>Profile</h2> }
               </div>
             </Link>
           </div>
@@ -266,7 +266,7 @@ const Navbar = () => {
                   src={ highlightMore ? moreFocused : moreUnfocused }
                   alt="More"
                 />
-                { !(selectedNav === "search") && <h2>More</h2> }
+                { !openModal && <h2>More</h2> }
               </div>
             </Link>
           </div>

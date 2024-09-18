@@ -10,9 +10,11 @@ import Results from './Results';
 
 // hooks
 import { useAuthContext } from '../../hooks/useAuthContext';
+import { useSearchContext } from '../../hooks/useSearchContext';
 
-const Search = ({ searchOpen }) => {
+const Search = () => {
   const { user } = useAuthContext();
+  const { openModal, dispatch } = useSearchContext();
 
   // change search bar styling when focused
   const [inputFocus, setInputFocus] = useState(false);
@@ -44,14 +46,13 @@ const Search = ({ searchOpen }) => {
     }
   }
 
-
   const handleChange = (value) => {
     setSearchTerm(value);
     searchUsers(value);
   }
 
   return ( 
-    <div className={ `search-container ${ searchOpen ? "search-container-show" : "search-container-hide"}` } >
+    <div className={ `search-container ${ openModal ? "search-container-show" : "search-container-hide"}` } >
       <div className="search-header">
         <div className="search-title">
           Search
@@ -88,7 +89,7 @@ const Search = ({ searchOpen }) => {
       </div>
 
       <div className="search-results-container">
-        <Results searchTerm={ searchTerm } results={ results } />
+        <Results searchTerm={ searchTerm } setSearchTerm={ setSearchTerm } results={ results } />
       </div>
     </div>
    );

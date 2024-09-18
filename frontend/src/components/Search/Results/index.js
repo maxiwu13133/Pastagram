@@ -1,32 +1,45 @@
-import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './index.css';
 
 // hooks
 import { useAuthContext } from '../../../hooks/useAuthContext';
-import { useGetSearches } from '../../../hooks/useGetSearches';
+import { useSearchContext } from '../../../hooks/useSearchContext';
 // import { useUpdateSearches } from '../../../hooks/useUpdateSearches';
 
 // assets
 import defaultPfp from '../../../assets/Profile/default-pfp.jpg';
+import closeButton from '../../../assets/Search/close-button-gray.png';
 
-const Results = ({ searchTerm, results }) => {
+const Results = ({ searchTerm, setSearchTerm, results }) => {
   const { user } = useAuthContext();
-  const { searches: s } = useGetSearches({ username: user.username });
+  const { recentSearches, dispatch } = useSearchContext();
   // const { addSearch, removeSearch } = useUpdateSearches();
 
-  // get searches
-  const [searches, setSearches] = useState([]);
+  // add search to recents
+  const handleClick = ({ e, result, remove }) => {
+    if(e && e.stopPropagation) e.stopPropagation();
 
-  useEffect(() => {
-    setSearches(s);
-  }, [s])
+    if (remove) {
+      dispatch({
+        type: 'REMOVE_SEARCH',
+        payload: { _id: result._id }
+      });
+    }
+
+    if (!remove) {
+      setSearchTerm('');
+      dispatch({
+        type: 'ADD_SEARCH',
+        payload: { _id: result._id, username: result.username, pfp: result.pfp, fullName: result.fullName }
+      });
+    }
+  }
 
   // format results
-  const formatUser = (result, i) => {
+  const formatUser = ({ result, i, close }) => {
     return (
-      <Link to={ `/${ result.username }` }>
-        <div className="results-user" key={ i } >
+      <div className="results-user-container" key={ i } onClick={ () => handleClick({ result, remove: false }) }>
+        <Link to={ `/${ result.username }` } className="results-user">
           <img src={ result.pfp ? result.pfp.url : defaultPfp } alt="" className="results-pfp" draggable={ false } />
     
           <div className="results-details">
@@ -38,8 +51,15 @@ const Results = ({ searchTerm, results }) => {
               { result.fullName }
             </div>
           </div>
-        </div>
-      </Link>
+        </Link>
+      
+        {
+          close && 
+          <div className="results-close-container" onClick={ (e) => handleClick({ e, result, remove: true }) }>
+            <img src={ closeButton } alt="" className="results-close-icon" />
+          </div>
+        }
+      </div>
     )
   }
 
@@ -55,9 +75,10 @@ const Results = ({ searchTerm, results }) => {
 
         {/* Clear all button */}
         { 
-          searches.length !== 0 &&
-          searchTerm.replace(/\s+/g, '').length !== 0 && 
-          <button className="results-clear">
+          recentSearches && 
+          recentSearches.length !== 0 &&
+          searchTerm.replace(/\s+/g, '').length === 0 && 
+          <button className="results-clear" onClick={ () => dispatch({ type: 'CLEAR_SEARCH' }) }>
             Clear all
           </button>
         }
@@ -67,7 +88,8 @@ const Results = ({ searchTerm, results }) => {
 
         {/* No recent searches */}
         { 
-          searches.length === 0 && 
+          recentSearches && 
+          recentSearches.length === 0 && 
           searchTerm.replace(/\s+/g, '').length === 0 &&
           <div className="results-empty">
             No recent searches.
@@ -77,15 +99,16 @@ const Results = ({ searchTerm, results }) => {
         
         {/* Recent searches */}
         {
-          <div className="results-recent">
-
-          </div>
+          recentSearches && 
+          recentSearches.length !== 0 &&
+          searchTerm.replace(/\s+/g, '').length === 0 &&
+          recentSearches.map((result, i) => formatUser({ result, i, close: true }))
         }
 
         {/* Search results */}
         {
           searchTerm.replace(/\s+/g, '').length !== 0 &&
-          results.map((result, i) => formatUser(result, i))
+          results.map((result, i) => formatUser({ result, i }))
         }
 
       </div>

@@ -26,19 +26,19 @@ export const AuthContextProvider = ({ children }) => {
     // slight load in time to make app feel like it's doing something
     setTimeout(() => {
       
-    const user = JSON.parse(localStorage.getItem('user'));
+      const user = JSON.parse(localStorage.getItem('user'));
 
-    // Logs out and removes token from local storage if expired
-    if (user) {
-      if (isExpired(user.token)) {
-        localStorage.removeItem('user');
-        dispatch({ type: 'LOGOUT', payload: null });
+      // Logs out and removes token from local storage if expired
+      if (user) {
+        if (isExpired(user.token)) {
+          localStorage.removeItem('user');
+          dispatch({ type: 'LOGOUT', payload: null });
+        } else {
+          dispatch({ type: 'LOGIN', payload: user });
+        };
       } else {
-        dispatch({ type: 'LOGIN', payload: user });
+        dispatch({ type: 'LOGOUT', payload: null });
       };
-    } else {
-      dispatch({ type: 'LOGOUT', payload: null });
-    };
     }, 200);
 
   }, []);
