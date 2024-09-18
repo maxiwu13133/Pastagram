@@ -17,7 +17,7 @@ const Results = ({ searchTerm, setSearchTerm, results }) => {
 
   // add search to recents
   const handleClick = ({ e, result, remove }) => {
-    if(e && e.stopPropagation) e.stopPropagation();
+    if(e?.stopPropagation) e.stopPropagation();
 
     if (remove) {
       dispatch({

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useDebounce } from 'use-debounce';
 import './index.css';
 
 // assets
@@ -14,42 +15,46 @@ import { useSearchContext } from '../../hooks/useSearchContext';
 
 const Search = () => {
   const { user } = useAuthContext();
-  const { openModal, dispatch } = useSearchContext();
+  const { openModal } = useSearchContext();
 
   // change search bar styling when focused
   const [inputFocus, setInputFocus] = useState(false);
 
   // get search input value
   const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedSearch] = useDebounce(searchTerm, 300);
 
   // search results when search bar has value
   const [results, setResults] = useState([]);
 
-  const searchUsers = async (value) => {
-    const processedValue = value.toLowerCase().replace(/\s+/g, '');
-    if (processedValue.length !== 0) {
-      const response = await fetch('http://localhost:4000/api/search/', {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${ user.token }`
+
+  // debounce search for optimization
+  useEffect(() => {
+    if (debouncedSearch) {
+      const searchUsers = async (value) => {
+        const processedValue = value.toLowerCase().replace(/\s+/g, '');
+        if (processedValue.length !== 0) {
+          const response = await fetch('http://localhost:4000/api/search/', {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${ user.token }`
+            }
+          })
+          const json = await response.json();
+
+          if (!response.ok) {
+            console.log('Error:', json.error);
+          }
+          if (response.ok) {
+            const filteredResults = json.users.filter(user => user.username.toLowerCase().includes(processedValue));
+            setResults(filteredResults);
+          }
         }
-      })
-      const json = await response.json();
-
-      if (!response.ok) {
-        console.log('Error:', json.error);
       }
-      if (response.ok) {
-        const filteredResults = json.users.filter(user => user.username.toLowerCase().includes(processedValue));
-        setResults(filteredResults);
-      }
+      searchUsers(debouncedSearch);
     }
-  }
+  }, [debouncedSearch, user.token]);
 
-  const handleChange = (value) => {
-    setSearchTerm(value);
-    searchUsers(value);
-  }
 
   return ( 
     <div className={ `search-container ${ openModal ? "search-container-show" : "search-container-hide"}` } >
@@ -70,7 +75,7 @@ const Search = () => {
             placeholder="Search"
             onFocus={ () => setInputFocus(true) }
             onBlur={ () => setInputFocus(false) }
-            onChange={ (e) => handleChange(e.target.value) }
+            onChange={ (e) => setSearchTerm(e.target.value) }
             value={ searchTerm }
           />
 

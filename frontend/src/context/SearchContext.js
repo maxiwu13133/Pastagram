@@ -46,7 +46,6 @@ export const SearchContextProvider = ({ children }) => {
       const json = await response.json();
       if (response.ok) {
         dispatch({ type: 'SET_SEARCHES', payload: json.searches });
-        console.log(json.searches);
       }
     }
 
