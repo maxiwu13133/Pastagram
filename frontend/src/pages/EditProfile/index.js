@@ -96,7 +96,7 @@ const EditProfile = () => {
           </div>
 
           <div className="edit-pfp-container">
-            <img { ...getRootProps({ className: "edit-pfp-img", src: newPfp.url ? newPfp.url : defaultPfp }) } alt="" />
+            <img { ...getRootProps({ className: "edit-pfp-img", src: newPfp?.url ? newPfp.url : defaultPfp }) } alt="" />
 
             <p>{ newUsername }</p>
 

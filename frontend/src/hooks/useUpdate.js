@@ -1,8 +1,12 @@
 import { useState } from 'react';
+
+// hooks
 import { useAuthContext } from './useAuthContext';
+import { usePfpContext } from './usePfpContext.js';
 
 export const useUpdate = () => {
   const { user, dispatch } = useAuthContext();
+  const { dispatch: pfpDispatch } = usePfpContext();
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
 
@@ -58,6 +62,7 @@ export const useUpdate = () => {
           setTimeout(() => {
             setIsLoading(false);
           }, 2000);
+          pfpDispatch({ type: 'SET_PFP', payload: json.pfp });
           return json;
         }
       }

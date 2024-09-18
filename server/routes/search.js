@@ -10,7 +10,8 @@ const {
   getSearches,
   addSearch,
   removeSearch,
-  getUsers
+  getUsers,
+  clearSearch
 } = require('../controllers/searchController');
 
 // get users
@@ -24,6 +25,9 @@ router.patch('/add', addSearch);
 
 // delete search
 router.patch('/remove', removeSearch);
+
+// clear searchhistory
+router.patch('/clear', clearSearch);
 
 
 module.exports = router;

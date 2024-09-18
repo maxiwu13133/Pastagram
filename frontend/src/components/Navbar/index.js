@@ -5,7 +5,7 @@ import './index.css';
 // Hooks
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useSearchContext } from '../../hooks/useSearchContext';
-import { useGetCommunity } from '../../hooks/useGetCommunity';
+import { usePfpContext } from '../../hooks/usePfpContext';
 
 // assets
 import logo from '../../assets/Logos/pastagram-logo.png';
@@ -95,186 +95,181 @@ const Navbar = () => {
   }
   
   // Get profile picture
-  const { pfp, isLoading } = useGetCommunity(user);
+  const { pfp } = usePfpContext();
 
   return (
     <div className={ `navbar-container ${ openModal ? "navbar-collapse" : "" }` }>
+      {/* Search Modal */}
+      <Search />
 
-      { !isLoading && 
-        <>
-          {/* Search Modal */}
-          <Search />
-
-          {/* Logo */}
-          <div className="navbar-logo-wrapper">
-            <Link to="/">
-              <div className="navbar-logo">
-                <img 
-                  draggable={ false }
-                  src={ icon }
-                  alt=""
-                  className={ `navbar-icon-pic ${ openModal ? "" : "navbar-icon-out" }` }
-                />
-                <img 
-                  draggable={ false }
-                  src={ logo }
-                  alt=""
-                  className={ `navbar-logo-pic ${ openModal ? "navbar-logo-out" : "" }` }
-                />
-              </div>
-            </Link>
+      {/* Logo */}
+      <div className="navbar-logo-wrapper">
+        <Link to="/">
+          <div className="navbar-logo">
+            <img 
+              draggable={ false }
+              src={ icon }
+              alt=""
+              className={ `navbar-icon-pic ${ openModal ? "" : "navbar-icon-out" }` }
+            />
+            <img 
+              draggable={ false }
+              src={ logo }
+              alt=""
+              className={ `navbar-logo-pic ${ openModal ? "navbar-logo-out" : "" }` }
+            />
           </div>
+        </Link>
+      </div>
 
-          {/* Home */}
-          <div className="navbar-option-wrapper">
-            <Link to="/" onClick={ () => changeNav('') }>
-              <div className={ `navbar-option navbar-home ${ selectedNav === "/" ? "navbar-highlighted" : "" }` }>
-                <img 
-                  draggable={ false } 
-                  src={ selectedNav === "" ? houseFocused : houseUnfocused } 
-                  alt="Home" 
-                />
-                { !openModal && <h2>Home</h2> }
-              </div>
-            </Link>
+      {/* Home */}
+      <div className="navbar-option-wrapper">
+        <Link to="/" onClick={ () => changeNav('') }>
+          <div className={ `navbar-option navbar-home ${ selectedNav === "/" ? "navbar-highlighted" : "" }` }>
+            <img 
+              draggable={ false } 
+              src={ selectedNav === "" ? houseFocused : houseUnfocused } 
+              alt="Home" 
+            />
+            { !openModal && <h2>Home</h2> }
           </div>
+        </Link>
+      </div>
 
-          {/* Search */}
-          <div className="navbar-option-wrapper">
-            <Link onClick={ () => handleSearch() }>
-              <div className={ `
-                navbar-option
-                navbar-search
-                ${ openModal ? "navbar-highlighted-search" : "" }
-              ` }
-              >
-                <img 
-                  draggable={ false } 
-                  src={ openModal ? magnifyFocused : magnifyUnfocused } 
-                  alt="Search" 
-                />
-                { !openModal && <h2>Search</h2> }
-              </div>
-            </Link>
+      {/* Search */}
+      <div className="navbar-option-wrapper">
+        <Link onClick={ () => handleSearch() }>
+          <div className={ `
+            navbar-option
+            navbar-search
+            ${ openModal ? "navbar-highlighted-search" : "" }
+          ` }
+          >
+            <img 
+              draggable={ false } 
+              src={ openModal ? magnifyFocused : magnifyUnfocused } 
+              alt="Search" 
+            />
+            { !openModal && <h2>Search</h2> }
           </div>
+        </Link>
+      </div>
 
-          {/* Explore */}
-          <div className="navbar-option-wrapper">
-            <Link to="/explore/" onClick={ () => changeNav('explore') }>
-              <div className={ `
-                navbar-option
-                navbar-explore
-                ${ selectedNav === "explore" ? "navbar-highlighted" : "" }
-              ` }>
-                <img 
-                  draggable={ false } 
-                  src={ selectedNav === "explore" ? compassFocused : compassUnfocused } 
-                  alt="Explore" 
-                />
-                { !openModal && <h2>Explore</h2> }
-              </div>
-            </Link>
+      {/* Explore */}
+      <div className="navbar-option-wrapper">
+        <Link to="/explore/" onClick={ () => changeNav('explore') }>
+          <div className={ `
+            navbar-option
+            navbar-explore
+            ${ selectedNav === "explore" ? "navbar-highlighted" : "" }
+          ` }>
+            <img 
+              draggable={ false } 
+              src={ selectedNav === "explore" ? compassFocused : compassUnfocused } 
+              alt="Explore" 
+            />
+            { !openModal && <h2>Explore</h2> }
           </div>
+        </Link>
+      </div>
 
-          {/* Messages */}
-          <div className="navbar-option-wrapper">
-            <Link to="/messages/" onClick={ () => changeNav('messages') }>
-              <div className={ `
-                navbar-option 
-                navbar-messages 
-                ${ selectedNav === "messages" ? "navbar-highlighted" : "" }
-              ` }>
-                <img 
-                  draggable={ false } 
-                  src={ selectedNav === "messages" ? messageFocused : messageUnfocused }
-                  alt="Messages"
-                />
-                { !openModal && <h2>Messages</h2> }
-              </div>
-            </Link>
+      {/* Messages */}
+      <div className="navbar-option-wrapper">
+        <Link to="/messages/" onClick={ () => changeNav('messages') }>
+          <div className={ `
+            navbar-option 
+            navbar-messages 
+            ${ selectedNav === "messages" ? "navbar-highlighted" : "" }
+          ` }>
+            <img 
+              draggable={ false } 
+              src={ selectedNav === "messages" ? messageFocused : messageUnfocused }
+              alt="Messages"
+            />
+            { !openModal && <h2>Messages</h2> }
           </div>
+        </Link>
+      </div>
 
-          {/* Notifications */}
-          <div className="navbar-option-wrapper">
-            <Link onClick={ () => changeNav('notifications') }>
-              <div className={ `
-                navbar-option 
-                navbar-notifications 
-                ${ selectedNav === "notifications" ? "navbar-highlighted" : "" }
-              ` }>
-                <img 
-                  draggable={ false } 
-                  src={ selectedNav === "notifications" ? heartFocused : heartUnfocused } 
-                  alt="Notifications" 
-                />
-                { !openModal && <h2>Notifications</h2> }
-              </div>
-            </Link>
+      {/* Notifications */}
+      <div className="navbar-option-wrapper">
+        <Link onClick={ () => changeNav('notifications') }>
+          <div className={ `
+            navbar-option 
+            navbar-notifications 
+            ${ selectedNav === "notifications" ? "navbar-highlighted" : "" }
+          ` }>
+            <img 
+              draggable={ false } 
+              src={ selectedNav === "notifications" ? heartFocused : heartUnfocused } 
+              alt="Notifications" 
+            />
+            { !openModal && <h2>Notifications</h2> }
           </div>
+        </Link>
+      </div>
 
-          {/* Create */}
-          <div className="navbar-option-wrapper">
-            <Link onClick={ () => setModal(true) }>
-              <div className="navbar-option navbar-create">
-                <img 
-                  draggable={ false } 
-                  src={ create } 
-                  alt="Create"
-                />
-                { !openModal && <h2>Create</h2> }
-              </div>
-            </Link>
+      {/* Create */}
+      <div className="navbar-option-wrapper">
+        <Link onClick={ () => setModal(true) }>
+          <div className="navbar-option navbar-create">
+            <img 
+              draggable={ false } 
+              src={ create } 
+              alt="Create"
+            />
+            { !openModal && <h2>Create</h2> }
           </div>
+        </Link>
+      </div>
 
-          {/* Profile */}
-          <div className="navbar-option-wrapper">
-            <Link to={ `/${ user.username }/`} onClick={ () => changeNav(user.username) }>
-              <div className={ `
-                navbar-option 
-                navbar-profile 
-                ${ selectedNav === user.username ? "navbar-highlighted" : "" }
-              ` }>
-                <img
-                  draggable={ false } 
-                  src={ pfp.url ? pfp.url : defaultPfp } 
-                  alt="Profile" 
-                  className={ `navbar-pfp ${ selectedNav === user.username ? "navbar-pfp-highlighted" : "" }` }
-                />
-                { !openModal && <h2>Profile</h2> }
-              </div>
-            </Link>
+      {/* Profile */}
+      <div className="navbar-option-wrapper">
+        <Link to={ `/${ user.username }/`} onClick={ () => changeNav(user.username) }>
+          <div className={ `
+            navbar-option 
+            navbar-profile 
+            ${ selectedNav === user.username ? "navbar-highlighted" : "" }
+          ` }>
+            <img
+              draggable={ false } 
+              src={ pfp?.url ? pfp.url : defaultPfp } 
+              alt="Profile" 
+              className={ `navbar-pfp ${ selectedNav === user.username ? "navbar-pfp-highlighted" : "" }` }
+            />
+            { !openModal && <h2>Profile</h2> }
           </div>
+        </Link>
+      </div>
 
-          {/* More */}
-          <div className="navbar-option-wrapper navbar-more-wrapper">
-            <div className={ `navbar-more-modal ${ highlightMore ? "" : "navbar-more-option-hide" }` }>
-              <div className="navbar-more-option" onClick={ () => dispatch({ type: 'LOGOUT', payload: null }) }>
-                Log out
-              </div>
-            </div>
-            <Link onClick={ () => highlightMore ? setHighlightMore(false) : setHighlightMore(true) }>
-              <div 
-                ref={ moreRef }
-                className={ `
-                  navbar-option
-                  navbar-more
-                  ${ highlightMore ? "navbar-highlighted" : "" }
-                ` }
-              >
-                <img 
-                  draggable={ false } 
-                  src={ highlightMore ? moreFocused : moreUnfocused }
-                  alt="More"
-                />
-                { !openModal && <h2>More</h2> }
-              </div>
-            </Link>
+      {/* More */}
+      <div className="navbar-option-wrapper navbar-more-wrapper">
+        <div className={ `navbar-more-modal ${ highlightMore ? "" : "navbar-more-option-hide" }` }>
+          <div className="navbar-more-option" onClick={ () => dispatch({ type: 'LOGOUT', payload: null }) }>
+            Log out
           </div>
+        </div>
+        <Link onClick={ () => highlightMore ? setHighlightMore(false) : setHighlightMore(true) }>
+          <div 
+            ref={ moreRef }
+            className={ `
+              navbar-option
+              navbar-more
+              ${ highlightMore ? "navbar-highlighted" : "" }
+            ` }
+          >
+            <img 
+              draggable={ false } 
+              src={ highlightMore ? moreFocused : moreUnfocused }
+              alt="More"
+            />
+            { !openModal && <h2>More</h2> }
+          </div>
+        </Link>
+      </div>
 
-          {/* Create Modal */}
-          { modal && <Create handleClick={ () => setModal(false) } /> }
-        </>
-      }
+      {/* Create Modal */}
+      { modal && <Create handleClick={ () => setModal(false) } /> }
 
     </div>
   );

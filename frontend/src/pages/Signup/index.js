@@ -19,7 +19,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await signup(email.toLowerCase(), fullName, username.toLowerCase(), password);
+    await signup(email.toLowerCase(), fullName, username.toLowerCase().replace(/\s+/g, ''), password);
   };
 
   // Login when fields are filled out

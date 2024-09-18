@@ -26,6 +26,7 @@ const UserProfile = ({ username }) => {
   const [newFollowers, setNewFollowers] = useState(0);
   const [isFollowing, setIsFollowing] = useState(null);
 
+  // prevent follow button click when loading
 
   // update following
   const { followUser, error: followError, isLoading: followIsLoading } = useFollowUser();
@@ -46,6 +47,7 @@ const UserProfile = ({ username }) => {
       setIsFollowing(false);
     }, 1000);
   };
+  
 
   // update page
   useEffect(() => {
@@ -70,6 +72,7 @@ const UserProfile = ({ username }) => {
                 <button 
                   className="userprofile-follow"
                   onClick={ () => isFollowing ? handleUnfollow() : handleFollow() }
+                  disabled={ followIsLoading || unfollowIsLoading }
                 >
                   {
                     (followIsLoading || unfollowIsLoading) ? 

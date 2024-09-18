@@ -9,6 +9,7 @@ import Loading from '../../Loading'
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { useGetCommunity } from '../../../hooks/useGetCommunity';
 import { useGetPosts } from '../../../hooks/useGetPosts';
+import { usePfpContext } from '../../../hooks/usePfpContext';
 
 // components
 import Grid from '../../../components/Posts/Grid';
@@ -21,7 +22,8 @@ import defaultPfp from '../../../assets/Profile/default-pfp.jpg';
 
 const SelfProfile = () => {
   const { user } = useAuthContext();
-  const { fullName, bio, followers, following, pfp, error, isLoading } = useGetCommunity({ username: user.username });
+  const { pfp } = usePfpContext();
+  const { fullName, bio, followers, following, error, isLoading } = useGetCommunity({ username: user.username });
   const { posts: p, error: postError,  isLoading: postLoading } = useGetPosts({ username: user.username });
   const [posts, setPosts] = useState([]);
   const [postsUpdating, setPostsUpdating] = useState(null);
@@ -62,7 +64,7 @@ const SelfProfile = () => {
           {/* Details */}
           <div className="s-profile-details">
             <div className="s-profile-pfp-container">
-              <img draggable={ false } src={ pfp.url ? pfp.url : defaultPfp } alt="pfp" className="s-profile-pfp" />
+              <img draggable={ false } src={ pfp?.url ? pfp.url : defaultPfp } alt="pfp" className="s-profile-pfp" />
             </div>
 
             <div className="s-profile-info">

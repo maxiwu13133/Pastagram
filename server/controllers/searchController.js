@@ -7,8 +7,20 @@ const getSearches = async (req, res) => {
 
   try {
     const user = await User.findOne({ username });
+    const searches = [];
 
-    res.status(200).json({ searches: user.searches });
+    for (const search of user.searches) {
+      const searchedUser = await User.findOne({ _id: search._id });
+      searches.push({
+        _id: searchedUser._id,
+        username: searchedUser.username,
+        pfp: searchedUser.pfp,
+        fullName: searchedUser.fullName
+      });
+    }
+
+
+    res.status(200).json({ searches });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -20,8 +32,9 @@ const addSearch = async (req, res) => {
 
   try {
     const user = await User.findOne({ username });
+    const filteredSearches = user.searches.filter(s => !s.equals(search));
 
-    const updatedSearches = { searches: user.searches.concat(search) };
+    const updatedSearches = { searches: filteredSearches.concat(search) };
     const newUser = await User.findOneAndUpdate({ username }, updatedSearches, { new: true });
 
     res.status(200).json({ newUser });
@@ -49,7 +62,22 @@ const removeSearch = async (req, res) => {
 // get all users for search
 const getUsers = async (req, res) => {
   try {
-    res.status(200).json({ users: [{name: 'Max'}, {name: 'Maxi'}] });
+    const users = await User.find();
+    
+    res.status(200).json({ users });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+// clear search history
+const clearSearch = async (req, res) => {
+  const { username } = req.body;
+
+  try {
+    const clearedSearches = { searches: [] };
+    const newUser = await User.findOneAndUpdate({ username }, clearedSearches, { new: true });
+    res.status(200).json({ newUser });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -57,5 +85,5 @@ const getUsers = async (req, res) => {
 
 module.exports = {
   getSearches, addSearch, removeSearch,
-  getUsers
+  getUsers, clearSearch
 };
