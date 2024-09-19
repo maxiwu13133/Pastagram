@@ -51,7 +51,7 @@
 
 .navbar-logo-out {
   animation: easeOut 0.3s;
-  opacity: 0;
+  display: none;
 }
 
 .navbar-icon-pic {

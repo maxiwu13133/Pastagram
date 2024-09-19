@@ -1,11 +1,13 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import './index.css';
+
 
 // Hooks
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useSearchContext } from '../../hooks/useSearchContext';
 import { usePfpContext } from '../../hooks/usePfpContext';
+
 
 // assets
 import logo from '../../assets/Logos/pastagram-logo.png';
@@ -32,17 +34,21 @@ import Search from '../Search';
 
 
 const Navbar = () => {
+
   // Highlight nav
   const pathName = window.location.pathname.replace(/\//g,'');
   const [selectedNav, setSelectedNav] = useState(pathName);
   
+
   // Highlight more option
   const [highlightMore, setHighlightMore] = useState(false);
-  const moreRef = useRef();
+  const moreRef = useRef(null);
+
 
   // User context
   const { user, dispatch } = useAuthContext();
   
+
   // Remove More option drop down when clicked elsewhere
   const handleHighlightMore = (e) => {
     if (moreRef.current && !e.composedPath().includes(moreRef.current)) {
@@ -50,8 +56,10 @@ const Navbar = () => {
     };
   };
 
+
   // Open and close create modal
   const [modal, setModal] = useState(false);
+
 
   // Stop scroll when modal open
   useEffect(() => {
@@ -65,7 +73,7 @@ const Navbar = () => {
 
   // open and close search modal
   const { openModal, dispatch: searchDispatch } = useSearchContext();
-  const [lastNav, setLastNav] = useState(pathName);
+  const [lastNav, setLastNav] = useState('');
 
   const handleSearch = () => {
     if (selectedNav === 'search') {
@@ -80,27 +88,48 @@ const Navbar = () => {
   }
 
   
-  // close more option when body clicked
-  useEffect(() => {
-    document.body.addEventListener('click', handleHighlightMore);
-    return () => {
-      document.body.removeEventListener('click', handleHighlightMore);
-    };
-  }, []);
-
   // change nav 
-  const changeNav = (nav) => {
+  const changeNav = useCallback((nav) => {
     setSelectedNav(nav);
     searchDispatch({ type: 'CLOSE_MODAL'});
-  }
+  }, [searchDispatch]);
+
+
+  // close search modal when clicked elsewhere
+  const searchRef = useRef(null);
+  const searchNavRef = useRef(null);
+
+  const handleSearchModal = useCallback((e) => {
+    if (
+      searchRef.current &&
+      openModal && 
+      !e.composedPath().includes(searchRef.current) &&
+      !e.composedPath().includes(searchNavRef.current)
+    ) {
+      changeNav(lastNav);
+    }
+  }, [changeNav, openModal, lastNav]);
+
   
+  // close more option or search modal when body clicked
+  useEffect(() => {
+    document.body.addEventListener('click', handleHighlightMore);
+    document.body.addEventListener('click', handleSearchModal);
+    return () => {
+      document.body.removeEventListener('click', handleHighlightMore);
+      document.body.removeEventListener('click', handleSearchModal);
+    };
+  }, [handleSearchModal]);
+  
+
   // Get profile picture
   const { pfp } = usePfpContext();
 
+  
   return (
     <div className={ `navbar-container ${ openModal ? "navbar-collapse" : "" }` }>
       {/* Search Modal */}
-      <Search />
+      <Search ref={ searchRef }/>
 
       {/* Logo */}
       <div className="navbar-logo-wrapper">
@@ -137,7 +166,7 @@ const Navbar = () => {
       </div>
 
       {/* Search */}
-      <div className="navbar-option-wrapper">
+      <div className="navbar-option-wrapper" ref={ searchNavRef }>
         <Link onClick={ () => handleSearch() }>
           <div className={ `
             navbar-option

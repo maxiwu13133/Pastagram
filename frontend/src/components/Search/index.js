@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, forwardRef } from 'react';
 import { useDebounce } from 'use-debounce';
 import './index.css';
 
@@ -13,7 +13,7 @@ import Results from './Results';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useSearchContext } from '../../hooks/useSearchContext';
 
-const Search = () => {
+const Search = forwardRef((_, ref) => {
   const { user } = useAuthContext();
   const { openModal } = useSearchContext();
 
@@ -57,7 +57,7 @@ const Search = () => {
 
 
   return ( 
-    <div className={ `search-container ${ openModal ? "search-container-show" : "search-container-hide"}` } >
+    <div className={ `search-container ${ openModal ? "search-container-show" : "search-container-hide"}` } ref={ ref }>
       <div className="search-header">
         <div className="search-title">
           Search
@@ -98,6 +98,6 @@ const Search = () => {
       </div>
     </div>
    );
-};
+});
  
 export default Search;

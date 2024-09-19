@@ -2,15 +2,27 @@ import { useState } from 'react';
 import { formatDistanceToNowStrict } from 'date-fns';
 import './index.css';
 
+
+// hooks
+import { usePfpContext } from '../../hooks/usePfpContext';
+
+
 // components
 import Comment from './Comment';
+
 
 // assets
 import defaultPfp from '../../assets/Profile/default-pfp.jpg';
 
-const Comments = ({ caption, comments, createdAt, username, pfp }) => {
 
+const Comments = ({ caption, comments, createdAt, username }) => {
+
+  // newest comments first
   const reversedComments = [...comments].reverse();
+
+
+  // get pfp
+  const { pfp } = usePfpContext();
 
 
   // comments loading
@@ -58,7 +70,8 @@ const Comments = ({ caption, comments, createdAt, username, pfp }) => {
 
       {/* No caption and comments */}
       {
-        caption === "" && comments.length === 0 && 
+        caption === "" &&
+        comments.length === 0 && 
         <div className="comments-empty">
           <h2>No comments yet.</h2>
           <p>Start the conversation.</p>
