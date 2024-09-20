@@ -36,9 +36,13 @@ import Search from '../Search';
 const Navbar = () => {
 
   // Highlight nav
-  const pathName = window.location.pathname.replace(/\//g,'');
+  const pathName = window.location.pathname.replace(/\//g, '');
   const [selectedNav, setSelectedNav] = useState(pathName);
   
+  useEffect(() => {
+    setSelectedNav(pathName);
+  }, [pathName])
+
 
   // Highlight more option
   const [highlightMore, setHighlightMore] = useState(false);
