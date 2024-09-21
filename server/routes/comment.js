@@ -9,7 +9,8 @@ router.use(requireAuth);
 const { 
   getComments,
   createComment,
-  likeComment
+  likeComment,
+  deleteComment
 } = require('../controllers/commentController');
 
 // get comments of post
@@ -20,6 +21,9 @@ router.post('/', createComment);
 
 // like comment
 router.patch('/', likeComment);
+
+// delete comment
+router.delete('/', deleteComment);
 
 
 module.exports = router

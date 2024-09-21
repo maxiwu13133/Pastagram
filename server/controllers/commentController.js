@@ -59,4 +59,19 @@ const likeComment = async (req, res) => {
 }
 
 
-module.exports = { getComments, createComment, likeComment };
+// delete comment
+const deleteComment = async (req, res) => {
+  const { commentId } = req.body;
+  console.log(commentId);
+
+  try {
+    const response = await Comment.deleteOne({ _id: commentId });
+      
+    res.status(200).json({ result: response }); 
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+
+module.exports = { getComments, createComment, likeComment, deleteComment };

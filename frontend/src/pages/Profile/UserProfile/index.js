@@ -70,7 +70,7 @@ const UserProfile = ({ username }) => {
                 <h3 className="userprofile-name">{ username }</h3>
 
                 <button 
-                  className="userprofile-follow"
+                  className={ `userprofile-follow ${ isFollowing ? "userprofile-unfollow" : "" }` }
                   onClick={ () => isFollowing ? handleUnfollow() : handleFollow() }
                   disabled={ followIsLoading || unfollowIsLoading }
                 >

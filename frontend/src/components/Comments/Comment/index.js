@@ -5,11 +5,15 @@ import './index.css';
 // hooks
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { useGetCommunity } from '../../../hooks/useGetCommunity';
+import { useDeleteComment } from '../../../hooks/useDeleteComment';
+
 
 // assets
 import defaultPfp from '../../../assets/Profile/default-pfp.jpg';
 import heartFilled from '../../../assets/PostView/heart-filled.png';
 import heartHollow from '../../../assets/PostView/heart-hollow.png';
+import dots from '../../../assets/PostView/three-dots.png';
+
 
 const Comment = ({ comment, setIsLoading }) => {
   const { user } = useAuthContext();
@@ -19,6 +23,7 @@ const Comment = ({ comment, setIsLoading }) => {
   const [text, setText] = useState('');
   const [likes, setLikes] = useState([]);
   const [createdAt, setCreatedAt] = useState(0);
+
 
   // get comment info
   useEffect(() => {
@@ -49,10 +54,11 @@ const Comment = ({ comment, setIsLoading }) => {
     getComments();
   }, [comment, setIsLoading, user.token]);
 
+
   // handle like and unliking comment
   const handleLike = async () => {
 
-    const data = { commentId: comment, userId: id }
+    const data = { commentId: comment, userId: id };
     
     const response = await fetch('http://localhost:4000/api/comment/', {
       method: 'PATCH',
@@ -72,6 +78,7 @@ const Comment = ({ comment, setIsLoading }) => {
     }
   }
 
+
   // format time display
   const formatTime = (createdAt) => {
     const date = new Date(createdAt);
@@ -89,11 +96,20 @@ const Comment = ({ comment, setIsLoading }) => {
     .replace('minute', 'm')
     .replace('hours', 'h')
     .replace('hour', 'h')
-    .replace('day', 'd')
     .replace('days', 'd')
+    .replace('day', 'd')
     .replace('ago', '')
     .replace(/\s+/g, '');
     return shortenedTime;
+  }
+
+  
+  // delete comment
+  const [deletePopup, setDeletePopup] = useState(false);
+  const { deleteComment } = useDeleteComment();
+
+  const handleDelete = async () => {
+    await deleteComment({ commentId: comment });
   }
 
   return ( 
@@ -107,14 +123,43 @@ const Comment = ({ comment, setIsLoading }) => {
 
         <div className="comment-options">
           <p>{ formatTime(createdAt) }</p>
-          <p className="comment-options-likes">
-            { 
-              likes.length === 0 ? "" :
-              likes.length === 1 ? "1 like" : `${ likes.length } likes`
-            }
+          { 
+            likes.length === 0 ? "" :
+            <p className="comment-options-likes">
+              {
+                likes.length === 1 ? "1 like" : `${ likes.length } likes`
+              }
+            </p>
+          }
+          <p className="comment-options-reply">
+            Reply
           </p>
+          <img 
+            src={ dots }
+            alt=""
+            className={ `comment-options-dots ${ username === user.username ? "comment-options-dots-show" : "" }` }
+            onClick={ () => setDeletePopup(true) }
+          />
         </div>
       </div>
+
+      {/* Delete popup */}
+      {
+        deletePopup && 
+        <>
+          <div className="comment-delete-overlay" onClick={ () => setDeletePopup(false) } />
+
+          <div className="comment-delete-popup">
+            <div className="comment-delete-confirm" onClick={ () => handleDelete() }>
+              Delete
+            </div>
+
+            <div className="comment-delete-cancel" onClick={ () => setDeletePopup(false) }>
+              Cancel
+            </div>
+          </div>
+        </>
+      }
 
       <div className="comment-likes" onClick={ () => handleLike() }>
         <img 

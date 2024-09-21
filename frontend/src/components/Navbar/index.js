@@ -37,7 +37,7 @@ const Navbar = () => {
 
   // Highlight nav
   const pathName = window.location.pathname.replace(/\//g, '');
-  const [selectedNav, setSelectedNav] = useState(pathName);
+  const [selectedNav, setSelectedNav] = useState('');
   
   useEffect(() => {
     setSelectedNav(pathName);

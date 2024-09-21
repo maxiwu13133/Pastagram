@@ -57,8 +57,8 @@ const Comments = ({ caption, comments, createdAt, username }) => {
     .replace('minute', 'm')
     .replace('hours', 'h')
     .replace('hour', 'h')
-    .replace('day', 'd')
     .replace('days', 'd')
+    .replace('day', 'd')
     .replace('ago', '')
     .replace(/\s+/g, '');
     return shortenedTime;

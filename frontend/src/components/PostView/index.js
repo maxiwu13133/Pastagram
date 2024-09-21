@@ -28,6 +28,7 @@ const PostView = ({ post, closeModal, username, setPosts, posts }) => {
   const { id } = useGetCommunity({ username: user.username });
   const [deletePopup, setDeletePopup] = useState(false);
 
+  
   // delete post
   const { deletePost } = useDeletePost();
 
@@ -37,6 +38,7 @@ const PostView = ({ post, closeModal, username, setPosts, posts }) => {
     setDeletePopup(false);
     closeModal();
   }
+
 
   // update comments in real time
   const [comments, setComments] = useState([]);
@@ -58,12 +60,14 @@ const PostView = ({ post, closeModal, username, setPosts, posts }) => {
     posts[index].comments = response.newComments;
   }
 
+
   // post if enter button pressed as well
   const handlePost = (e) => {
     if (e.keyCode === 13) {
       handleCreate();
     }
   }
+
 
   // focus text area when comment icon clicked
   const [focusTextarea, setFocusTextarea] = useState(null);
@@ -74,6 +78,7 @@ const PostView = ({ post, closeModal, username, setPosts, posts }) => {
       textareaRef.current.focus();
     }
   }, [focusTextarea])
+
 
   // like post
   const { likePost } = useLikePost();
@@ -89,6 +94,7 @@ const PostView = ({ post, closeModal, username, setPosts, posts }) => {
     const index = posts.findIndex(obj => obj._id === post._id);
     posts[index].likes = response.newPost.likes;
   }
+
 
   return ( 
     <div className="postview">

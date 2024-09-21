@@ -60,6 +60,23 @@
   background-color: #1877f2
 }
 
+.userprofile-follow:active {
+  opacity: 80%;
+}
+
+.userprofile-unfollow {
+  background-color: #efefef;
+  color: black;
+}
+
+.userprofile-unfollow:hover {
+  background-color: #dbdbdb;
+}
+
+.userprofile-follow:disabled:hover {
+  background-color: #efefef;
+}
+
 .userprofile-error {
   text-align: center;
   color: #ed4956;
