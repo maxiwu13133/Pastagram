@@ -11,7 +11,7 @@ import Comment from './Comment';
 import defaultPfp from '../../assets/Profile/default-pfp.jpg';
 
 
-const Comments = ({ caption, comments, createdAt, username, pfp }) => {
+const Comments = ({ post, comments, setComments, username, pfp }) => {
 
   // newest comments first
   const reversedComments = [...comments].reverse();
@@ -62,7 +62,7 @@ const Comments = ({ caption, comments, createdAt, username, pfp }) => {
 
       {/* No caption and comments */}
       {
-        caption === "" &&
+        post.caption === "" &&
         comments.length === 0 && 
         <div className="comments-empty">
           <h2>No comments yet.</h2>
@@ -72,17 +72,18 @@ const Comments = ({ caption, comments, createdAt, username, pfp }) => {
 
       {/* Caption */}
       { 
-        caption && 
+        post.caption && 
         <div className="comments-caption">
+          
           <img src={ pfp?.url ? pfp.url : defaultPfp } alt="" className="comments-caption-pfp" />
 
           <div className="comments-caption-details">
             <div className="comments-caption-text">
-              <p><span>{ username } </span>{ caption }</p>
+              <p><span>{ username } </span>{ post.caption }</p>
             </div>
 
             <div className="comments-caption-time">
-              { formatTime(createdAt) }
+              { formatTime(post.createdAt) }
             </div>
           </div>
         </div>
@@ -103,8 +104,10 @@ const Comments = ({ caption, comments, createdAt, username, pfp }) => {
         <>
           { 
             reversedComments.map(
-              (comment, i) => <Comment 
+              (comment, i) => <Comment
+                post={ post }
                 comment={ comment }
+                setComments={ setComments }
                 key={ i }
                 setIsLoading={ setIsLoading }
                 last={ i === reversedComments.length - 1 ? true : false }

@@ -47,6 +47,10 @@
   border-radius: 50%;
 }
 
+.comments-caption-pfp:hover {
+  cursor: pointer;
+}
+
 .comments-caption-details {
   display: flex;
   flex-direction: column;
@@ -58,6 +62,12 @@
 
 .comments-caption-text span {
   font-weight: 600;
+  color: #545454;
+}
+
+.comments-caption-text span:hover {
+  opacity: 70%;
+  cursor: pointer;
 }
 
 .comments-caption-text p {

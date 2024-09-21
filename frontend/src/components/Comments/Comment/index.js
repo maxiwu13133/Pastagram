@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { formatDistanceToNowStrict } from 'date-fns';
 import './index.css';
 
@@ -15,7 +16,7 @@ import heartHollow from '../../../assets/PostView/heart-hollow.png';
 import dots from '../../../assets/PostView/three-dots.png';
 
 
-const Comment = ({ comment, setIsLoading }) => {
+const Comment = ({ post, comment, setComments, setIsLoading }) => {
   const { user } = useAuthContext();
   const { id } = useGetCommunity({ username: user.username });
   const [username, setUsername] = useState('');
@@ -111,16 +112,27 @@ const Comment = ({ comment, setIsLoading }) => {
   const { deleteComment } = useDeleteComment();
 
   const handleDelete = async () => {
+    setComments(post.comments.filter(c => c !== comment));
+    post.comments = post.comments.filter(c => c !== comment);
     await deleteComment({ commentId: comment, postId: postId });
+    setDeletePopup(false);
   }
 
   return ( 
     <div className="comment-container">
-      <img src={ pfp.url ? pfp.url : defaultPfp } alt="" className="comment-pfp" draggable={ false } />
+      <Link to={ `/${ username }` }>
+        <img src={ pfp.url ? pfp.url : defaultPfp } alt="" className="comment-pfp" draggable={ false } />
+      </Link>
 
       <div className="comment-details">
         <div className="comment-text">
-          <p><span>{ username } </span>{ text }</p>
+          <p>
+            <span>
+              <Link to={ `/${ username }` } className="comment-text-username">{ username } </Link>
+            </span>
+
+            { text }
+          </p>
         </div>
 
         <div className="comment-options">

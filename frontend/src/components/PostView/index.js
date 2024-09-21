@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import { formatDistanceToNowStrict } from 'date-fns';
 import './index.css';
 
 // components
@@ -88,10 +87,23 @@ const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
 
   const handleLike = async () => {
     const response = await likePost({ post, user });
-    // setLikes(response.newPost.likes);
     const index = posts.findIndex(obj => obj._id === post._id);
     posts[index].likes = response.newPost.likes;
   }
+
+
+  // time display
+  const [date, setDate] = useState(new Date());
+  const months = [
+    "January", "February", "March",
+    "April", "May", "June",
+    "July", "August", "September",
+    "October", "November", "December"
+  ];
+
+  useEffect(() => {
+    setDate(new Date(post.createdAt));
+  }, [post.createdAt])
 
 
   return ( 
@@ -146,12 +158,12 @@ const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
           {/* Comments */}
           <div className="postview-comments">
             <Comments 
-              caption={ post.caption }
+              post={ post }
               comments={ comments }
               setComments={ setComments }
-              createdAt={ post.createdAt }
               username={ username }
               pfp={ pfp }
+
             />
           </div>
 
@@ -188,7 +200,9 @@ const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
             </div>
 
             <div className="postview-likes-time">
-              { formatDistanceToNowStrict(new Date(post.createdAt), { addSuffix: true }) }
+              { 
+                months[date.getMonth()] + " " + date.getDate().toString() + ", " + date.getFullYear().toString()
+              }
             </div>
           </div>
 

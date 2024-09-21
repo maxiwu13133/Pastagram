@@ -44,6 +44,17 @@
   font-size: 14px;
 }
 
+.comment-text-username {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  color: #545454;
+}
+
+.comment-text-username:hover {
+  opacity: 70%;
+}
+
 /* options */
 .comment-options {
   width: 100%;
