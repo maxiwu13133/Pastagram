@@ -111,7 +111,7 @@ const SelfProfile = () => {
             </div>
             <div className="s-profile-posts">
               { posts.length > 0 && 
-                <Posts posts={ posts } username={ user.username } pfp={ pfp.url } setPosts={ setPosts } />
+                <Posts posts={ posts } username={ user.username } pfp={ pfp } setPosts={ setPosts } />
               }
               { posts.length === 0 && 
                 <div className="s-profile-empty-posts">

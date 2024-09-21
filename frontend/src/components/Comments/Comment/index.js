@@ -20,6 +20,7 @@ const Comment = ({ comment, setIsLoading }) => {
   const { id } = useGetCommunity({ username: user.username });
   const [username, setUsername] = useState('');
   const [pfp, setPfp] = useState({});
+  const [postId, setPostId] = useState('');
   const [text, setText] = useState('');
   const [likes, setLikes] = useState([]);
   const [createdAt, setCreatedAt] = useState(0);
@@ -42,6 +43,7 @@ const Comment = ({ comment, setIsLoading }) => {
       }
 
       if (response.ok) {
+        setPostId(json.comment.post_id);
         setText(json.comment.text);
         setLikes(json.comment.likes);
         setCreatedAt(json.comment.createdAt);
@@ -109,7 +111,7 @@ const Comment = ({ comment, setIsLoading }) => {
   const { deleteComment } = useDeleteComment();
 
   const handleDelete = async () => {
-    await deleteComment({ commentId: comment });
+    await deleteComment({ commentId: comment, postId: postId });
   }
 
   return ( 

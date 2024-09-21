@@ -23,7 +23,7 @@ const createComment = async (req, res) => {
 
   try {
 
-    const comment = await Comment.create({ user_id: user._id, text });
+    const comment = await Comment.create({ user_id: user._id, post_id: p._id, text });
     const post = await Post.findOne({ _id: p._id });
 
     const updateComments = { comments: post.comments.concat(comment) };
@@ -61,13 +61,16 @@ const likeComment = async (req, res) => {
 
 // delete comment
 const deleteComment = async (req, res) => {
-  const { commentId } = req.body;
-  console.log(commentId);
+  const { commentId, postId } = req.body;
 
   try {
-    const response = await Comment.deleteOne({ _id: commentId });
+    await Comment.deleteOne({ _id: commentId });
+    const post = await Post.findOne({ _id: postId });
+
+    const updatedComments = { comments: post.comments.filter(comment => !comment._id.equals(commentId)) };
+    const newPost = await Post.findOneAndUpdate({ _id: postId }, updatedComments, { new: true });
       
-    res.status(200).json({ result: response }); 
+    res.status(200).json({ newPost }); 
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

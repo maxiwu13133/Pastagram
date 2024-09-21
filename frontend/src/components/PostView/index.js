@@ -20,11 +20,9 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 import { useCreateComment } from '../../hooks/useCreateComment';
 import { useLikePost } from '../../hooks/useLikePost';
 import { useGetCommunity } from '../../hooks/useGetCommunity';
-import { usePfpContext } from '../../hooks/usePfpContext';
 
-const PostView = ({ post, closeModal, username, setPosts, posts }) => {
+const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
   const { user } = useAuthContext();
-  const { pfp } = usePfpContext();
   const { id } = useGetCommunity({ username: user.username });
   const [deletePopup, setDeletePopup] = useState(false);
 
@@ -153,6 +151,7 @@ const PostView = ({ post, closeModal, username, setPosts, posts }) => {
               setComments={ setComments }
               createdAt={ post.createdAt }
               username={ username }
+              pfp={ pfp }
             />
           </div>
 

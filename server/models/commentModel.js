@@ -9,6 +9,11 @@ const commentSchema = new Schema({
     required: true,
     ref: 'User'
   },
+  post_id: {
+    type: ObjectId,
+    required: true,
+    ref: 'Post'
+  },
   text: {
     type: String,
     required: true

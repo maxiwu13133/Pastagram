@@ -2,27 +2,23 @@ import { useState } from 'react';
 
 
 // hooks
-import { useAuthContext } from './useAuthContext';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 
-export const useDeleteComment = () => {
+export const useGetComments = () => {
   const { user } = useAuthContext();
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
 
-  const deleteComment = async ({ commentId, postId }) => {
+  const getComments = async ({ postId }) => {
     setIsLoading(true);
     setError(null);
 
-    const data = { commentId, postId };
-
-    const response = await fetch('http://localhost:4000/api/comment/', {
-      method: 'DELETE',
+    const response = await fetch('http://localhost:4000/api/comment/' + postId, {
+      method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': `Bearer ${ user.token }`
-      },
-      body: JSON.stringify(data)
+      }
     });
     const json = await response.json();
 
@@ -33,10 +29,10 @@ export const useDeleteComment = () => {
     }
     if (response.ok) {
       setIsLoading(false);
-      return(json);
+      return json;
     }
-
   }
 
-  return { deleteComment, error, isLoading };
+
+  return { getComments, error, isLoading };
 }

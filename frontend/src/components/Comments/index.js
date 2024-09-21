@@ -3,10 +3,6 @@ import { formatDistanceToNowStrict } from 'date-fns';
 import './index.css';
 
 
-// hooks
-import { usePfpContext } from '../../hooks/usePfpContext';
-
-
 // components
 import Comment from './Comment';
 
@@ -15,14 +11,10 @@ import Comment from './Comment';
 import defaultPfp from '../../assets/Profile/default-pfp.jpg';
 
 
-const Comments = ({ caption, comments, createdAt, username }) => {
+const Comments = ({ caption, comments, createdAt, username, pfp }) => {
 
   // newest comments first
   const reversedComments = [...comments].reverse();
-
-
-  // get pfp
-  const { pfp } = usePfpContext();
 
 
   // comments loading

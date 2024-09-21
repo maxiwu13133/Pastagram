@@ -1,20 +1,8 @@
 const Post = require('../models/postModel');
 const User = require('../models/userModel');
+const Comment = require('../models/commentModel');
 const cloudinary = require('cloudinary').v2;
 
-// create post
-const createPost2 = async (req, res) => {
-  const user = req.user;
-  const { photos, caption } = req.body;
-
-  try {
-    const post = await Post.create({ user_id: user._id, photos, caption });
-
-    res.status(200).json({ post });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  };
-};
 
 // upload and create post
 cloudinary.config({
@@ -44,6 +32,7 @@ const createPost = async (req, res) => {
   }
 }
 
+
 // get all posts
 const getPosts = async (req, res) => {
   const params = req.params;
@@ -58,6 +47,7 @@ const getPosts = async (req, res) => {
   }
 }
 
+
 // delete post
 const deletePost = async (req, res) => {
   const post = req.body;
@@ -69,12 +59,15 @@ const deletePost = async (req, res) => {
     };
 
     const response = await Post.deleteOne({ _id: post._id})
+    await Comment.deleteMany({ post_id: post._id });
+
     
     res.status(200).json({ result: response });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 }
+
 
 // like and unlike a post
 const likePost = async (req, res) => {
