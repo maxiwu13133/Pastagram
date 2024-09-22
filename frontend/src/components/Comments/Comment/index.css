@@ -1,3 +1,15 @@
+@keyframes popIn {
+  0% { 
+    opacity: 0;
+    width: 440px;
+    height: 106px;
+    top: calc(50vh - 53px);
+    left: calc(50vw - 220px);
+  }
+
+  100% { opacity: 1; width: 400px; height: 96px; }
+}
+
 .comment-container {
   width: 100%;
   height: min-content;
@@ -114,6 +126,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  animation: popIn 0.2s;
 }
 
 .comment-delete-confirm {
