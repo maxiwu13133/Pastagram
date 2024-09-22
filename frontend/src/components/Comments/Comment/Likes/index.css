@@ -1,0 +1,66 @@
+.likes-container {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.likes-overlay {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.65);
+}
+
+.likes-modal {
+  width: 400px;
+  height: 400px;
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: calc(50vh - 200px);
+  left: calc(50vw - 200px);
+}
+
+.likes-header {
+  border-bottom: solid 1px lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 42px;
+}
+
+.likes-header p {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.likes-close {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 42px;
+  height: 42px;
+  right: 0;
+}
+
+.likes-close:hover {
+  cursor: pointer;
+}
+
+.likes-close-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.likes-list {
+  width: 100%;
+  height: 358px;
+  display: flex;
+  flex-direction: column;
+}

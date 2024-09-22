@@ -75,7 +75,7 @@ const Comments = ({ post, comments, setComments, username, pfp }) => {
         post.caption && 
         <div className="comments-caption">
           
-          <img src={ pfp?.url ? pfp.url : defaultPfp } alt="" className="comments-caption-pfp" />
+          <img src={ pfp?.url ? pfp.url : defaultPfp } alt="" className="comments-caption-pfp"  draggable={ false } />
 
           <div className="comments-caption-details">
             <div className="comments-caption-text">
@@ -100,7 +100,6 @@ const Comments = ({ post, comments, setComments, username, pfp }) => {
       {/* Comments */}
       {
         comments.length > 0 &&
-        
         <>
           { 
             reversedComments.map(

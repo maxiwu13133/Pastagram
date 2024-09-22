@@ -83,8 +83,16 @@
   font-weight: 500;
 }
 
+.comment-options-likes:hover {
+  cursor: pointer;
+}
+
 .comment-options-reply {
   font-weight: 600;
+}
+
+.comment-options-reply:hover {
+  cursor: pointer;
 }
 
 .comment-options-dots {

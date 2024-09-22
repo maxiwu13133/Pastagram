@@ -16,6 +16,10 @@ import heartHollow from '../../../assets/PostView/heart-hollow.png';
 import dots from '../../../assets/PostView/three-dots.png';
 
 
+// components
+import Likes from './Likes';
+
+
 const Comment = ({ post, comment, setComments, setIsLoading }) => {
   const { user } = useAuthContext();
   const { id } = useGetCommunity({ username: user.username });
@@ -50,7 +54,9 @@ const Comment = ({ post, comment, setComments, setIsLoading }) => {
         setCreatedAt(json.comment.createdAt);
         setUsername(json.username);
         setPfp(json.pfp);
-        setIsLoading(false);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 150);
       }
     }
 
@@ -118,6 +124,11 @@ const Comment = ({ post, comment, setComments, setIsLoading }) => {
     setDeletePopup(false);
   }
 
+
+  // open likes model
+  const [likesModal, setLikesModal] = useState(false);
+
+
   return ( 
     <div className="comment-container">
       <Link to={ `/${ username }` }>
@@ -139,13 +150,13 @@ const Comment = ({ post, comment, setComments, setIsLoading }) => {
           <p>{ formatTime(createdAt) }</p>
           { 
             likes.length === 0 ? "" :
-            <p className="comment-options-likes">
+            <p className="comment-options-likes" onClick={ () => setLikesModal(true) }>
               {
                 likes.length === 1 ? "1 like" : `${ likes.length } likes`
               }
             </p>
           }
-          <p className="comment-options-reply">
+          <p className="comment-options-reply" >
             Reply
           </p>
           <img 
@@ -156,6 +167,12 @@ const Comment = ({ post, comment, setComments, setIsLoading }) => {
           />
         </div>
       </div>
+
+      {/* Likes modal */}
+      {
+        likesModal &&
+        <Likes likes={ likes } setLikesModal={ setLikesModal }/>
+      }
 
       {/* Delete popup */}
       {
