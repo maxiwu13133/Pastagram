@@ -2,6 +2,7 @@ const Comment = require('../models/commentModel');
 const Post = require('../models/postModel');
 const User = require('../models/userModel');
 
+
 // get comment by id
 const getComments = async (req, res) => {
   const id = req.params.id;
@@ -15,6 +16,7 @@ const getComments = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 }
+
 
 // create comment
 const createComment = async (req, res) => {
@@ -34,6 +36,7 @@ const createComment = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 }
+
 
 // like and unlike a comment
 const likeComment = async (req, res) => {
@@ -77,4 +80,25 @@ const deleteComment = async (req, res) => {
 }
 
 
-module.exports = { getComments, createComment, likeComment, deleteComment };
+// info of users who liked the comment
+const likedInfo = async (req, res) => {
+  const commentId = req.params.id;
+
+  try {
+    const comment = await Comment.findOne({ _id: commentId });
+    
+    const users = [];
+
+    for (const userId of comment.likes) {
+      const user = await User.findOne({ _id: userId });
+      users.push({ username: user.username, fullName: user.fullName, pfp: user.pfp, followers: user.followers });
+    }
+
+    res.status(200).json({ users });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+
+module.exports = { getComments, createComment, likeComment, deleteComment, likedInfo };

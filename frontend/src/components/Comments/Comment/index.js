@@ -56,7 +56,7 @@ const Comment = ({ post, comment, setComments, setIsLoading }) => {
         setPfp(json.pfp);
         setTimeout(() => {
           setIsLoading(false);
-        }, 150);
+        }, 100);
       }
     }
 
@@ -171,7 +171,7 @@ const Comment = ({ post, comment, setComments, setIsLoading }) => {
       {/* Likes modal */}
       {
         likesModal &&
-        <Likes likes={ likes } setLikesModal={ setLikesModal }/>
+        <Likes comment={ comment } setLikesModal={ setLikesModal }/>
       }
 
       {/* Delete popup */}

@@ -58,9 +58,105 @@
   height: 16px;
 }
 
+/* list of users */
 .likes-list {
   width: 100%;
   height: 358px;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
+}
+
+.likes-list-user {
+  display: flex;
+  width: 100%;
+  height: 60px;
+  padding: 8px 16px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.likes-list-pfp-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 12px;
+}
+
+.likes-list-pfp {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.likes-list-pfp:hover {
+  cursor: pointer;
+}
+
+.likes-list-details {
+  display: flex;
+  flex-direction: column;
+  width: 201px;
+  height: 100%;
+  margin-right: 12px;
+  justify-content: center;
+}
+
+.likes-list-username {
+  width: min-content;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.likes-list-username:hover {
+  cursor: pointer;
+}
+
+.likes-list-username:active {
+  opacity: 50%;
+}
+
+.likes-list-username-link {
+  text-decoration: none;
+  color: black;
+}
+
+.likes-list-fullname {
+  font-size: 14px;
+  font-weight: 400;
+  color: gray;
+}
+
+.likes-list-follow {
+  width: 94px;
+  height: 32px;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  background-color: #0095f6;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.likes-list-follow:hover {
+  cursor: pointer;
+  background-color: #1877f2;
+}
+
+.likes-list-follow:active {
+  opacity: 70%;
+}
+
+.likes-list-following {
+  background-color: #efefef;
+  color: black;
+}
+
+.likes-list-following:hover {
+  background-color: #dbdbdb;
+}
+
+.likes-list-following:active {
+  opacity: 70%;
 }

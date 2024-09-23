@@ -10,7 +10,8 @@ const {
   getComments,
   createComment,
   likeComment,
-  deleteComment
+  deleteComment,
+  likedInfo
 } = require('../controllers/commentController');
 
 // get comments of post
@@ -24,6 +25,9 @@ router.patch('/', likeComment);
 
 // delete comment
 router.delete('/', deleteComment);
+
+// liked users info
+router.get('/liked/:id', likedInfo);
 
 
 module.exports = router
