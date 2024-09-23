@@ -253,6 +253,14 @@
   font-size: 14px;
 }
 
+.postview-likes-cnt:hover {
+  cursor: pointer;
+}
+
+.postview-likes-cnt:active {
+  opacity: 50%;cd 
+}
+
 .postview-likes-time {
   width: 100%;
   height: 14px;

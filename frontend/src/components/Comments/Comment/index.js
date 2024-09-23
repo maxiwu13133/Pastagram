@@ -17,7 +17,7 @@ import dots from '../../../assets/PostView/three-dots.png';
 
 
 // components
-import Likes from './Likes';
+import Likes from '../../Likes';
 
 
 const Comment = ({ post, comment, setComments, setIsLoading }) => {

@@ -95,4 +95,25 @@ const likePost = async (req, res) => {
 }
 
 
-module.exports = { createPost, getPosts, deletePost, likePost };
+// get post likes
+const getPostLikes = async (req, res) => {
+  const postId = req.params.id;
+  console.log(postId);
+
+  try {
+    const post = await Post.findOne({ _id: postId });
+    const users = [];
+
+    for (const userId of post.likes) {
+      const user = await User.findOne({ _id: userId });
+      users.push({ username: user.username, fullName: user.fullName, pfp: user.pfp, followers: user.followers });
+    }
+
+    res.status(200).json({ users })
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+
+module.exports = { createPost, getPosts, deletePost, likePost, getPostLikes };

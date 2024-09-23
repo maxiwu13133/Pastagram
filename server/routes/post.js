@@ -11,6 +11,7 @@ const {
   getPosts,
   deletePost,
   likePost,
+  getPostLikes
 } = require('../controllers/postController');
 
 // create post
@@ -24,6 +25,9 @@ router.delete('/delete', deletePost);
 
 // liked post 
 router.patch('/like', likePost);
+
+// get post likes
+router.get('/liked/:id', getPostLikes);
 
 
 module.exports = router

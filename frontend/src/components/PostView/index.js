@@ -5,6 +5,7 @@ import './index.css';
 import CloseButton from '../Create/CloseButton';
 import Preview from '../Preview';
 import Comments from '../Comments';
+import Likes from '../Likes';
 
 // assets
 import defaultPfp from '../../assets/Profile/default-pfp.jpg';
@@ -19,6 +20,7 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 import { useCreateComment } from '../../hooks/useCreateComment';
 import { useLikePost } from '../../hooks/useLikePost';
 import { useGetCommunity } from '../../hooks/useGetCommunity';
+
 
 const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
   const { user } = useAuthContext();
@@ -106,6 +108,10 @@ const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
   }, [post.createdAt])
 
 
+  // likes modal
+  const [likesModal, setLikesModal] = useState(false);
+
+
   return ( 
     <div className="postview">
       <div className="postview-overlay" onClick={ () => closeModal() } />
@@ -191,13 +197,18 @@ const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
             </div>
 
             <div className="postview-likes-details">
-              <div className="postview-likes-cnt">
+              <div className="postview-likes-cnt" onClick={ () => setLikesModal(true) }>
                 { 
                   likes.length === 0 ? "Be the first to like this" : 
                   likes.length === 1 ? "1 like" : `${ likes.length } likes`
                 }
               </div>
             </div>
+
+            {/* Likes modal */}
+            {
+              likesModal && <Likes post={ post } setLikesModal={ setLikesModal }/>
+            }
 
             <div className="postview-likes-time">
               { 

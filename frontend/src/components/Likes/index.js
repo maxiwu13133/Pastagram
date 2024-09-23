@@ -4,18 +4,18 @@ import './index.css';
 
 
 // hooks
-import { useAuthContext } from '../../../../hooks/useAuthContext';
-import { useGetCommunity } from '../../../../hooks/useGetCommunity';
-import { useFollowUser } from '../../../../hooks/useFollowUser';
-import { useUnfollowUser } from '../../../../hooks/useUnfollowUser';
+import { useAuthContext } from '../../hooks/useAuthContext';
+import { useGetCommunity } from '../../hooks/useGetCommunity';
+import { useFollowUser } from '../../hooks/useFollowUser';
+import { useUnfollowUser } from '../../hooks/useUnfollowUser';
 
 
 // assets
-import closeButton from '../../../../assets/PostView/close-button-black.png';
-import defaultPfp from '../../../../assets/Profile/default-pfp.jpg';
+import closeButton from '../../assets/PostView/close-button-black.png';
+import defaultPfp from '../../assets/Profile/default-pfp.jpg';
 
 
-const Likes = ({ comment, setLikesModal }) => {
+const Likes = ({ comment, setLikesModal, post }) => {
   const { user } = useAuthContext();
   const { id } = useGetCommunity({ username: user.username });
   const [likedUsers, setLikedUsers] = useState([]);
@@ -39,8 +39,31 @@ const Likes = ({ comment, setLikesModal }) => {
       }
     }
 
-    getLikedInfo();
-  }, [comment, user.token])
+    const getLikedInfoPost = async () => {
+      const response = await fetch('http://localhost:4000/api/post/liked/' + post._id, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${ user.token }`
+        }
+      });
+      const json = await response.json();
+      
+      if (!response.ok) {
+        console.log('Error:', json.error);
+      }
+      if (response.ok) {
+        setLikedUsers([...json.users.reverse()]);
+      }
+    }
+
+    if (comment) {
+      getLikedInfo();
+    }
+
+    if (post) {
+      getLikedInfoPost();
+    }
+  }, [comment, post, user.token])
 
 
   // follow and unfollow user
