@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { formatDistanceToNowStrict } from 'date-fns';
 import './index.css';
 
+
 // hooks
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { useGetCommunity } from '../../../hooks/useGetCommunity';
@@ -18,6 +19,7 @@ import dots from '../../../assets/PostView/three-dots.png';
 
 // components
 import Likes from '../../Likes';
+import Reply from '../../Reply';
 
 
 const Comment = ({ post, comment, setComments, setIsLoading }) => {
@@ -131,74 +133,80 @@ const Comment = ({ post, comment, setComments, setIsLoading }) => {
 
   return ( 
     <div className="comment-container">
-      <Link to={ `/${ username }` }>
-        <img src={ pfp.url ? pfp.url : defaultPfp } alt="" className="comment-pfp" draggable={ false } />
-      </Link>
+      <div className="comment-comment">
+        <Link to={ `/${ username }` }>
+          <img src={ pfp.url ? pfp.url : defaultPfp } alt="" className="comment-pfp" draggable={ false } />
+        </Link>
 
-      <div className="comment-details">
-        <div className="comment-text">
-          <p>
-            <span>
-              <Link to={ `/${ username }` } className="comment-text-username">{ username } </Link>
-            </span>
+        <div className="comment-details">
+          <div className="comment-text">
+            <p>
+              <span>
+                <Link to={ `/${ username }` } className="comment-text-username">{ username } </Link>
+              </span>
 
-            { text }
-          </p>
+              { text }
+            </p>
+          </div>
+
+          <div className="comment-options">
+            <p>{ formatTime(createdAt) }</p>
+            { 
+              likes.length === 0 ? "" :
+              <p className="comment-options-likes" onClick={ () => setLikesModal(true) }>
+                {
+                  likes.length === 1 ? "1 like" : `${ likes.length } likes`
+                }
+              </p>
+            }
+            <p className="comment-options-reply" >
+              Reply
+            </p>
+            <img 
+              src={ dots }
+              alt=""
+              className={ `comment-options-dots ${ username === user.username ? "comment-options-dots-show" : "" }` }
+              onClick={ () => setDeletePopup(true) }
+            />
+          </div>
         </div>
 
-        <div className="comment-options">
-          <p>{ formatTime(createdAt) }</p>
-          { 
-            likes.length === 0 ? "" :
-            <p className="comment-options-likes" onClick={ () => setLikesModal(true) }>
-              {
-                likes.length === 1 ? "1 like" : `${ likes.length } likes`
-              }
-            </p>
-          }
-          <p className="comment-options-reply" >
-            Reply
-          </p>
+        {/* Likes modal */}
+        {
+          likesModal &&
+          <Likes comment={ comment } setLikesModal={ setLikesModal }/>
+        }
+
+        {/* Delete popup */}
+        {
+          deletePopup && 
+          <>
+            <div className="comment-delete-overlay" onClick={ () => setDeletePopup(false) } />
+
+            <div className="comment-delete-popup">
+              <div className="comment-delete-confirm" onClick={ () => handleDelete() }>
+                Delete
+              </div>
+
+              <div className="comment-delete-cancel" onClick={ () => setDeletePopup(false) }>
+                Cancel
+              </div>
+            </div>
+          </>
+        }
+
+        <div className="comment-likes" onClick={ () => handleLike() }>
           <img 
-            src={ dots }
+            src={ likes.includes(id) ? heartFilled : heartHollow }
             alt=""
-            className={ `comment-options-dots ${ username === user.username ? "comment-options-dots-show" : "" }` }
-            onClick={ () => setDeletePopup(true) }
+            className="comment-likes-icon"
+            draggable={ false }
           />
         </div>
       </div>
-
-      {/* Likes modal */}
-      {
-        likesModal &&
-        <Likes comment={ comment } setLikesModal={ setLikesModal }/>
-      }
-
-      {/* Delete popup */}
-      {
-        deletePopup && 
-        <>
-          <div className="comment-delete-overlay" onClick={ () => setDeletePopup(false) } />
-
-          <div className="comment-delete-popup">
-            <div className="comment-delete-confirm" onClick={ () => handleDelete() }>
-              Delete
-            </div>
-
-            <div className="comment-delete-cancel" onClick={ () => setDeletePopup(false) }>
-              Cancel
-            </div>
-          </div>
-        </>
-      }
-
-      <div className="comment-likes" onClick={ () => handleLike() }>
-        <img 
-          src={ likes.includes(id) ? heartFilled : heartHollow }
-          alt=""
-          className="comment-likes-icon"
-          draggable={ false }
-        />
+      
+      <div className="comment-replies">
+        
       </div>
     </div>
    );

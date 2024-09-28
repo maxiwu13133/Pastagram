@@ -15,10 +15,17 @@
   height: min-content;
   display: flex;
   margin-bottom: 22px;
+  flex-direction: column;
 }
 
 .comment-container:hover .comment-options-dots-show {
   display: inline-block;
+}
+
+.comment-comment {
+  display: flex;
+  width: 100%;
+  height: min-content;
 }
 
 /* pfp */
