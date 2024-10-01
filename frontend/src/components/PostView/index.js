@@ -169,7 +169,8 @@ const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
               setComments={ setComments }
               username={ username }
               pfp={ pfp }
-
+              setPosts={ setPosts }
+              posts={ posts }
             />
           </div>
 

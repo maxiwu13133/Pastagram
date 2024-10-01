@@ -1,4 +1,4 @@
-@keyframes popIn {
+@keyframes popInPost {
   0% { 
     opacity: 0;
     width: 440px;
@@ -128,7 +128,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  animation: popIn 0.2s;
+  animation: popInPost 0.2s;
 }
 
 .postview-delete-text {

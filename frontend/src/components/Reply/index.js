@@ -20,7 +20,7 @@ import { useGetCommunity } from '../../hooks/useGetCommunity';
 import Likes from '../Likes';
 
 
-const Reply = ({ replies, index, setReplies, replyLoading, setReplyLoading }) => {
+const Reply = ({ replies, index, setReplies, replyLoading, setReplyLoading, last }) => {
   const { user } = useAuthContext();
   const { id } = useGetCommunity({ username: user.username });
   const [username, setUsername] = useState('');
@@ -44,14 +44,14 @@ const Reply = ({ replies, index, setReplies, replyLoading, setReplyLoading }) =>
       if (response.ok) {
         setUsername(json.username);
         setPfp(json.pfp);
-        setTimeout(() => {
+        if (last) {
           setReplyLoading(false);
-        }, 200);
+        }
       }
     }
 
     getUserInfo();
-  }, [replies, index, user.token, setReplyLoading]);
+  }, [replies, index, user.token, setReplyLoading, last]);
 
 
   // format time display
@@ -81,6 +81,10 @@ const Reply = ({ replies, index, setReplies, replyLoading, setReplyLoading }) =>
 
   // delete reply popup
   const [deletePopup, setDeletePopup] = useState(false);
+
+  const handleDelete = () => {
+
+  }
 
 
   // show likes modal
@@ -169,11 +173,29 @@ const Reply = ({ replies, index, setReplies, replyLoading, setReplyLoading }) =>
         <Likes reply={ replies[index] } setLikesModal={ setLikesModal }/>
       }
 
-      <div className="comment-likes" onClick={ () => handleLike() }>
+      {/* Delete popup */}
+      {
+        deletePopup && 
+        <>
+          <div className="reply-delete-overlay" onClick={ () => setDeletePopup(false) } />
+
+          <div className="reply-delete-popup">
+            <div className="reply-delete-confirm" onClick={ () => handleDelete() }>
+              Delete
+            </div>
+
+            <div className="reply-delete-cancel" onClick={ () => setDeletePopup(false) }>
+              Cancel
+            </div>
+          </div>
+        </>
+      }
+
+      <div className="reply-likes" onClick={ () => handleLike() }>
         <img 
           src={ likes.includes(id) ? heartFilled : heartHollow }
           alt=""
-          className="comment-likes-icon"
+          className="reply-likes-icon"
           draggable={ false }
         />
       </div>

@@ -98,7 +98,6 @@ const likePost = async (req, res) => {
 // get post likes
 const getPostLikes = async (req, res) => {
   const postId = req.params.id;
-  console.log(postId);
 
   try {
     const post = await Post.findOne({ _id: postId });

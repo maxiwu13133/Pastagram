@@ -23,7 +23,7 @@ import Likes from '../../Likes';
 import Reply from '../../Reply';
 
 
-const Comment = ({ post, comment, setComments, setIsLoading }) => {
+const Comment = ({ post, posts, setPosts, comment, setComments, setIsLoading, last }) => {
   const { user } = useAuthContext();
   const { id } = useGetCommunity({ username: user.username });
   const [username, setUsername] = useState('');
@@ -66,14 +66,14 @@ const Comment = ({ post, comment, setComments, setIsLoading }) => {
         setUsername(jsonComment.username);
         setPfp(jsonComment.pfp)
         setReplies(jsonReply.replies);
-        setTimeout(() => {
+        if (last) {
           setIsLoading(false);
-        }, 100);
+        }
       }
     }
 
     getCommentInfo();
-  }, [comment, setIsLoading, user.token]);
+  }, [comment, setIsLoading, user.token, last]);
 
 
   // handle like and unliking comment
@@ -131,7 +131,10 @@ const Comment = ({ post, comment, setComments, setIsLoading }) => {
 
   const handleDelete = async () => {
     setComments(post.comments.filter(c => c !== comment));
-    post.comments = post.comments.filter(c => c !== comment);
+    const index = posts.indexOf(post);
+    const newPosts = posts;
+    newPosts[index].comments = post.comments.filter(c => c !== comment);
+    setPosts(newPosts);
     await deleteComment({ commentId: comment, postId: postId });
     setDeletePopup(false);
   }
@@ -262,6 +265,7 @@ const Comment = ({ post, comment, setComments, setIsLoading }) => {
                     setReplies={ setReplies }
                     replyLoading={ replyLoading }
                     setReplyLoading={ setReplyLoading }
+                    last={ i === replies.length - 1 ? true : false }
                   />
                 )
               } 

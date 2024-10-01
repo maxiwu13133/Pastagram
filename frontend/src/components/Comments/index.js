@@ -11,7 +11,7 @@ import Comment from './Comment';
 import defaultPfp from '../../assets/Profile/default-pfp.jpg';
 
 
-const Comments = ({ post, comments, setComments, username, pfp }) => {
+const Comments = ({ post, posts, setPosts, comments, setComments, username, pfp }) => {
 
   // newest comments first
   const reversedComments = [...comments].reverse();
@@ -110,6 +110,8 @@ const Comments = ({ post, comments, setComments, username, pfp }) => {
                 key={ i }
                 setIsLoading={ setIsLoading }
                 last={ i === reversedComments.length - 1 ? true : false }
+                setPosts={ setPosts }
+                posts={ posts }
               />
             )
           }

@@ -1,6 +1,7 @@
 const Comment = require('../models/commentModel');
 const Post = require('../models/postModel');
 const User = require('../models/userModel');
+const Reply = require('../models/replyModel');
 
 
 // get comment by id
@@ -69,6 +70,7 @@ const deleteComment = async (req, res) => {
   try {
     await Comment.deleteOne({ _id: commentId });
     const post = await Post.findOne({ _id: postId });
+    await Reply.deleteMany({ comment_id: commentId });
 
     const updatedComments = { comments: post.comments.filter(comment => !comment._id.equals(commentId)) };
     const newPost = await Post.findOneAndUpdate({ _id: postId }, updatedComments, { new: true });

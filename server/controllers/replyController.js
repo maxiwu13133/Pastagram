@@ -71,6 +71,25 @@ const handleLike = async (req, res) => {
   }
 }
 
+// get reply likes
+const getReplyLikes = async (req, res) => {
+  const replyId = req.params.id;
+
+  try {
+    const reply = await Reply.findOne({ _id: replyId });
+    const users = [];
+
+    for (const userId of reply.likes) {
+      const user = await User.findOne({ _id: userId });
+      users.push({ username: user.username, fullName: user.fullName, pfp: user.pfp, followers: user.followers });
+    }
+
+    res.status(200).json({ users })
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
 
 // delete comment
 const deleteReply = async (req, res) => {
@@ -78,7 +97,6 @@ const deleteReply = async (req, res) => {
 
   try {
     const reply = await Reply.findOne({ _id: replyId });
-    console.log(reply);
       
     res.status(200).json({  }); 
   } catch (error) {
@@ -87,4 +105,4 @@ const deleteReply = async (req, res) => {
 }
 
 
-module.exports = { getReplies, createReply, deleteReply, getUserInfo, handleLike };
+module.exports = { getReplies, createReply, deleteReply, getUserInfo, handleLike, getReplyLikes };

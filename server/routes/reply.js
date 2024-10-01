@@ -11,6 +11,7 @@ const {
   createReply,
   getUserInfo,
   handleLike,
+  getReplyLikes,
 } = require('../controllers/replyController');
 
 // get replies of comment
@@ -24,6 +25,9 @@ router.get('/user/:userId', getUserInfo);
 
 // like or unlike reply
 router.patch('/like', handleLike);
+
+// get liked info
+router.get('/liked/:id', getReplyLikes);
 
 
 module.exports = router;

@@ -22,11 +22,14 @@ const UserProfile = ({ username }) => {
   const { user } = useAuthContext();
   const { id } = useGetCommunity({ username: user.username });
   const { fullName, bio, followers, following, pfp, isLoading } = useGetCommunity({ username });
-  const { posts } = useGetPosts({ username });
+  const { posts: p } = useGetPosts({ username });
+  const [posts, setPosts] = useState([]);
   const [newFollowers, setNewFollowers] = useState(0);
   const [isFollowing, setIsFollowing] = useState(null);
 
-  // prevent follow button click when loading
+  useEffect(() => {
+    setPosts(p);
+  }, [p])
 
   // update following
   const { followUser, error: followError, isLoading: followIsLoading } = useFollowUser();
@@ -115,7 +118,7 @@ const UserProfile = ({ username }) => {
               <p>POSTS</p>
             </div>
             <div className="userprofile-posts">
-              { posts.length > 0 && <Posts posts={ posts } username={ username } pfp={ pfp } /> }
+              { posts.length > 0 && <Posts posts={ posts } username={ username } pfp={ pfp } setPosts={ setPosts } /> }
               { posts.length === 0 && 
                 <div className="userprofile-empty-posts">
                   <img src={ cameraIcon } alt="" className="userprofile-no-posts-icon" />
