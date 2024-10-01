@@ -229,6 +229,20 @@
   margin-right: 16px;
 }
 
+.comment-replies-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 18px;
+  width: 18px;
+  margin-left: 12px;
+}
+
+.comment-replies-loading-icon {
+  width: 18px;
+  height: 18px;
+}
+
 .comment-replies-view {
   font-size: 11px;
   color: #737373;

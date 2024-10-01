@@ -15,6 +15,7 @@ import defaultPfp from '../../../assets/Profile/default-pfp.jpg';
 import heartFilled from '../../../assets/PostView/heart-filled.png';
 import heartHollow from '../../../assets/PostView/heart-hollow.png';
 import dots from '../../../assets/PostView/three-dots.png';
+import loadSpinner from '../../../assets/EditProfile/load-spinner.svg';
 
 
 // components
@@ -144,6 +145,15 @@ const Comment = ({ post, comment, setComments, setIsLoading }) => {
   const [replyModal, setReplyModal] = useState(false);
 
 
+  // replies loading
+  const [replyLoading, setReplyLoading] = useState(false);
+
+  const handleReplyLoad = () => {
+    setReplyLoading(true);
+    setReplyModal(true);
+  }
+
+
   return ( 
     <div className="comment-container">
       <div className="comment-comment">
@@ -224,20 +234,36 @@ const Comment = ({ post, comment, setComments, setIsLoading }) => {
         <div className="comment-replies">
           <div 
             className="comment-replies-preview"
-            onClick={ () => replyModal ? setReplyModal(false) : setReplyModal(true) }
+            onClick={ () => replyModal ? setReplyModal(false) : handleReplyLoad(true) }
           >
             <div className="comment-replies-line" />
 
             <p className="comment-replies-view">
-              { replyModal ? "Hide replies" : `View replies (${ replies.length })` }
+              { replyModal && !replyLoading ? "Hide replies" : `View replies (${ replies.length })` }
             </p>
+
+            {
+              replyLoading && 
+              <div className="comment-replies-loading">
+                <img src={ loadSpinner } alt="" className="comment-replies-loading-icon" />
+              </div>
+            }
           </div>
 
           {
-            replyModal && 
+            replyModal &&
             <div className="comment-replies-list">
               {
-                replies.map((_, i) => <Reply replies={ replies } key={ i } index={ i } setReplies={ setReplies } /> )
+                replies.map((_, i) => 
+                  <Reply 
+                    replies={ replies }
+                    key={ i }
+                    index={ i }
+                    setReplies={ setReplies }
+                    replyLoading={ replyLoading }
+                    setReplyLoading={ setReplyLoading }
+                  />
+                )
               } 
             </div>
           }

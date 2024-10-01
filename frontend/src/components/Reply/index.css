@@ -7,6 +7,10 @@
   align-items: center;
 }
 
+.reply-container-hide {
+  display: none;
+}
+
 .reply-container:hover .reply-options-dots-show {
   display: inline-block;
 }

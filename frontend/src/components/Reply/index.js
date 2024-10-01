@@ -16,11 +16,12 @@ import dots from '../../assets/PostView/three-dots.png';
 import { useGetCommunity } from '../../hooks/useGetCommunity';
 
 
-const Reply = ({ replies, index, setReplies }) => {
+const Reply = ({ replies, index, setReplies, replyLoading, setReplyLoading }) => {
   const { user } = useAuthContext();
   const { id } = useGetCommunity({ username: user.username });
   const [username, setUsername] = useState('');
   const [pfp, setPfp] = useState('');
+
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -39,11 +40,14 @@ const Reply = ({ replies, index, setReplies }) => {
       if (response.ok) {
         setUsername(json.username);
         setPfp(json.pfp);
+        setTimeout(() => {
+          setReplyLoading(false);
+        }, 200);
       }
     }
 
     getUserInfo();
-  }, [replies, index, user.token]);
+  }, [replies, index, user.token, setReplyLoading]);
 
 
   // format time display
@@ -112,8 +116,9 @@ const Reply = ({ replies, index, setReplies }) => {
     }
   }
 
+
   return ( 
-    <div className="reply-container" >
+    <div className={ `reply-container ${ replyLoading ? "reply-container-hide" : "" }` } >
       <Link to={ `/${ username }` }>
         <img src={ pfp ? pfp : defaultPfp } alt="" className="reply-pfp" draggable={ false } />
       </Link>
