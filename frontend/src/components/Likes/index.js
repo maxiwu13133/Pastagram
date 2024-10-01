@@ -15,7 +15,7 @@ import closeButton from '../../assets/PostView/close-button-black.png';
 import defaultPfp from '../../assets/Profile/default-pfp.jpg';
 
 
-const Likes = ({ comment, setLikesModal, post }) => {
+const Likes = ({ comment, reply, setLikesModal, post }) => {
   const { user } = useAuthContext();
   const { id } = useGetCommunity({ username: user.username });
   const [likedUsers, setLikedUsers] = useState([]);
@@ -25,6 +25,22 @@ const Likes = ({ comment, setLikesModal, post }) => {
   useEffect(() => {
     const getLikedInfo = async () => {
       const response = await fetch('http://localhost:4000/api/comment/liked/' + comment, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${ user.token }`
+        }
+      });
+      const json = await response.json();
+      if (!response.ok) {
+        console.log('Error:', json.error);
+      }
+      if (response.ok) {
+        setLikedUsers([...json.users.reverse()]);
+      }
+    }
+
+    const getLikedInfoReply = async () => {
+      const response = await fetch('http://localhost:4000/api/reply/liked/' + reply._id, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${ user.token }`
@@ -60,10 +76,14 @@ const Likes = ({ comment, setLikesModal, post }) => {
       getLikedInfo();
     }
 
+    if (reply) {
+      getLikedInfoReply();
+    }
+
     if (post) {
       getLikedInfoPost();
     }
-  }, [comment, post, user.token])
+  }, [comment, reply, post, user.token])
 
 
   // follow and unfollow user

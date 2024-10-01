@@ -16,6 +16,10 @@ import dots from '../../assets/PostView/three-dots.png';
 import { useGetCommunity } from '../../hooks/useGetCommunity';
 
 
+// components
+import Likes from '../Likes';
+
+
 const Reply = ({ replies, index, setReplies, replyLoading, setReplyLoading }) => {
   const { user } = useAuthContext();
   const { id } = useGetCommunity({ username: user.username });
@@ -144,6 +148,7 @@ const Reply = ({ replies, index, setReplies, replyLoading, setReplyLoading }) =>
               }
             </p>
           }
+
           <p className="reply-options-reply">
             Reply
           </p>
@@ -156,6 +161,13 @@ const Reply = ({ replies, index, setReplies, replyLoading, setReplyLoading }) =>
           />
         </div> 
       </div>
+      
+          
+      {/* Likes modal */}
+      {
+        likesModal &&
+        <Likes reply={ replies[index] } setLikesModal={ setLikesModal }/>
+      }
 
       <div className="comment-likes" onClick={ () => handleLike() }>
         <img 
