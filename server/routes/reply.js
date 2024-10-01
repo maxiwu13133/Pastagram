@@ -8,7 +8,9 @@ router.use(requireAuth);
 // controller functions
 const {
   getReplies,
-  createReply
+  createReply,
+  getUserInfo,
+  handleLike,
 } = require('../controllers/replyController');
 
 // get replies of comment
@@ -16,6 +18,12 @@ router.get('/:id', getReplies);
 
 // create reply 
 router.post('/', createReply);
+
+// user info
+router.get('/user/:userId', getUserInfo);
+
+// like or unlike reply
+router.patch('/like', handleLike);
 
 
 module.exports = router;

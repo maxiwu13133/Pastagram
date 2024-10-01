@@ -31,38 +31,47 @@ const Comment = ({ post, comment, setComments, setIsLoading }) => {
   const [text, setText] = useState('');
   const [likes, setLikes] = useState([]);
   const [createdAt, setCreatedAt] = useState(0);
+  const [replies, setReplies] = useState([]);
 
 
-  // get comment info
+  // get comment info and replies
   useEffect(() => {
-    const getComments = async () => {
+    const getCommentInfo = async () => {
       setIsLoading(true);
-      const response = await fetch('http://localhost:4000/api/comment/' + comment, {
+      const responseComment = await fetch('http://localhost:4000/api/comment/' + comment, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${ user.token }`
         }
       })
-      const json = await response.json();
+      const responseReply = await fetch('http://localhost:4000/api/reply/' + comment, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${ user.token }`
+        }
+      })
+      const jsonComment = await responseComment.json();
+      const jsonReply = await responseReply.json();
 
-      if (!response.ok) {
-        console.log('Error:', json.error);
+      if (!responseComment.ok || !responseReply.ok) {
+        console.log('Error:', jsonComment.error, ', ', jsonReply.error);
       }
 
-      if (response.ok) {
-        setPostId(json.comment.post_id);
-        setText(json.comment.text);
-        setLikes(json.comment.likes);
-        setCreatedAt(json.comment.createdAt);
-        setUsername(json.username);
-        setPfp(json.pfp);
+      if (responseComment.ok && responseReply.ok) {
+        setPostId(jsonComment.comment.post_id);
+        setText(jsonComment.comment.text);
+        setLikes(jsonComment.comment.likes);
+        setCreatedAt(jsonComment.comment.createdAt);
+        setUsername(jsonComment.username);
+        setPfp(jsonComment.pfp)
+        setReplies(jsonReply.replies);
         setTimeout(() => {
           setIsLoading(false);
         }, 100);
       }
     }
 
-    getComments();
+    getCommentInfo();
   }, [comment, setIsLoading, user.token]);
 
 
@@ -131,6 +140,10 @@ const Comment = ({ post, comment, setComments, setIsLoading }) => {
   const [likesModal, setLikesModal] = useState(false);
 
 
+  // open replies modal
+  const [replyModal, setReplyModal] = useState(false);
+
+
   return ( 
     <div className="comment-container">
       <div className="comment-comment">
@@ -167,6 +180,7 @@ const Comment = ({ post, comment, setComments, setIsLoading }) => {
               alt=""
               className={ `comment-options-dots ${ username === user.username ? "comment-options-dots-show" : "" }` }
               onClick={ () => setDeletePopup(true) }
+              draggable={ false }
             />
           </div>
         </div>
@@ -205,9 +219,30 @@ const Comment = ({ post, comment, setComments, setIsLoading }) => {
         </div>
       </div>
       
-      <div className="comment-replies">
-        
-      </div>
+      {
+        replies.length > 0 && 
+        <div className="comment-replies">
+          <div 
+            className="comment-replies-preview"
+            onClick={ () => replyModal ? setReplyModal(false) : setReplyModal(true) }
+          >
+            <div className="comment-replies-line" />
+
+            <p className="comment-replies-view">
+              { replyModal ? "Hide replies" : `View replies (${ replies.length })` }
+            </p>
+          </div>
+
+          {
+            replyModal && 
+            <div className="comment-replies-list">
+              {
+                replies.map((_, i) => <Reply replies={ replies } key={ i } index={ i } setReplies={ setReplies } /> )
+              } 
+            </div>
+          }
+        </div>
+      }
     </div>
    );
 }

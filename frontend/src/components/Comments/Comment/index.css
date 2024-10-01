@@ -196,3 +196,50 @@
 .comment-likes-icon:active {
   opacity: 30%;
 }
+
+/* replies */
+.comment-replies {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: min-content;
+}
+
+.comment-replies-preview {
+  display: flex;
+  width: 421px;
+  height: 18px;
+  margin: 16px 0 0 46px;
+  align-items: center;
+}
+
+.comment-replies-preview:hover {
+  cursor: pointer;
+}
+
+.comment-replies-preview:active {
+  opacity: 50%;
+}
+
+.comment-replies-line {
+  border-bottom: 1px solid #737373;
+  width: 24px;
+  height: 0;
+  margin-top: 4px;
+  margin-right: 16px;
+}
+
+.comment-replies-view {
+  font-size: 11px;
+  color: #737373;
+  font-weight: 600;
+  user-select: none;
+}
+
+.comment-replies-list {
+  display: flex;
+  flex-direction: column;
+  width: 421px;
+  height: min-content;
+  margin-left: 46px;
+}

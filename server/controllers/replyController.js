@@ -24,7 +24,7 @@ const createReply = async (req, res) => {
   const user = req.user;
 
   try {
-    const reply = await Reply.create({ user_id: user._id, comment_id: comment._id, text });
+    const reply = await Reply.create({ user_id: user._id, comment_id: comment, text });
 
     
     res.status(200).json({ reply });
@@ -34,24 +34,38 @@ const createReply = async (req, res) => {
 }
 
 
-// like and unlike a comment
-const likeComment = async (req, res) => {
-  const { commentId, userId } = req.body;
+// user info for reply
+const getUserInfo = async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const user = await User.findOne({ _id: userId });
+
+    res.status(200).json({ username: user.username, pfp: user.pfp.url });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+
+// like and unlike a reply
+const handleLike = async (req, res) => {
+  const { replyId, userId } = req.body;
 
   try {
 
-    const comment = await Comment.findOne({ _id: commentId });
+    const reply = await Reply.findOne({ _id: replyId });
 
-    if (comment.likes.includes(userId)) {
-      const updateLikes = { likes: comment.likes.filter(user => !user.equals(userId)) };
-      const newComment = await Comment.findOneAndUpdate({ _id: commentId }, updateLikes, { new: true });
-      return res.status(200).json({ newComment });
+    if (reply.likes.includes(userId)) {
+      const updateLikes = { likes: reply.likes.filter(user => !user.equals(userId)) };
+      const newReply = await Reply.findOneAndUpdate({ _id: replyId }, updateLikes, { new: true });
+      return res.status(200).json({ newReply });
     }
-    const updateLikes = { likes: comment.likes.concat(userId) };
+    const updateLikes = { likes: reply.likes.concat(userId) };
 
-    const newComment = await Comment.findOneAndUpdate({ _id: commentId }, updateLikes, { new: true });
+    const newReply = await Reply.findOneAndUpdate({ _id: replyId }, updateLikes, { new: true });
 
-    res.status(200).json({ newComment });
+    res.status(200).json({ newReply });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -59,42 +73,18 @@ const likeComment = async (req, res) => {
 
 
 // delete comment
-const deleteComment = async (req, res) => {
-  const { commentId, postId } = req.body;
+const deleteReply = async (req, res) => {
+  const { replyId } = req.body;
 
   try {
-    await Comment.deleteOne({ _id: commentId });
-    const post = await Post.findOne({ _id: postId });
-
-    const updatedComments = { comments: post.comments.filter(comment => !comment._id.equals(commentId)) };
-    const newPost = await Post.findOneAndUpdate({ _id: postId }, updatedComments, { new: true });
+    const reply = await Reply.findOne({ _id: replyId });
+    console.log(reply);
       
-    res.status(200).json({ newPost }); 
+    res.status(200).json({  }); 
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 }
 
 
-// info of users who liked the comment
-const likedInfo = async (req, res) => {
-  const commentId = req.params.id;
-
-  try {
-    const comment = await Comment.findOne({ _id: commentId });
-    
-    const users = [];
-
-    for (const userId of comment.likes) {
-      const user = await User.findOne({ _id: userId });
-      users.push({ username: user.username, fullName: user.fullName, pfp: user.pfp, followers: user.followers });
-    }
-
-    res.status(200).json({ users });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-}
-
-
-module.exports = { getReplies, createReply };
+module.exports = { getReplies, createReply, deleteReply, getUserInfo, handleLike };
