@@ -1,4 +1,4 @@
-@keyframes popIn {
+@keyframes popInComment {
   0% { 
     opacity: 0;
     width: 440px;
@@ -10,16 +10,34 @@
   100% { opacity: 1; width: 400px; height: 96px; }
 }
 
+@keyframes highlightComment {
+  0% { background-color: #e3e6ff; }
+
+  100% { background-color: #f4f5fe; }
+}
+
 .comment-container {
   width: 100%;
-  height: min-content;
+  height: calc(min-content + 32px);
   display: flex;
-  margin-bottom: 22px;
+  padding: 8px 16px;
+  margin-bottom: 6px;
   flex-direction: column;
 }
 
 .comment-container:hover .comment-options-dots-show {
   display: inline-block;
+}
+
+.comment-container-reply {
+  background-color: #f4f5fe;
+  border-left: 2px solid #5865f2;
+  padding: 8px 16px 8px 14px;
+}
+
+.comment-container-highlight {
+  animation: highlightComment 1s;
+  animation-timing-function: ease-out;
 }
 
 .comment-comment {
@@ -141,7 +159,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  animation: popIn 0.2s;
+  animation: popInComment 0.2s;
 }
 
 .comment-delete-confirm {

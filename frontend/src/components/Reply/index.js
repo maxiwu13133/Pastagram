@@ -6,21 +6,23 @@ import './index.css';
 
 // hooks
 import { useAuthContext } from '../../hooks/useAuthContext';
-
+import { useReplyTargetContext } from '../../hooks/useReplyTargetContext';
+import { useGetCommunity } from '../../hooks/useGetCommunity';
+import { useDeleteReply } from '../../hooks/useDeleteReply';
+import { useRepliesContext } from '../../hooks/useRepliesContext';
 
 // assets
 import defaultPfp from '../../assets/Profile/default-pfp.jpg';
 import heartFilled from '../../assets/PostView/heart-filled.png';
 import heartHollow from '../../assets/PostView/heart-hollow.png';
 import dots from '../../assets/PostView/three-dots.png';
-import { useGetCommunity } from '../../hooks/useGetCommunity';
 
 
 // components
 import Likes from '../Likes';
 
 
-const Reply = ({ replies, index, setReplies, replyLoading, setReplyLoading, last }) => {
+const Reply = ({ replies, index, replyLoading, setReplyLoading, last }) => {
   const { user } = useAuthContext();
   const { id } = useGetCommunity({ username: user.username });
   const [username, setUsername] = useState('');
@@ -79,8 +81,14 @@ const Reply = ({ replies, index, setReplies, replyLoading, setReplyLoading, last
   }
   
 
+  // update replies in real time
+  const { replies: allReplies, dispatch: dispatchReplies } = useRepliesContext();
+
+
+
   // delete reply popup
   const [deletePopup, setDeletePopup] = useState(false);
+  const { deleteReply } = useDeleteReply();
 
   const handleDelete = () => {
 
@@ -118,11 +126,28 @@ const Reply = ({ replies, index, setReplies, replyLoading, setReplyLoading, last
 
     if (response.ok) {
       setLikes(json.newReply.likes);
-      const newReplies = replies;
-      newReplies[index].likes = json.newReply.likes;
-      setReplies(newReplies);
+      const newAllReplies = allReplies;
+      const allRepliesIndex = newAllReplies.indexOf(replies[index]);
+      newAllReplies[allRepliesIndex].likes = json.newReply.likes;
+      dispatchReplies({ type: 'SET_REPLIES', payload: newAllReplies });
     }
   }
+
+
+  // reply to comment 
+  const { commentId, dispatch: dispatchTarget } = useReplyTargetContext();
+
+  const handleReplyTarget = () => {
+    if (!commentId) {
+      dispatchTarget({ type: 'SET_TARGET', payload: { commentId: replies[index].comment_id, replyTarget: username } });
+    };
+    if (commentId === replies[index].comment_id) {
+      dispatchTarget({ type: 'REMOVE_TARGET' });
+    };
+    if (commentId && commentId !== replies[index].comment_id) {
+      dispatchTarget({ type: 'SET_TARGET', payload: { commentId: replies[index].comment_id, replyTarget: username } });
+    };
+  };
 
 
   return ( 
@@ -153,7 +178,7 @@ const Reply = ({ replies, index, setReplies, replyLoading, setReplyLoading, last
             </p>
           }
 
-          <p className="reply-options-reply">
+          <p className="reply-options-reply" onClick={ () => handleReplyTarget() }>
             Reply
           </p>
           <img 

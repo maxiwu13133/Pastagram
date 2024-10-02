@@ -12,6 +12,8 @@ const {
   getUserInfo,
   handleLike,
   getReplyLikes,
+  deleteReply,
+  getRepliesAll,
 } = require('../controllers/replyController');
 
 // get replies of comment
@@ -28,6 +30,12 @@ router.patch('/like', handleLike);
 
 // get liked info
 router.get('/liked/:id', getReplyLikes);
+
+// delete reply
+router.delete('/', deleteReply);
+
+// get all replies of post
+router.get('/all/:postId', getRepliesAll);
 
 
 module.exports = router;

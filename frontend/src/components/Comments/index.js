@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { formatDistanceToNowStrict } from 'date-fns';
 import './index.css';
 
@@ -9,6 +9,11 @@ import Comment from './Comment';
 
 // assets
 import defaultPfp from '../../assets/Profile/default-pfp.jpg';
+
+
+// hooks
+import { useRepliesContext } from '../../hooks/useRepliesContext';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 
 const Comments = ({ post, posts, setPosts, comments, setComments, username, pfp }) => {
@@ -29,7 +34,7 @@ const Comments = ({ post, posts, setPosts, comments, setComments, username, pfp 
         <div className={ `comments-placeholder-bot comments-placeholder-delay-${ Math.floor(Math.random() * 3) }` } />
       </div>
     </div>
-  }
+  };
 
 
   // format time display
@@ -39,7 +44,7 @@ const Comments = ({ post, posts, setPosts, comments, setComments, username, pfp 
 
     if (secondsSinceCreated / (1000 * 3600 * 24) > 7) {
       return Math.floor(secondsSinceCreated / (1000 * 3600 * 24) / 7) + 'w';
-    }
+    };
 
     const formattedTime = formatDistanceToNowStrict(date, { addSuffix: true });
     const shortenedTime = formattedTime
@@ -54,7 +59,35 @@ const Comments = ({ post, posts, setPosts, comments, setComments, username, pfp 
     .replace('ago', '')
     .replace(/\s+/g, '');
     return shortenedTime;
-  }
+  };
+
+
+  // get all replies of comments of post
+  const { user } = useAuthContext();
+  const { dispatch } = useRepliesContext();
+
+  useEffect(() => {
+    const getReplies = async () => {
+
+      const response = await fetch('http://localhost:4000/api/reply/all/' + post._id, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${ user.token }`
+        }
+      });
+      const json = await response.json();
+
+      if (!response.ok) {
+        console.log('Error:', json.error);
+      };
+      if (response.ok) {
+        dispatch({ type: 'SET_REPLIES', payload: json.replies });
+      };
+    };
+
+    getReplies();
+  }, [user, dispatch, post]);
+  
 
 
   return ( 

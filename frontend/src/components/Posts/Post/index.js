@@ -1,13 +1,21 @@
 import { useState, useEffect } from 'react';
 import './index.css';
 
+
 // assets
 import multipleFiles from '../../../assets/Profile/multiple-files.png';
 import chatBubble from '../../../assets/Profile/chat-bubble.png';
 import heartWhite from '../../../assets/Profile/heart-white.png';
 
+
 // components
 import PostView from '../../PostView';
+
+
+// context
+import { ReplyTargetContextProvider } from '../../../context/ReplyTargetContext';
+import { RepliesContextProvider } from '../../../context/RepliesContext';
+
 
 const Post = ({ post, username, pfp, setPosts, posts }) => {
   const { photos, comments, likes } = post;
@@ -21,18 +29,23 @@ const Post = ({ post, username, pfp, setPosts, posts }) => {
     }
   }, [viewOpen])
 
+
   return ( 
     <div className="post-container">
 
-      { viewOpen && 
-        <PostView 
-          post={ post }
-          closeModal={ () => setViewOpen(false) }
-          username={ username }
-          pfp={ pfp }
-          setPosts={ setPosts }
-          posts={ posts }
-        />
+      { viewOpen &&
+        <RepliesContextProvider>
+          <ReplyTargetContextProvider>
+            <PostView 
+              post={ post }
+              closeModal={ () => setViewOpen(false) }
+              username={ username }
+              pfp={ pfp }
+              setPosts={ setPosts }
+              posts={ posts }
+            />
+          </ReplyTargetContextProvider>
+        </RepliesContextProvider>
       }
 
       <div className="post-overlay" onClick={ () => setViewOpen(true) }>

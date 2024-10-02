@@ -1,11 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import './index.css';
 
+
 // components
 import CloseButton from '../Create/CloseButton';
 import Preview from '../Preview';
 import Comments from '../Comments';
 import Likes from '../Likes';
+
 
 // assets
 import defaultPfp from '../../assets/Profile/default-pfp.jpg';
@@ -13,6 +15,8 @@ import dots from '../../assets/PostView/three-dots.png';
 import chatBubble from '../../assets/PostView/chat-bubble-hollow.png';
 import heartFilled from '../../assets/PostView/heart-filled.png';
 import heartHollow from '../../assets/PostView/heart-hollow.png';
+import closeButton from '../../assets/PostView/circle-close-black.png';
+
 
 // hooks
 import { useDeletePost } from '../../hooks/useDeletePost';
@@ -20,6 +24,9 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 import { useCreateComment } from '../../hooks/useCreateComment';
 import { useLikePost } from '../../hooks/useLikePost';
 import { useGetCommunity } from '../../hooks/useGetCommunity';
+import { useReplyTargetContext } from '../../hooks/useReplyTargetContext';
+import { useRepliesContext } from '../../hooks/useRepliesContext';
+import { useCreateReply } from '../../hooks/useCreateReply';
 
 
 const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
@@ -36,7 +43,7 @@ const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
     setPosts(posts => [...posts].filter(p => p._id !== post._id));
     setDeletePopup(false);
     closeModal();
-  }
+  };
 
 
   // update comments in real time
@@ -44,7 +51,22 @@ const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
 
   useEffect(() => {
     setComments(post.comments);
-  },[post.comments])
+  },[post.comments]);
+
+
+  // update replies in real time
+  const { replies, dispatch: dispatchReplies } = useRepliesContext();
+
+
+  // reply to comment
+  const { commentId, replyTarget, dispatch: dispatchTarget } = useReplyTargetContext();
+  const { createReply } = useCreateReply();
+
+  const handleCreateReply = async () => {
+    const response = await createReply({ commentId, text: comment });
+    dispatchReplies({ type: 'SET_REPLIES', payload: replies.concat(response.reply) });
+    setComment('');
+  };
 
 
   // create comment
@@ -54,18 +76,19 @@ const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
   const handleCreate = async () => {
     const response = await createComment({ post, text: comment });
     setComment('');
-    // setComments(response.newComments);
     const index = posts.findIndex(obj => obj._id === post._id);
-    posts[index].comments = response.newComments;
-  }
+    const newPosts = posts;
+    newPosts[index].comments = response.newComments;
+    setPosts(newPosts);
+  };
 
 
   // post if enter button pressed as well
   const handlePost = (e) => {
     if (e.keyCode === 13) {
-      handleCreate();
-    }
-  }
+      commentId ? handleCreateReply() : handleCreate();
+    };
+  };
 
 
   // focus text area when comment icon clicked
@@ -76,7 +99,7 @@ const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
     if (focusTextarea !== null) {
       textareaRef.current.focus();
     }
-  }, [focusTextarea])
+  }, [focusTextarea]);
 
 
   // like post
@@ -85,7 +108,7 @@ const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
 
   useEffect(() => {
     setLikes(post.likes);
-  }, [post.likes])
+  }, [post.likes]);
 
   const handleLike = async () => {
     const response = await likePost({ post, user });
@@ -105,7 +128,7 @@ const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
 
   useEffect(() => {
     setDate(new Date(post.createdAt));
-  }, [post.createdAt])
+  }, [post.createdAt]);
 
 
   // likes modal
@@ -212,8 +235,28 @@ const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
             }
 
             <div className="postview-likes-time">
-              { 
-                months[date.getMonth()] + " " + date.getDate().toString() + ", " + date.getFullYear().toString()
+              <p>
+                { 
+                  months[date.getMonth()] + " " + date.getDate().toString() + ", " + date.getFullYear().toString()
+                }
+              </p>
+
+              {
+                replyTarget &&
+                <div className="postview-likes-reply">
+                  <div className="postview-likes-reply-target" onClick={ () => dispatchTarget({ type: 'HIGHLIGHT' }) }>
+                    <p>
+                      Replying to <span className="postview-likes-reply-username">{ replyTarget }</span>
+                    </p>
+                  </div>
+
+                  <div 
+                    className="postview-likes-reply-close"
+                    onClick={ () => dispatchTarget({ type: 'REMOVE_TARGET' })
+                  }>
+                    <img src={ closeButton } alt="" className="postview-likes-reply-close-icon" draggable={ false } />
+                  </div>
+                </div>
               }
             </div>
           </div>
@@ -231,7 +274,7 @@ const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
 
             <button 
               className="postview-write-post"
-              onClick={ () => handleCreate() }
+              onClick={ () => commentId ? handleCreateReply() : handleCreate() }
               disabled={ comment.length === 0 }
             >
               Post

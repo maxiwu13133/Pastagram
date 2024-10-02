@@ -20,6 +20,7 @@ import Create from '../../../components/Create';
 import cameraIcon from '../../../assets/Profile/camera-icon.png';
 import defaultPfp from '../../../assets/Profile/default-pfp.jpg';
 
+
 const SelfProfile = () => {
   const { user } = useAuthContext();
   const { pfp } = usePfpContext();

@@ -8,6 +8,8 @@ import './index.css';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { useGetCommunity } from '../../../hooks/useGetCommunity';
 import { useDeleteComment } from '../../../hooks/useDeleteComment';
+import { useReplyTargetContext } from '../../../hooks/useReplyTargetContext';
+import { useRepliesContext } from '../../../hooks/useRepliesContext';
 
 
 // assets
@@ -32,10 +34,9 @@ const Comment = ({ post, posts, setPosts, comment, setComments, setIsLoading, la
   const [text, setText] = useState('');
   const [likes, setLikes] = useState([]);
   const [createdAt, setCreatedAt] = useState(0);
-  const [replies, setReplies] = useState([]);
 
 
-  // get comment info and replies
+  // get comment info
   useEffect(() => {
     const getCommentInfo = async () => {
       setIsLoading(true);
@@ -45,27 +46,19 @@ const Comment = ({ post, posts, setPosts, comment, setComments, setIsLoading, la
           'Authorization': `Bearer ${ user.token }`
         }
       })
-      const responseReply = await fetch('http://localhost:4000/api/reply/' + comment, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${ user.token }`
-        }
-      })
       const jsonComment = await responseComment.json();
-      const jsonReply = await responseReply.json();
 
-      if (!responseComment.ok || !responseReply.ok) {
-        console.log('Error:', jsonComment.error, ', ', jsonReply.error);
+      if (!responseComment.ok) {
+        console.log('Error:', jsonComment.error);
       }
 
-      if (responseComment.ok && responseReply.ok) {
+      if (responseComment.ok) {
         setPostId(jsonComment.comment.post_id);
         setText(jsonComment.comment.text);
         setLikes(jsonComment.comment.likes);
         setCreatedAt(jsonComment.comment.createdAt);
         setUsername(jsonComment.username);
         setPfp(jsonComment.pfp)
-        setReplies(jsonReply.replies);
         if (last) {
           setIsLoading(false);
         }
@@ -154,11 +147,60 @@ const Comment = ({ post, posts, setPosts, comment, setComments, setIsLoading, la
   const handleReplyLoad = () => {
     setReplyLoading(true);
     setReplyModal(true);
-  }
+  };
+
+
+  // replies context
+  const { replies } = useRepliesContext();
+  const [commentReplies, setCommentReplies] = useState([]);
+
+  useEffect(() => {
+    const filteredReplies = [];
+    for (const index in replies) {
+      if (replies[index].comment_id === comment) {
+        filteredReplies.push(replies[index]);
+      };
+      console.log(index, ': ', replies[index]);
+    };
+    setCommentReplies(filteredReplies);
+  }, [replies, comment])
+
+
+  // reply to comment
+  const { commentId, flash, dispatch } = useReplyTargetContext();
+
+  const handleReply = () => {
+    if (!commentId) {
+      dispatch({ type: 'SET_TARGET', payload: { commentId: comment, replyTarget: username } });
+    };
+    if (commentId === comment) {
+      dispatch({ type: 'REMOVE_TARGET' });
+    };
+    if (commentId && commentId !== comment) {
+      dispatch({ type: 'SET_TARGET', payload: { commentId: comment, replyTarget: username } });
+    };
+  };
+
+
+  // highlight comment briefly
+  const [highlight, setHighlight] = useState(null);
+
+  useEffect(() => {
+    if (flash === true || flash === false) {
+      setHighlight(true);
+      setTimeout(() => {
+        setHighlight(false);
+      }, 1000);
+    }
+  }, [flash]);
 
 
   return ( 
-    <div className="comment-container">
+    <div className={ `
+      comment-container
+      ${ commentId === comment ? "comment-container-reply" : "" }
+      ${ highlight && commentId === comment ? "comment-container-highlight" : "" }
+    ` }>
       <div className="comment-comment">
         <Link to={ `/${ username }` }>
           <img src={ pfp.url ? pfp.url : defaultPfp } alt="" className="comment-pfp" draggable={ false } />
@@ -185,7 +227,7 @@ const Comment = ({ post, posts, setPosts, comment, setComments, setIsLoading, la
                 }
               </p>
             }
-            <p className="comment-options-reply" >
+            <p className="comment-options-reply" onClick={ () => handleReply() } >
               Reply
             </p>
             <img 
@@ -233,7 +275,7 @@ const Comment = ({ post, posts, setPosts, comment, setComments, setIsLoading, la
       </div>
       
       {
-        replies.length > 0 && 
+        commentReplies.length > 0 && 
         <div className="comment-replies">
           <div 
             className="comment-replies-preview"
@@ -242,7 +284,7 @@ const Comment = ({ post, posts, setPosts, comment, setComments, setIsLoading, la
             <div className="comment-replies-line" />
 
             <p className="comment-replies-view">
-              { replyModal && !replyLoading ? "Hide replies" : `View replies (${ replies.length })` }
+              { replyModal && !replyLoading ? "Hide replies" : `View replies (${ commentReplies.length })` }
             </p>
 
             {
@@ -257,15 +299,14 @@ const Comment = ({ post, posts, setPosts, comment, setComments, setIsLoading, la
             replyModal &&
             <div className="comment-replies-list">
               {
-                replies.map((_, i) => 
+                commentReplies.map((_, i) => 
                   <Reply 
-                    replies={ replies }
+                    replies={ commentReplies }
                     key={ i }
                     index={ i }
-                    setReplies={ setReplies }
                     replyLoading={ replyLoading }
                     setReplyLoading={ setReplyLoading }
-                    last={ i === replies.length - 1 ? true : false }
+                    last={ i === commentReplies.length - 1 ? true : false }
                   />
                 )
               } 

@@ -65,7 +65,7 @@ const UserProfile = ({ username }) => {
           {/* Details */}
           <div className="userprofile-details">
             <div className="userprofile-pfp-container">
-              <img src={ pfp.url ? pfp.url : defaultPfp } alt="" className="userprofile-pfp" />
+              <img draggable={ false } src={ pfp.url ? pfp.url : defaultPfp } alt="" className="userprofile-pfp" />
             </div>
 
             <div className="userprofile-info">
