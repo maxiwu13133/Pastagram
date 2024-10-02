@@ -22,7 +22,7 @@ import dots from '../../assets/PostView/three-dots.png';
 import Likes from '../Likes';
 
 
-const Reply = ({ replies, index, replyLoading, setReplyLoading, last }) => {
+const Reply = ({ replies, index, replyLoading, setReplyLoading, last, setCommentReplies }) => {
   const { user } = useAuthContext();
   const { id } = useGetCommunity({ username: user.username });
   const [username, setUsername] = useState('');
@@ -36,20 +36,22 @@ const Reply = ({ replies, index, replyLoading, setReplyLoading, last }) => {
         headers: {
           'Authorization': `Bearer ${ user.token }`
         }
-      })
+      });
       const json = await response.json();
 
       if (!response.ok) {
         console.log('Error:', json.error);
-      }
+      };
       
       if (response.ok) {
         setUsername(json.username);
         setPfp(json.pfp);
         if (last) {
-          setReplyLoading(false);
-        }
-      }
+          setTimeout(() => {
+            setReplyLoading(false);
+          }, 50);
+        };
+      };
     }
 
     getUserInfo();
@@ -63,7 +65,7 @@ const Reply = ({ replies, index, replyLoading, setReplyLoading, last }) => {
 
     if (secondsSinceCreated / (1000 * 3600 * 24) > 7) {
       return Math.floor(secondsSinceCreated / (1000 * 3600 * 24) / 7) + 'w';
-    }
+    };
 
     const formattedTime = formatDistanceToNowStrict(date, { addSuffix: true });
     const shortenedTime = formattedTime
@@ -78,12 +80,11 @@ const Reply = ({ replies, index, replyLoading, setReplyLoading, last }) => {
     .replace('ago', '')
     .replace(/\s+/g, '');
     return shortenedTime;
-  }
+  };
   
 
   // update replies in real time
   const { replies: allReplies, dispatch: dispatchReplies } = useRepliesContext();
-
 
 
   // delete reply popup
@@ -91,7 +92,14 @@ const Reply = ({ replies, index, replyLoading, setReplyLoading, last }) => {
   const { deleteReply } = useDeleteReply();
 
   const handleDelete = () => {
+    deleteReply({ replyId: replies[index]._id });
+    const replyIndex = allReplies.indexOf(replies[index]);
+    const newReplies = allReplies;
+    newReplies.splice(replyIndex, 1);
+    dispatchReplies({ type: 'SET_REPLIES', payload: newReplies });
 
+    setCommentReplies(prevReplies => prevReplies.filter(reply => reply !== replies[index]));
+    setDeletePopup(false);
   }
 
 

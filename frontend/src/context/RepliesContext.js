@@ -5,7 +5,6 @@ export const RepliesContext = createContext();
 export const repliesReducer = (state, action) => {
   switch (action.type) {
     case 'SET_REPLIES':
-      console.log(action.payload);
       return { replies: action.payload };
     default:
       return state;

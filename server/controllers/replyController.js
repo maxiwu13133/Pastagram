@@ -117,9 +117,9 @@ const deleteReply = async (req, res) => {
   const { replyId } = req.body;
 
   try {
-    const reply = await Reply.findOne({ _id: replyId });
-      
-    res.status(200).json({  }); 
+    const result = await Reply.deleteOne({ _id: replyId });
+
+    res.status(200).json({ result: result.deletedCount ? 'ok' : 'error' }); 
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

@@ -160,7 +160,6 @@ const Comment = ({ post, posts, setPosts, comment, setComments, setIsLoading, la
       if (replies[index].comment_id === comment) {
         filteredReplies.push(replies[index]);
       };
-      console.log(index, ': ', replies[index]);
     };
     setCommentReplies(filteredReplies);
   }, [replies, comment])
@@ -307,6 +306,7 @@ const Comment = ({ post, posts, setPosts, comment, setComments, setIsLoading, la
                     replyLoading={ replyLoading }
                     setReplyLoading={ setReplyLoading }
                     last={ i === commentReplies.length - 1 ? true : false }
+                    setCommentReplies={ setCommentReplies }
                   />
                 )
               } 
