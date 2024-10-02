@@ -177,7 +177,8 @@ const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
               </>
             }
 
-            { user.username === username && 
+            { 
+              user.username === username && 
               <div className="postview-dots-container" onClick={ () => setDeletePopup(true) }>
                 <img src={ dots } alt="" className="postview-dots" />
               </div>

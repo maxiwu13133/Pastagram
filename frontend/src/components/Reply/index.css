@@ -1,3 +1,9 @@
+@keyframes popInReply {
+  0% { width: 440px; height: 106px; top: calc(50vh - 53px); left: calc(50vw - 220px); }
+
+  100% { width: 400px; height: 96px; }
+}
+
 .reply-container {
   display: flex;
   margin-top: 12px;
@@ -148,7 +154,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  animation: popIn 0.2s;
+  animation: popInReply 0.2s;
 }
 
 .reply-delete-confirm {

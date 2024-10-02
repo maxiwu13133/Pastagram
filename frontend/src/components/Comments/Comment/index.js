@@ -60,7 +60,9 @@ const Comment = ({ post, posts, setPosts, comment, setComments, setIsLoading, la
         setUsername(jsonComment.username);
         setPfp(jsonComment.pfp)
         if (last) {
-          setIsLoading(false);
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 50);
         }
       }
     }

@@ -115,4 +115,24 @@ const getPostLikes = async (req, res) => {
 }
 
 
-module.exports = { createPost, getPosts, deletePost, likePost, getPostLikes };
+// get friend posts
+const getFriendPosts = async (req, res) => {
+  const userId = req.user.id;
+  try {
+    const user = await User.findOne({ _id: userId });
+    let allPosts = [];
+    
+    for (const following of user.following) {
+      const posts = await Post.find({ user_id: following._id });
+      allPosts = allPosts.concat(posts);
+    }
+
+    res.status(200).json({ allPosts });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+
+}
+
+
+module.exports = { createPost, getPosts, deletePost, likePost, getPostLikes, getFriendPosts };
