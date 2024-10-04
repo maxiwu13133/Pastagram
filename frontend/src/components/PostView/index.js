@@ -271,6 +271,7 @@ const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
               value={ comment }
               onKeyDown={ (e) => handlePost(e) }
               ref={ textareaRef }
+              maxLength={ 500 }
             />
 
             <button 

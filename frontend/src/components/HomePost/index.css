@@ -1,7 +1,7 @@
 .homepost-container {
   display: flex;
   width: 468px;
-  height: 811px;
+  height: min-content;
   border-bottom: 1px solid lightgray;
   margin-bottom: 20px;
   padding-bottom: 16px;
@@ -45,7 +45,7 @@
 .homepost-header-dot {
   width: 18px;
   height: 18px;
-  background-image: radial-gradient(circle, black 2px, transparent 3px);
+  background-image: radial-gradient(circle, black 1px, transparent 3px);
   opacity: 50%;
 }
 
@@ -57,7 +57,7 @@
 /* preview */
 .homepost-preview {
   width: 468px;
-  height: 585px;
+  height: 525px;
   border: 1px solid lightgray;
   margin-bottom: 4px;
   border-radius: 4px;
@@ -131,6 +131,7 @@
   width: 100%;
   height: 18px;
   align-items: center;
+  margin-bottom: 8px;
 }
 
 .homepost-caption-username {
@@ -146,4 +147,48 @@
 }
 
 /* comments */
+.homepost-view-comments {
+  width: 100%;
+  height: 18px;
+  margin-bottom: 8px;
+}
 
+.homepost-view-comments > p {
+  font-size: 14px;
+  color: gray;
+  font-weight: 400;
+}
+
+.homepost-view-comments > p:hover {
+  cursor: pointer;
+}
+
+/* write */
+.homepost-write {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 18px;
+  height: min-content;
+}
+
+.homepost-write-text {
+  min-height: 18px;
+  max-height: 80px;
+  height: min-content;
+  width: 440px;
+  border: none;
+  outline: none;
+  resize: none;
+  font-weight: 400;
+  font-size: 14px;
+  user-select: none;
+  scrollbar-width: none;
+}
+
+.homepost-post {
+  width: 28px;
+  margin: 0 8px;
+  height: 18px;
+}
