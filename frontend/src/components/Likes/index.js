@@ -152,9 +152,15 @@ const Likes = ({ comment, reply, setLikesModal, post }) => {
           </div>
         </div>
 
-        <div className="likes-list">
+        <div className={ `likes-list ${ likedUsers.length === 0 ? "likes-list-empty" : "" }` }>
           {
-            likedUsers.map((_, i) => createUserListItem(i))
+            likedUsers.length > 0 && likedUsers.map((_, i) => createUserListItem(i))
+          }
+          {
+            likedUsers.length === 0 && 
+            <div className="likes-empty">
+              No likes yet...
+            </div>
           }
         </div>
       </div>

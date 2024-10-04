@@ -13,6 +13,7 @@ const {
   likePost,
   getPostLikes,
   getFriendPosts,
+  getInfo
 } = require('../controllers/postController');
 
 // create post
@@ -32,6 +33,8 @@ router.get('/liked/:id', getPostLikes);
 
 // get posts of friends
 router.get('/friends/:username', getFriendPosts);
+
+router.get('/info/:user_id', getInfo);
 
 
 module.exports = router

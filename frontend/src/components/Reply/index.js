@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { formatDistanceToNowStrict } from 'date-fns';
 import './index.css';
 
 
@@ -10,6 +9,8 @@ import { useReplyTargetContext } from '../../hooks/useReplyTargetContext';
 import { useGetCommunity } from '../../hooks/useGetCommunity';
 import { useDeleteReply } from '../../hooks/useDeleteReply';
 import { useRepliesContext } from '../../hooks/useRepliesContext';
+import { useFormatTime } from '../../hooks/useFormatTime';
+
 
 // assets
 import defaultPfp from '../../assets/Profile/default-pfp.jpg';
@@ -59,28 +60,7 @@ const Reply = ({ replies, index, replyLoading, setReplyLoading, last, setComment
 
 
   // format time display
-  const formatTime = (createdAt) => {
-    const date = new Date(createdAt);
-    const secondsSinceCreated = new Date().getTime() - date.getTime();
-
-    if (secondsSinceCreated / (1000 * 3600 * 24) > 7) {
-      return Math.floor(secondsSinceCreated / (1000 * 3600 * 24) / 7) + 'w';
-    };
-
-    const formattedTime = formatDistanceToNowStrict(date, { addSuffix: true });
-    const shortenedTime = formattedTime
-    .replace('seconds', 's')
-    .replace('second', 's')
-    .replace('minutes', 'm')
-    .replace('minute', 'm')
-    .replace('hours', 'h')
-    .replace('hour', 'h')
-    .replace('days', 'd')
-    .replace('day', 'd')
-    .replace('ago', '')
-    .replace(/\s+/g, '');
-    return shortenedTime;
-  };
+  const { formatTime } = useFormatTime();
   
 
   // update replies in real time

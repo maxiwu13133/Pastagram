@@ -135,4 +135,18 @@ const getFriendPosts = async (req, res) => {
 }
 
 
-module.exports = { createPost, getPosts, deletePost, likePost, getPostLikes, getFriendPosts };
+// get user info of post
+const getInfo = async (req, res) => {
+  const user_id = req.params.user_id;
+
+  try {
+    const user = await User.findOne({ _id: user_id });
+
+    res.status(200).json({ username: user.username, pfp: user.pfp.url });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+
+module.exports = { createPost, getPosts, deletePost, likePost, getPostLikes, getFriendPosts, getInfo };
