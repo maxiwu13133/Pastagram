@@ -115,6 +115,14 @@ const HomePost = ({ post }) => {
     };
   }
 
+  const [focusTextarea, setFocusTextarea] = useState(null);
+
+  useEffect(() => {
+    if (focusTextarea !== null) {
+      textareaRef.current.focus();
+    }
+  }, [focusTextarea]);
+
 
   return ( 
     <div className="homepost-container">
@@ -146,7 +154,7 @@ const HomePost = ({ post }) => {
           />
         </div>
 
-        <div className="homepost-chat-container">
+        <div className="homepost-chat-container" onClick={ () => setFocusTextarea(focusTextarea ? false : true ) }>
           <img src={ chatBubble } alt="" className="homepost-chat" draggable={ false } />
         </div>
       </div>
