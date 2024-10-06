@@ -40,6 +40,11 @@
   justify-content: flex-start;
 }
 
+.comments-pfp-link {
+  width: 32px;
+  height: 32px;
+}
+
 .comments-caption-pfp {
   width: 32px;
   height: 32px;
@@ -60,12 +65,12 @@
   justify-content: space-between;
 }
 
-.comments-caption-text span {
+.comments-text-username {
   font-weight: 600;
   color: #545454;
 }
 
-.comments-caption-text span:hover {
+.comments-text-username:hover {
   opacity: 70%;
   cursor: pointer;
 }
@@ -104,6 +109,7 @@
   display: flex;
   width: 100%;
   height: 40px;
+  margin-left: 16px;
   margin-bottom: 22px;
 }
 

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import './index.css';
 
 
@@ -29,7 +30,7 @@ import { useRepliesContext } from '../../hooks/useRepliesContext';
 import { useCreateReply } from '../../hooks/useCreateReply';
 
 
-const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
+const PostView = ({ post, setLocalPost, closeModal, username, pfp, setPosts, posts }) => {
   const { user } = useAuthContext();
   const { id } = useGetCommunity({ username: user.username });
   const [deletePopup, setDeletePopup] = useState(false);
@@ -85,7 +86,7 @@ const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
 
   // post if enter button pressed as well
   const handlePost = (e) => {
-    if (e.keyCode === 13) {
+    if (e.keyCode === 13 && comment.length > 0) {
       commentId ? handleCreateReply() : handleCreate();
     };
   };
@@ -149,10 +150,14 @@ const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
         {/* Details */}
         <div className="postview-details">
           <div className="postview-header">
-            <img src={ pfp?.url ? pfp.url : defaultPfp } alt="" className="postview-header-icon" draggable={ false }/>
+            <Link to={ `/${ username }` } className="postview-header-icon-link">
+              <img src={ pfp?.url ? pfp.url : defaultPfp } alt="" className="postview-header-icon" draggable={ false }/>
+            </Link>
 
             <div className="postview-header-name">
-              { username }
+              <Link to={ `/${ username }` }>
+                <p className="postview-header-name-link">{ username }</p>
+              </Link>
             </div>
 
             {/* Delete post */}
@@ -195,6 +200,7 @@ const PostView = ({ post, closeModal, username, pfp, setPosts, posts }) => {
               pfp={ pfp }
               setPosts={ setPosts }
               posts={ posts }
+              setLocalPost={ setLocalPost }
             />
           </div>
 

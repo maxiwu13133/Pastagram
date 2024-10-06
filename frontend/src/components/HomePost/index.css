@@ -147,26 +147,26 @@
 }
 
 /* comments */
-.homepost-view-comments {
-  width: 100%;
+.homepost-comments-container {
+  width: 150px;
   height: 18px;
   margin-bottom: 8px;
 }
 
-.homepost-view-comments > p {
+.homepost-comments-text {
   font-size: 14px;
   color: gray;
   font-weight: 400;
 }
 
-.homepost-view-comments > p:hover {
+.homepost-comments-text:hover {
   cursor: pointer;
 }
 
 /* write */
 .homepost-write {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
   min-height: 18px;
@@ -188,7 +188,25 @@
 }
 
 .homepost-post {
-  width: 28px;
+  width: 32px;
   margin: 0 8px;
   height: 18px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  color: #0f9bf6;
+  background: none;
+  user-select: none;
+}
+
+.homepost-post:hover {
+  cursor: pointer;
+}
+
+.homepost-post:active {
+  opacity: 50%;
+}
+
+.homepost-post-hide {
+  display: none;
 }

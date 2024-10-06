@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import './index.css';
 
 
@@ -16,7 +17,7 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 import { useFormatTime } from '../../hooks/useFormatTime';
 
 
-const Comments = ({ post, posts, setPosts, comments, setComments, username, pfp }) => {
+const Comments = ({ post, setLocalPost, posts, setPosts, comments, setComments, username, pfp }) => {
 
   // newest comments first
   const reversedComments = [...comments].reverse();
@@ -86,12 +87,19 @@ const Comments = ({ post, posts, setPosts, comments, setComments, username, pfp 
       { 
         post.caption && 
         <div className="comments-caption">
-          
-          <img src={ pfp?.url ? pfp.url : defaultPfp } alt="" className="comments-caption-pfp"  draggable={ false } />
+          <Link to={ `/${ username }` } className="comments-pfp-link">
+            <img src={ pfp?.url ? pfp.url : defaultPfp } alt="" className="comments-caption-pfp"  draggable={ false } />
+          </Link>
 
           <div className="comments-caption-details">
             <div className="comments-caption-text">
-              <p><span>{ username } </span>{ post.caption }</p>
+            <p>
+              <span>
+                <Link to={ `/${ username }` } className="comments-text-username">{ username } </Link>
+              </span>
+
+              { post.caption }
+            </p>
             </div>
 
             <div className="comments-caption-time">
@@ -124,6 +132,7 @@ const Comments = ({ post, posts, setPosts, comments, setComments, username, pfp 
                 last={ i === reversedComments.length - 1 ? true : false }
                 setPosts={ setPosts }
                 posts={ posts }
+                setLocalPost={ setLocalPost }
               />
             )
           }

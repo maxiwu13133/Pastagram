@@ -25,7 +25,7 @@ import Likes from '../../Likes';
 import Reply from '../../Reply';
 
 
-const Comment = ({ post, posts, setPosts, comment, setComments, setIsLoading, last }) => {
+const Comment = ({ post, setLocalPost, posts, setPosts, comment, setComments, setIsLoading, last }) => {
   const { user } = useAuthContext();
   const { id } = useGetCommunity({ username: user.username });
   const [username, setUsername] = useState('');
@@ -104,10 +104,21 @@ const Comment = ({ post, posts, setPosts, comment, setComments, setIsLoading, la
 
   const handleDelete = async () => {
     setComments(post.comments.filter(c => c !== comment));
-    const index = posts.indexOf(post);
-    const newPosts = posts;
-    newPosts[index].comments = post.comments.filter(c => c !== comment);
-    setPosts(newPosts);
+    if (posts) {
+      const index = posts.indexOf(post);
+      const newPosts = posts;
+      newPosts[index].comments = post.comments.filter(c => c !== comment);
+      setPosts(newPosts);
+    }
+
+    if (setLocalPost) {
+      console.log(post.comments);
+      console.log(post.comments.filter(c => c !== comment));
+      setLocalPost({
+        ...post,
+        comments: post.comments.filter(c => c !== comment)
+      });
+    }
     await deleteComment({ commentId: comment, postId: postId });
     setDeletePopup(false);
   }

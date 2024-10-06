@@ -8,6 +8,7 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 import { useFormatTime } from '../../hooks/useFormatTime';
 import { useLikePost } from '../../hooks/useLikePost';
 import { useGetCommunity } from '../../hooks/useGetCommunity';
+import { useCreateComment } from '../../hooks/useCreateComment';
 
 
 // components
@@ -35,6 +36,7 @@ const HomePost = ({ post }) => {
   // get username and pfp 
   const [username, setUsername] = useState('');
   const [pfp, setPfp] = useState({});
+  const [localPost, setLocalPost] = useState({});
 
   useEffect(() => {
     const getInfo = async () => {
@@ -55,8 +57,8 @@ const HomePost = ({ post }) => {
     };
 
     getInfo();
-  }, [user.token, post.user_id]);
-
+    setLocalPost(post);
+  }, [user.token, post.user_id, post]);
 
   // format time display
   const { formatTime } = useFormatTime();
@@ -95,11 +97,22 @@ const HomePost = ({ post }) => {
 
 
   // handle textarea
+  const { createComment } = useCreateComment();
   const [comment, setComment] = useState('');
   const textareaRef = useRef(null);
 
-  const handlePost = () => {
+  const handleCreate = async () => {
+    const response = await createComment({ post, text: comment });
+    setComment('');
+    const newLocalPost = localPost;
+    newLocalPost.comments = response.newComments;
+    setLocalPost(newLocalPost);
+  };
 
+  const handlePost = (e) => {
+    if (e.keyCode === 13 && comment.length > 0) {
+      handleCreate()
+    };
   }
 
 
@@ -164,7 +177,8 @@ const HomePost = ({ post }) => {
         <RepliesContextProvider>
           <ReplyTargetContextProvider>
             <PostView 
-              post={ post }
+              post={ localPost }
+              setLocalPost={ setLocalPost }
               closeModal={ setPostViewModal }
               username={ username }
               pfp={ pfp }
@@ -175,8 +189,13 @@ const HomePost = ({ post }) => {
 
       {
         post.comments.length > 0 && 
-        <div className="homepost-view-comments">
-          <p onClick={ () => setPostViewModal(true) }>{ `View all ${ post.comments.length } comments` }</p>
+        <div className="homepost-comments-container">
+          <p 
+            onClick={ () => setPostViewModal(true) }
+            className="homepost-comments-text"
+          >
+            { `View all ${ localPost.comments?.length } comments` }
+          </p>
         </div>
       }
 
@@ -192,7 +211,10 @@ const HomePost = ({ post }) => {
           maxLength={ 500 }
         />
 
-        <button className="homepost-post">
+        <button 
+          className={ `homepost-post ${ comment.length === 0 ? "homepost-post-hide" : "" }` }
+          onClick={ () => handleCreate() }
+        >
           Post
         </button>
       </div>
