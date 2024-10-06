@@ -112,8 +112,6 @@ const Comment = ({ post, setLocalPost, posts, setPosts, comment, setComments, se
     }
 
     if (setLocalPost) {
-      console.log(post.comments);
-      console.log(post.comments.filter(c => c !== comment));
       setLocalPost({
         ...post,
         comments: post.comments.filter(c => c !== comment)

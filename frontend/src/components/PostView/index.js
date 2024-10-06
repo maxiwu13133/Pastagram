@@ -77,10 +77,18 @@ const PostView = ({ post, setLocalPost, closeModal, username, pfp, setPosts, pos
   const handleCreate = async () => {
     const response = await createComment({ post, text: comment });
     setComment('');
-    const index = posts.findIndex(obj => obj._id === post._id);
-    const newPosts = posts;
-    newPosts[index].comments = response.newComments;
-    setPosts(newPosts);
+    if (posts) {
+      const index = posts.findIndex(obj => obj._id === post._id);
+      const newPosts = posts;
+      newPosts[index].comments = response.newComments;
+      setPosts(newPosts);
+    };
+    if (setLocalPost) {
+      setLocalPost({
+        ...post,
+        comments: response.newComments
+      });
+    };
   };
 
 

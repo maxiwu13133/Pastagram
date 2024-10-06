@@ -37,13 +37,13 @@ const Home = () => {
         console.log('Error:', json.error);
       };
       if (response.ok) {
-        setIsLoading(false);
-
         const sortedJson = json.allPosts.sort((a, b) => {
           return new Date(a.createdAt) - new Date(b.createdAt);
         });
 
         setPosts(sortedJson.reverse());
+
+        setIsLoading(false);
       };
     };
 
