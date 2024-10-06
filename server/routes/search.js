@@ -26,7 +26,7 @@ router.patch('/add', addSearch);
 // delete search
 router.patch('/remove', removeSearch);
 
-// clear searchhistory
+// clear search history
 router.patch('/clear', clearSearch);
 
 

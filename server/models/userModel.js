@@ -47,6 +47,11 @@ const userSchema = new Schema({
     type: ObjectId,
     ref: 'User',
     default: []
+  }],
+  saved: [{
+    type: ObjectId,
+    ref: 'Post',
+    default: []
   }]
 });
 
