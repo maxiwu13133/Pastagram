@@ -17,14 +17,15 @@ const getSaved = async (req, res) => {
 
 // add post to saved
 const addSaved = async (req, res) => {
-  const { userId, postId } = req.body;
+  const { postId } = req.body;
+  const self = req.user;
 
   try {
-    const user = await User.findOne({ _id: userId });
+    const user = await User.findOne({ _id: self._id });
     const newSaved = { saved: user.saved.concat(postId) };
-    await User.findOneAndUpdate({ _id: userId }, newSaved, { new: true });
+    await User.findOneAndUpdate({ _id: self._id }, newSaved, { new: true });
 
-    res.status(200).json({ newSaved });
+    res.status(200).json({ newSaved: newSaved.saved });
   } catch (error) {
     res.status(400).json({ error: error,message });
   }
@@ -40,7 +41,7 @@ const removeSaved = async (req, res) => {
     const newSaved = { saved: user.saved.filter(save => !save.equals(postId)) };
     await User.findOneAndUpdate({ _id: userId }, newSaved, { new: true });
 
-    res.status(200).json({ newSaved });
+    res.status(200).json({ newSaved: newSaved.saved });
   } catch (error) {
     res.status(400).json({ error: error,message });
   }
