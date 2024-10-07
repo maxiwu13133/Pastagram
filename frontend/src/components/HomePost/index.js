@@ -9,6 +9,7 @@ import { useFormatTime } from '../../hooks/useFormatTime';
 import { useLikePost } from '../../hooks/useLikePost';
 import { useGetCommunity } from '../../hooks/useGetCommunity';
 import { useCreateComment } from '../../hooks/useCreateComment';
+import { useSavedAPI } from '../../hooks/useSavedAPI';
 
 
 // components
@@ -22,6 +23,8 @@ import defaultPfp from '../../assets/Profile/default-pfp.jpg';
 import heartHollow from '../../assets/PostView/heart-hollow.png';
 import heartFilled from '../../assets/PostView/heart-filled.png';
 import chatBubble from '../../assets/PostView/chat-bubble-hollow.png';
+import unsavedPost from '../../assets/PostView/unsaved-post.png';
+import savedPost from '../../assets/PostView/saved-post.png';
 
 
 // context
@@ -31,7 +34,7 @@ import { ReplyTargetContextProvider } from '../../context/ReplyTargetContext';
 
 const HomePost = ({ post }) => {
   const { user } = useAuthContext();
-  const { id } = useGetCommunity({ username: user.username });
+  const { id, saved } = useGetCommunity({ username: user.username });
 
   // get username and pfp 
   const [username, setUsername] = useState('');
@@ -124,6 +127,29 @@ const HomePost = ({ post }) => {
   }, [focusTextarea]);
 
 
+  // save post
+  const { addSaved, removeSaved } = useSavedAPI();
+  const [localSaved, setLocalSaved] = useState([]);
+
+  useEffect(() => {
+    setLocalSaved(saved);
+  }, [saved]);
+
+  const handleSave = async () => {
+    if (localSaved.includes(post._id)) {
+      console.log('remove');
+      const response = await removeSaved({ postId: post._id });
+      setLocalSaved(response.newSaved);
+    };
+
+    if (!localSaved.includes(post._id)) {
+      console.log('add');
+      const response = await addSaved({ postId: post._id });
+      setLocalSaved(response.newSaved);
+    };
+  }
+
+
   return ( 
     <div className="homepost-container">
       <div className="homepost-header">
@@ -155,7 +181,21 @@ const HomePost = ({ post }) => {
         </div>
 
         <div className="homepost-chat-container" onClick={ () => setFocusTextarea(focusTextarea ? false : true ) }>
-          <img src={ chatBubble } alt="" className="homepost-chat" draggable={ false } />
+          <img 
+            src={ chatBubble }
+            alt=""
+            className="homepost-chat"
+            draggable={ false }
+          />
+        </div>
+
+        <div className="homepost-saved-container" onClick={ () => handleSave() }>
+          <img 
+            src={ localSaved.includes(post._id) ? savedPost : unsavedPost }
+            alt=""
+            className="homepost-saved"
+            draggable={ false }
+          />
         </div>
       </div>
 
@@ -190,6 +230,7 @@ const HomePost = ({ post }) => {
               closeModal={ setPostViewModal }
               username={ username }
               pfp={ pfp }
+              setParentSave={ setLocalSaved }
             />
           </ReplyTargetContextProvider>
         </RepliesContextProvider>

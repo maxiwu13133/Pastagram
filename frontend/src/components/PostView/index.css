@@ -233,12 +233,27 @@
   padding: 8px;
 }
 
+.postview-likes-saved-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 40px;
+  padding: 8px;
+  margin-left: auto;
+}
+
 .postview-likes-heart, .postview-likes-comment {
   width: 24px;
   height: 24px;
 }
 
-.postview-likes-heart:hover, .postview-likes-comment:hover {
+.postview-likes-saved {
+  width: 22px;
+  height: 24px;
+}
+
+.postview-likes-heart:hover, .postview-likes-comment:hover, .postview-likes-saved:hover {
   cursor: pointer;
   opacity: 50%;
 }
@@ -246,6 +261,12 @@
 .postview-likes-heart:active, .postview-likes-comment:active {
   opacity: 30%;
   width: 22px;
+  height: 22px;
+}
+
+.postview-likes-saved:active {
+  opacity: 50%;
+  width: 20px;
   height: 22px;
 }
 

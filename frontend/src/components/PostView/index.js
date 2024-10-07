@@ -17,6 +17,8 @@ import chatBubble from '../../assets/PostView/chat-bubble-hollow.png';
 import heartFilled from '../../assets/PostView/heart-filled.png';
 import heartHollow from '../../assets/PostView/heart-hollow.png';
 import closeButton from '../../assets/PostView/circle-close-black.png';
+import unsavedPost from '../../assets/PostView/unsaved-post.png';
+import savedPost from '../../assets/PostView/saved-post.png';
 
 
 // hooks
@@ -28,11 +30,12 @@ import { useGetCommunity } from '../../hooks/useGetCommunity';
 import { useReplyTargetContext } from '../../hooks/useReplyTargetContext';
 import { useRepliesContext } from '../../hooks/useRepliesContext';
 import { useCreateReply } from '../../hooks/useCreateReply';
+import { useSavedAPI } from '../../hooks/useSavedAPI';
 
 
-const PostView = ({ post, setLocalPost, closeModal, username, pfp, setPosts, posts }) => {
+const PostView = ({ post, setLocalPost, closeModal, username, pfp, setPosts, posts, setParentSave }) => {
   const { user } = useAuthContext();
-  const { id } = useGetCommunity({ username: user.username });
+  const { id, saved } = useGetCommunity({ username: user.username });
   const [deletePopup, setDeletePopup] = useState(false);
 
   
@@ -144,6 +147,38 @@ const PostView = ({ post, setLocalPost, closeModal, username, pfp, setPosts, pos
   const [likesModal, setLikesModal] = useState(false);
 
 
+  // save post
+  const [localSaved, setLocalSaved] = useState([]);
+  const { addSaved, removeSaved } = useSavedAPI();
+
+  useEffect(() => {
+    setLocalSaved(saved);
+  }, [saved])
+
+  const handleSave = async () => {
+    if (localSaved.includes(post._id)) {
+      const response = await removeSaved({ postId: post._id });
+      setLocalSaved(prevSaved => prevSaved.filter(save => save !== post._id));
+      const newPost = post;
+      newPost.saved = response.newSaved;
+      setLocalPost(newPost);
+      if (setParentSave) {
+        setParentSave(response.newSaved);
+      }
+    };
+    if (!localSaved.includes(post._id)) {
+      const response = await addSaved({ postId: post._id });
+      setLocalSaved(prevSaved => [...prevSaved, post._id]);
+      const newPost = post;
+      newPost.saved = response.newSaved;
+      setLocalPost(newPost);
+      if (setParentSave) {
+        setParentSave(response.newSaved);
+      }
+    };
+  }
+
+
   return ( 
     <div className="postview">
       <div className="postview-overlay" onClick={ () => closeModal() } />
@@ -230,6 +265,15 @@ const PostView = ({ post, setLocalPost, closeModal, username, pfp, setPosts, pos
                   alt=""
                   className="postview-likes-comment"
                   onClick={ () => focusTextarea ? setFocusTextarea(false) : setFocusTextarea(true) }
+                  draggable={ false }
+                />
+              </div>
+              <div className="postview-likes-saved-container">
+                <img 
+                  src={ localSaved?.includes(post._id) ?  savedPost : unsavedPost }
+                  alt=""
+                  className="postview-likes-saved"
+                  onClick={ () => handleSave() }
                   draggable={ false }
                 />
               </div>

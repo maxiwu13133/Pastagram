@@ -90,17 +90,30 @@
   left: 32px;
 }
 
+.homepost-saved-container {
+  right: 0;
+  position: absolute;
+  padding: 8px;
+  height: 40px;
+  width: 38px;
+}
+
 .homepost-heart, .homepost-chat {
   width: 24px;
   height: 24px;
 }
 
-.homepost-heart-container:hover, .homepost-chat-container:hover {
+.homepost-saved {
+  width: 22px;
+  height: 24px;
+}
+
+.homepost-heart-container:hover, .homepost-chat-container:hover, .homepost-saved-container:hover {
   cursor: pointer;
   opacity: 50%;
 }
 
-.homepost-heart-container:active, .homepost-chat-container:active {
+.homepost-heart-container:active, .homepost-chat-container:active, .homepost-saved-container:active {
   opacity: 30%;
 }
 
