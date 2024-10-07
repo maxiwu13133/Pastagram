@@ -161,7 +161,9 @@ const PostView = ({ post, setLocalPost, closeModal, username, pfp, setPosts, pos
       setLocalSaved(prevSaved => prevSaved.filter(save => save !== post._id));
       const newPost = post;
       newPost.saved = response.newSaved;
-      setLocalPost(newPost);
+      if (setLocalPost) {
+        setLocalPost(newPost);
+      }
       if (setParentSave) {
         setParentSave(response.newSaved);
       }
@@ -171,7 +173,9 @@ const PostView = ({ post, setLocalPost, closeModal, username, pfp, setPosts, pos
       setLocalSaved(prevSaved => [...prevSaved, post._id]);
       const newPost = post;
       newPost.saved = response.newSaved;
-      setLocalPost(newPost);
+      if (setLocalPost) {
+        setLocalPost(newPost);
+      }
       if (setParentSave) {
         setParentSave(response.newSaved);
       }
