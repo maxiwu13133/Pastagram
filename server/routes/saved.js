@@ -13,7 +13,7 @@ const {
 } = require('../controllers/savedController');
 
 // get saved posts
-router.get('/:id', getSaved);
+router.get('/', getSaved);
 
 // add post to saved
 router.patch('/add', addSaved);

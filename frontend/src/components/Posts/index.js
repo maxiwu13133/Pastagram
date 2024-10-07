@@ -3,7 +3,7 @@ import './index.css';
 // components
 import PostsRow from './PostsRow';
 
-const Posts = ({ posts, username, pfp, setPosts }) => {
+const Posts = ({ posts, setPosts }) => {
 
   const reversedPosts = [...posts].reverse();
   
@@ -26,8 +26,6 @@ const Posts = ({ posts, username, pfp, setPosts }) => {
           <PostsRow
             key={ index }
             chunk={ chunk }
-            username={ username }
-            pfp={ pfp }
             setPosts={ setPosts }
             posts={ posts }
           />

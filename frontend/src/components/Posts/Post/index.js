@@ -17,7 +17,7 @@ import { ReplyTargetContextProvider } from '../../../context/ReplyTargetContext'
 import { RepliesContextProvider } from '../../../context/RepliesContext';
 
 
-const Post = ({ post, username, pfp, setPosts, posts }) => {
+const Post = ({ post, setPosts, posts }) => {
   const { photos, comments, likes } = post;
   const [viewOpen, setViewOpen] = useState(false);
 
@@ -39,8 +39,6 @@ const Post = ({ post, username, pfp, setPosts, posts }) => {
             <PostView 
               post={ post }
               closeModal={ () => setViewOpen(false) }
-              username={ username }
-              pfp={ pfp }
               setPosts={ setPosts }
               posts={ posts }
             />

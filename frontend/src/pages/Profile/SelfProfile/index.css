@@ -123,21 +123,50 @@
 }
 
 .s-profile-post-header {
-  margin-top: 16px;
   display: flex;
+  width: 180px;
+  height: 50px;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .s-profile-post-header p {
   font-weight: 500;
   font-size: 14px;
-  margin-left: 4px;
+  margin-left: 8px;
+}
+
+.s-profile-post-posts, .s-profile-post-saved {
+  display: flex;
+  padding: 16px 0;
+  height: 100%;
+  width: 70px;
+  align-items: center;
+  user-select: none;
+}
+
+.s-profile-post-posts:hover, .s-profile-post-saved:hover {
+  cursor: pointer;
+}
+
+.s-profile-post-posts:active, .s-profile-post-saved:active {
+  opacity: 50%;
+}
+
+.s-profile-post-header-selected {
+  border-top: 1px solid black;
+  padding-top: 15px;
+}
+
+.s-profile-post-saved-icon {
+  height: 16px;
+  width: 14px;
 }
 
 .s-profile-posts {
   width: 938px;
   display: flex;
   justify-content: space-evenly;
-  margin-top: 16px;
   margin-bottom: 60px;
 }
 
@@ -182,6 +211,37 @@
 
 .s-profile-share-create:active {
   opacity: 50%;
+}
+
+/* saved posts */
+
+/* saved posts empty */
+.s-profile-saved-empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 310px;
+}
+
+.s-profile-saved-empty-icon {
+  width: 62px;
+  height: 62px;
+}
+
+.s-profile-saved-empty > h2 {
+  font-size: 30px;
+  font-weight: 800;
+  margin-top: 20px;
+}
+
+.s-profile-saved-empty > p {
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 12px;
+  width: 350px;
+  text-align: center;
 }
 
 /* deleted notif */

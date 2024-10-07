@@ -2,23 +2,30 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './index.css';
 
+
 // pages
 import Loading from '../../Loading'
+
 
 // hooks
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { useGetCommunity } from '../../../hooks/useGetCommunity';
 import { useGetPosts } from '../../../hooks/useGetPosts';
 import { usePfpContext } from '../../../hooks/usePfpContext';
+import { useGetSaved } from '../../../hooks/useGetSaved';
+
 
 // components
 import Grid from '../../../components/Posts/Grid';
 import Posts from '../../../components/Posts';
 import Create from '../../../components/Create';
 
+
 // assets
 import cameraIcon from '../../../assets/Profile/camera-icon.png';
 import defaultPfp from '../../../assets/Profile/default-pfp.jpg';
+import unsavedPost from '../../../assets/PostView/unsaved-post.png';
+import savedEmpty from '../../../assets/Profile/save-empty.png'
 
 
 const SelfProfile = () => {
@@ -38,6 +45,8 @@ const SelfProfile = () => {
     }
   }, [p]);
 
+
+  // deleted post notif
   useEffect(() => {
     if (posts.length !== p.length && postsUpdating === false) {
       setDeletedNotif(true);
@@ -51,8 +60,20 @@ const SelfProfile = () => {
     }
   }, [posts, p.length, postsUpdating]);
 
+
   // create modal
   const [modal, setModal] = useState(false);
+
+
+  // select post tab
+  const [savedTab, setSavedTab] = useState(false);
+  const [savedPosts, setSavedPosts] = useState([]);
+  const { saved } = useGetSaved();
+
+  useEffect(() => {
+    setSavedPosts(saved);
+  }, [saved]);
+
   
   return (
     <div className="s-profile-container">
@@ -78,7 +99,8 @@ const SelfProfile = () => {
 
               </div>
 
-              { !error && 
+              { 
+                !error && 
                 <div className="s-profile-stats">
                   <p className="s-profile-post-ct">
                     <span>{ posts.length }</span> posts
@@ -106,15 +128,36 @@ const SelfProfile = () => {
 
           {/* Posts */}
           <div className="s-profile-post-container">
+
             <div className="s-profile-post-header">
-              <Grid width={ 12 } height={ 17 } />
-              <p>POSTS</p>
+              <div 
+                className={ `s-profile-post-posts ${ savedTab ? "" : "s-profile-post-header-selected" }` }
+                onClick={ () => setSavedTab(false) }
+              >
+                <Grid width={ 12 } height={ 17 } />
+                <p>POSTS</p>
+              </div>
+
+              <div 
+                className={ `s-profile-post-saved ${ savedTab ? "s-profile-post-header-selected" : "" }` }
+                onClick={ () => setSavedTab(true) }
+              >
+                <img src={ unsavedPost } alt="" className="s-profile-post-saved-icon" draggable={ false }/>
+                <p>SAVED</p>
+              </div>
             </div>
+
             <div className="s-profile-posts">
-              { posts.length > 0 && 
-                <Posts posts={ posts } username={ user.username } pfp={ pfp } setPosts={ setPosts } />
+
+              {/* posts */}
+              { 
+                posts.length > 0 && !savedTab && 
+                <Posts posts={ posts } setPosts={ setPosts } />
               }
-              { posts.length === 0 && 
+
+              {/* empty posts */}
+              { 
+                posts.length === 0 && !savedTab && 
                 <div className="s-profile-empty-posts">
                   <Link className="s-profile-create-icon-container" onClick={ () => setModal(true) }>
                     <img src={ cameraIcon } alt="" className="s-profile-share-icon" />
@@ -133,6 +176,26 @@ const SelfProfile = () => {
                   {/* Create Modal */}
                   { modal && <Create handleClick={ () => setModal(false) } /> }
                 </div> 
+              }
+
+              {/* saved posts */}
+              {
+                savedTab && saved.length > 0 && 
+                <Posts posts={ savedPosts } />
+              }
+
+              {/* empty saved posts */}
+              {
+                savedTab && saved.length === 0 && 
+                <div className="s-profile-saved-empty">
+                  <img src={ savedEmpty } alt="" className="s-profile-saved-empty-icon" />
+
+                  <h2>Save</h2>
+
+                  <p>
+                    Save photos that you want to see again. No one is notified, and only you can see what you've saved.
+                  </p>
+                </div>
               }
             </div>
           </div>

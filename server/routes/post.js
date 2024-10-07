@@ -34,6 +34,7 @@ router.get('/liked/:id', getPostLikes);
 // get posts of friends
 router.get('/friends/:username', getFriendPosts);
 
+// get info of poster
 router.get('/info/:user_id', getInfo);
 
 

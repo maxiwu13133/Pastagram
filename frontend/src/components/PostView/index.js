@@ -33,7 +33,7 @@ import { useCreateReply } from '../../hooks/useCreateReply';
 import { useSavedAPI } from '../../hooks/useSavedAPI';
 
 
-const PostView = ({ post, setLocalPost, closeModal, username, pfp, setPosts, posts, setParentSave }) => {
+const PostView = ({ post, setLocalPost, closeModal, setPosts, posts, setParentSave }) => {
   const { user } = useAuthContext();
   const { id, saved } = useGetCommunity({ username: user.username });
   const [deletePopup, setDeletePopup] = useState(false);
@@ -181,6 +181,32 @@ const PostView = ({ post, setLocalPost, closeModal, username, pfp, setPosts, pos
       }
     };
   }
+
+
+  // get username and pfp of poster
+  const [username, setUsername] = useState('');
+  const [pfp, setPfp] = useState({});
+
+  useEffect(() => {
+    const getInfo = async () => {
+      const response = await fetch('http://localhost:4000/api/post/info/' + post.user_id, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${ user.token }`
+        }
+      });
+      const json = await response.json();
+      if (!response.ok) {
+        console.log('Error:', json.error);
+      };
+      if (response.ok) {
+        setUsername(json.username);
+        setPfp(json.pfp);
+      };
+    };
+
+    getInfo();
+  }, [post, user.token]);
 
 
   return ( 

@@ -7,7 +7,27 @@
     right: calc(50vw - 220px);
   }
 
-  100% { opacity: 1; width: 400px; height: 200px; }
+  100% { 
+    opacity: 1; 
+    width: 400px; 
+    height: 200px; 
+  }
+}
+
+@keyframes popInPostView {
+  0% {
+    opacity: 0;
+    width: 1432;
+    height: 907px;
+    top: calc(50vh - 453px);
+    left: calc(50vw - 716px);
+  }
+
+  100% { 
+    opacity: 1; 
+    height: 864px;
+    width: 1364px;
+  }
 }
 
 .postview-overlay {
@@ -34,6 +54,7 @@
   display: flex;
   z-index: 2;
   overflow: hidden;
+  animation: popInPostView 0.2s;
 }
 
 .postview-preview{
@@ -45,6 +66,8 @@
 .postview-details {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   height: 100%;
   width: 500px;
   border-left: 1px solid lightgray;

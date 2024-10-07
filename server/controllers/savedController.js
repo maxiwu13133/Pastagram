@@ -1,14 +1,23 @@
 const User = require('../models/userModel');
+const Post = require('../models/postModel');
 
 
 // get saved posts of user
 const getSaved = async (req, res) => {
-  const userId = req.params.id;
+  const self = req.user;
 
   try {
-    const user = await User.findOne({ _id: userId });
+    const user = await User.findOne({ _id: self._id });
+    const saved = []
 
-    res.status(200).json({ saved: user.saved });
+    for (const save of user.saved) {
+      const post = await Post.findOne({ _id: save });
+      saved.push(post);
+    }
+
+    console.log(saved);
+
+    res.status(200).json({ saved });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
