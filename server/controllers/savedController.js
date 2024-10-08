@@ -15,8 +15,6 @@ const getSaved = async (req, res) => {
       saved.push(post);
     }
 
-    console.log(saved);
-
     res.status(200).json({ saved });
   } catch (error) {
     res.status(400).json({ error: error.message });

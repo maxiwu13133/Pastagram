@@ -9,6 +9,7 @@ const {
   getCommunity,
   followUser,
   unfollowUser,
+  getSuggest
 } = require('../controllers/userController');
 
 // login route
@@ -25,6 +26,9 @@ router.patch('/follow', followUser);
 
 // unfollow a user
 router.patch('/unfollow', unfollowUser);
+
+// get suggested users
+router.get('/:id', getSuggest);
 
 
 module.exports = router;

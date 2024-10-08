@@ -1,5 +1,7 @@
 require('dotenv').config();
 
+const _ = require('lodash');
+
 const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
@@ -127,8 +129,69 @@ const unfollowUser = async (req, res) => {
   }
 }
 
+
+// get suggested friends
+const shuffleRandomly = (arr) => {
+  for (var i = arr.length - 1; i >= 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+  }
+}
+
+const getSuggest = async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    const user = await User.findOne({ _id: userId });
+    const followingList = user.following;
+
+    const followersOfFollowing = [];
+    const allSuggestions = [];
+
+    // not following any accounts 
+    if (followingList.length === 0) {
+      return res.status(200).json({ suggested });
+    };
+
+    // get all followers of following
+    for (const followingId of followingList) {
+      const following = await User.findOne({ _id: followingId });
+      followersOfFollowing.push(...following.followers);
+    };
+
+    // count frequencies of followers
+    const uniq = _.countBy(followersOfFollowing)
+    const followersSorted = Object.keys(uniq).sort((a, b) => uniq[b] - uniq[a]);
+
+    // get all following of top followers of following
+    for (const followerId of followersSorted) {
+      const follower = await User.findOne({ _id: followerId });
+      allSuggestions.push(...follower.following);
+    };
+
+    // count frequencies of followings of followers
+    const uniqSuggestions = _.countBy(allSuggestions);
+    const suggestionsSorted = Object.keys(uniqSuggestions).sort((a, b) => uniqSuggestions[b] - uniqSuggestions[a]);
+    const notFollowedSuggestions = suggestionsSorted.filter(suggestion => !user.following.includes(suggestion));
+    const bestSuggestions = notFollowedSuggestions.filter(suggestion => !user._id.equals(suggestion));
+
+    for (const sug of bestSuggestions) {
+      const sugg = await User.findOne({ _id: sug });
+      console.log(sugg.username);
+    }
+
+    res.status(200).json({ suggested: bestSuggestions });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+
 module.exports = { 
   loginUser, signupUser, // account
   getCommunity, // user info
   followUser, unfollowUser, // user and user interaction
+  getSuggest,
 };
