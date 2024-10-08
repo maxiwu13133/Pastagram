@@ -175,7 +175,7 @@
   text-decoration: none;
 }
 
-.login-signup p, a {
+.login-signup > p, .login-signup > a {
   font-size: 15px;
 }
 

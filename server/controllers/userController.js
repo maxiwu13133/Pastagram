@@ -175,11 +175,13 @@ const getSuggest = async (req, res) => {
     const uniqSuggestions = _.countBy(allSuggestions);
     const suggestionsSorted = Object.keys(uniqSuggestions).sort((a, b) => uniqSuggestions[b] - uniqSuggestions[a]);
     const notFollowedSuggestions = suggestionsSorted.filter(suggestion => !user.following.includes(suggestion));
-    const bestSuggestions = notFollowedSuggestions.filter(suggestion => !user._id.equals(suggestion));
+    const bestSuggestionIds = notFollowedSuggestions.filter(suggestion => !user._id.equals(suggestion));
 
-    for (const sug of bestSuggestions) {
-      const sugg = await User.findOne({ _id: sug });
-      console.log(sugg.username);
+    const bestSuggestions = [];
+
+    for (const bestId of bestSuggestionIds) {
+      const best = await User.findOne({ _id: bestId });
+      bestSuggestions.push(best);
     }
 
     res.status(200).json({ suggested: bestSuggestions });

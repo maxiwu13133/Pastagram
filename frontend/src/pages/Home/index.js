@@ -12,6 +12,7 @@ import Loading from '../Loading';
 
 // components
 import HomePost from '../../components/HomePost';
+import Suggest from '../../components/Suggest';
 
 
 const Home = () => {
@@ -68,8 +69,8 @@ const Home = () => {
             }
           </div>
     
-          <div className="home-suggested-accounts">
-    
+          <div className="home-suggest">
+            <Suggest />
           </div>
         </div>
       }

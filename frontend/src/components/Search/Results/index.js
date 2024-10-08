@@ -48,7 +48,12 @@ const Results = ({ searchTerm, setSearchTerm, results }) => {
     return (
       <div className="results-user-container" key={ i } onClick={ () => handleClick({ result, remove: false }) }>
         <Link to={ `/${ result.username }` } className="results-user">
-          <img src={ result.pfp ? result.pfp.url : defaultPfp } alt="" className="results-pfp" draggable={ false } />
+          <img 
+            src={ result.pfp?.url ? result.pfp.url : defaultPfp }
+            alt=""
+            className="results-pfp"
+            draggable={ false }
+          />
     
           <div className="results-details">
             <div className="results-username">

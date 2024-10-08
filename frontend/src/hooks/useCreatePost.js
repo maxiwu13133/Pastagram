@@ -24,7 +24,7 @@ export const useCreatePost = () => {
     if (!response.ok) {
       setError(json.error);
       setIsLoading(false);
-      console.log("Error:", json.error);
+      console.log('Error:', json.error);
     }
     if (response.ok) {
       setIsLoading(false);

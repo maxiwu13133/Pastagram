@@ -1,0 +1,156 @@
+.suggest-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: min-content;
+}
+
+/* header */
+.suggest-header {
+  display: flex;
+  width: 100%;
+  height: 44px;
+  align-items: center;
+  padding: 0 16px;
+  margin-bottom: 24px;
+}
+
+.suggest-header-pfp-link {
+  width: 44px;
+  height: 44px;
+}
+
+.suggest-header-pfp {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid lightgray;
+}
+
+.suggest-header-username-link {
+  width: min-content;
+  height: 18px;
+  margin-left: 12px;
+}
+
+.suggest-header-username {
+  font-size: 14px;
+  font-weight: 600;
+  color: black;
+  text-decoration: none;
+}
+
+.suggest-header-username:active {
+  opacity: 50%;
+}
+
+.suggest-header-switch {
+  margin-left: auto;
+  border: none;
+  background: none;
+  width: 42px;
+  height: 18px;
+  font-size: 12px;
+  user-select: none;
+  color: #0095f6;
+  font-weight: 600;
+}
+
+.suggest-header-switch:hover {
+  cursor: pointer;
+  color: #083d6f;
+}
+
+.suggest-header-switch:active {
+  opacity: 50%;
+}
+
+/* label */
+.suggest-label {
+  width: 100%;
+  height: 18px;
+  padding: 0 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: gray;
+  margin-bottom: 8px;
+}
+
+/* suggestions */
+.suggest-suggestion-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: min-content;
+}
+
+.suggestion-container {
+  display: flex;
+  width: 100%;
+  height: 60px;
+  padding: 8px 16px;
+  align-items: center;
+}
+
+.suggestion-pfp-link {
+  width: 44px;
+  height: 44px;
+}
+
+.suggestion-pfp {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid lightgray;
+  object-fit: cover;
+}
+
+.suggestion-username-link {
+  width: min-content;
+  height: 18px;
+  margin-left: 12px;
+}
+
+.suggestion-username {
+  font-size: 14px;
+  font-weight: 600;
+  color: black;
+  text-decoration: none;
+}
+
+.suggestion-follow {
+  margin-left: auto;
+  border: none;
+  background: none;
+  width: 42px;
+  height: 18px;
+  font-size: 12px;
+  user-select: none;
+  color: #0095f6;
+  font-weight: 600;
+}
+
+.suggestion-follow:hover {
+  cursor: pointer;
+  color: #083d6f;
+}
+
+.suggestion-follow:active {
+  opacity: 50%;
+}
+
+/* linkedin */
+.suggest-linkedin {
+  width: 100%;
+  height: 48px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.suggest-linkedin > a {
+  color: gray;
+  text-decoration: none;
+  font-size: 12px;
+}

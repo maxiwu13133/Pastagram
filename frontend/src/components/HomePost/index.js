@@ -137,13 +137,11 @@ const HomePost = ({ post }) => {
 
   const handleSave = async () => {
     if (localSaved.includes(post._id)) {
-      console.log('remove');
       const response = await removeSaved({ postId: post._id });
       setLocalSaved(response.newSaved);
     };
 
     if (!localSaved.includes(post._id)) {
-      console.log('add');
       const response = await addSaved({ postId: post._id });
       setLocalSaved(response.newSaved);
     };
@@ -157,7 +155,7 @@ const HomePost = ({ post }) => {
           <img src={ pfp.url ? pfp.url : defaultPfp } alt="" className="homepost-header-pfp" draggable={ false } />
         </Link>
 
-        <Link to={ `/${ username }` }>
+        <Link to={ `/${ username }` } className="homepost-header-username-link">
           <p className="homepost-header-username">{ username }</p>
         </Link>
 

@@ -21,14 +21,11 @@
   align-items: center;
 }
 
-.home-suggested-accounts {
+.home-suggest {
   width: 320px;
-  height: 600px;
+  height: 546px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
   margin-left: 64px;
-  background-color: lightgray;
-  opacity: 50%;
 }
