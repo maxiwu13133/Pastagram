@@ -70,6 +70,7 @@ const Search = forwardRef((_, ref) => {
           />
 
           <input 
+            name="search"
             type="text"
             className={ `search-bar-input ${ inputFocus ? "" : "search-bar-input-unfocused" }` }
             placeholder="Search"

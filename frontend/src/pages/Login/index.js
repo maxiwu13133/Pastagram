@@ -53,7 +53,7 @@ const Login = () => {
       passwordInput.removeEventListener('blur', passwordNotFocused);
     };
 
-  },[]);
+  }, []);
 
 
   // Show password when show button pressed
@@ -80,13 +80,14 @@ const Login = () => {
         <div className="login-login">
 
           <div className="login-logo-wrapper">
-            <img src={ logo } alt="Pintstagram" className="login-logo" />
+            <img src={ logo } alt="Pintstagram" className="login-logo" draggable={ false }/>
           </div>
 
           <form className="login-credentials" onSubmit={ handleSubmit }>
 
             <div className="login-email-input">
               <input 
+                name="username or email"
                 placeholder="Username or email"
                 onChange={ (e) => setEmail(e.target.value) } 
                 value={ email }
@@ -95,6 +96,7 @@ const Login = () => {
 
             <div className={ `login-password-input ${ passwordFocus === true ? "login-password-highlight" : "" }` }>
               <input 
+                name="password"
                 placeholder="Password"
                 onChange={ (e) => setPassword(e.target.value) } 
                 value={ password }
@@ -118,7 +120,6 @@ const Login = () => {
               { error && <div className="login-error">{ error }</div> }
             </div>
 
-            
           </form>
 
         </div>

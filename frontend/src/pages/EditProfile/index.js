@@ -152,6 +152,7 @@ const EditProfile = () => {
               </p>
 
               <input 
+                name="name"
                 type="text"
                 onChange={ (e) => setNewFullName(e.target.value) }
                 value={ newFullName } 
@@ -164,6 +165,7 @@ const EditProfile = () => {
               </p>
 
               <input 
+                name="username"
                 type="text"
                 onChange={ (e) => setNewUsername(e.target.value) }
                 value={ newUsername } 
@@ -176,6 +178,7 @@ const EditProfile = () => {
               </p>
 
               <input 
+                name="email"
                 type="text"
                 onChange={ (e) => setNewEmail(e.target.value) }
                 value={ newEmail } 

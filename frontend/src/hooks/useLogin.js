@@ -13,7 +13,9 @@ export const useLogin = () => {
 
     const response = await fetch('http://localhost:4000/api/user/login', {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({ identifier, password })
     });
     const json = await response.json();
@@ -24,6 +26,10 @@ export const useLogin = () => {
     };
 
     if (response.ok) {
+
+      // clear current user
+      dispatch({ type: 'LOGOUT' });
+
       // save user to local storage
       localStorage.setItem('user', JSON.stringify(json));
 

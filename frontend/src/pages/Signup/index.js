@@ -81,22 +81,26 @@ const Signup = () => {
 
         <form className="signup-credentials" onSubmit={ handleSubmit }>
           <input
+            name="email"
             placeholder="Email"
             onChange={ (e) => setEmail(e.target.value) }
             value={ email }
           />
           <input
+            name="name"
             placeholder="Full Name"
             onChange={ (e) => setFullName(e.target.value) }
             value={ fullName }
           />
           <input
+            name="username"
             placeholder="Username"
             onChange={ (e) => setUsername(e.target.value) }
             value={ username }
           />
           <div className={ `signup-password-input ${ passwordFocus === true ? "signup-password-highlight" : "" }` }>
             <input
+              name="password"
               placeholder="Password"
               onChange={ (e) => setPassword(e.target.value) }
               value={ password }

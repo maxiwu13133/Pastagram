@@ -23,7 +23,7 @@ function App() {
         {
           loadFinish && 
           <>
-            {user && <Navbar />}
+            { user && <Navbar /> }
             <div className="pages">
               <Routes>
                 <Route 

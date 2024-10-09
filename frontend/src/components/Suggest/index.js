@@ -14,8 +14,9 @@ import { useUnfollowUser } from '../../hooks/useUnfollowUser';
 // assets
 import defaultPfp from '../../assets/Profile/default-pfp.jpg';
 
+
 const Suggest = () => {
-  const { user } = useAuthContext();
+  const { user, dispatch } = useAuthContext();
   const { pfp } = usePfpContext();
   const { id } = useGetCommunity({ username: user.username });
 
@@ -92,6 +93,10 @@ const Suggest = () => {
   }
 
 
+  // log out popup
+  const [logoutPopup, setLogoutPopup] = useState(false);
+
+
   return (
     <div className="suggest-container">
       <div className="suggest-header">
@@ -105,11 +110,28 @@ const Suggest = () => {
           </p>
         </Link>
 
-        <button className="suggest-header-switch">
-          Switch
+        <button className="suggest-header-switch" onClick={ () => setLogoutPopup(true) }>
+          Logout
         </button>
       </div>
 
+      {
+        logoutPopup && 
+        <>
+          <div className="suggest-logout-overlay" onClick={ () => setLogoutPopup(false) } />
+          
+          <div className="suggest-logout-container">
+            <div className="suggest-logout-confirm" onClick={ () => dispatch({ type: 'LOGOUT' }) }>
+              Logout
+            </div>
+
+            <div className="suggest-logout-cancel" onClick={ () => setLogoutPopup(false) } >
+              Cancel
+            </div>
+          </div>
+        </>
+      }
+      
       <div className="suggest-label">
         Suggested for you
       </div>
@@ -128,7 +150,7 @@ const Suggest = () => {
         >
           Pastagram by Max Wu
         </a>
-        
+        2024
       </div>
     </div>
   )
