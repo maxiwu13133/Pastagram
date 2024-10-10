@@ -7,6 +7,7 @@ import App from './App';
 import { AuthContextProvider } from './context/AuthContext';
 import { SearchContextProvider } from './context/SearchContext';
 import { PfpContextProvider } from './context/PfpContext';
+import { HomeLoadContextProvider } from './context/HomeLoadContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,7 +15,9 @@ root.render(
     <AuthContextProvider>
       <PfpContextProvider>
         <SearchContextProvider>
-          <App />
+          <HomeLoadContextProvider>
+            <App />
+          </HomeLoadContextProvider>
         </SearchContextProvider>
       </PfpContextProvider>
     </AuthContextProvider>

@@ -4,6 +4,7 @@ import './index.css';
 
 // hooks
 import { useAuthContext } from '../../hooks/useAuthContext';
+import { useHomeLoadContext } from '../../hooks/useHomeLoadContext';
 
 
 // pages
@@ -18,9 +19,20 @@ import Suggest from '../../components/Suggest';
 const Home = () => {
   const { user } = useAuthContext();
 
+  
+  // wait for all content to load before display
+  const { userInfoLoad, suggestedLoad, postLoad, dispatch } = useHomeLoadContext();
+  const [homeLoad, setHomeLoad] = useState(false);
+
+  useEffect(() => {
+    if (userInfoLoad && suggestedLoad && postLoad) {
+      setHomeLoad(true);
+    };
+  }, [userInfoLoad, suggestedLoad, postLoad]);
+
+
   // grab posts of following
   const [posts, setPosts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const getHomePosts = async () => {
@@ -34,7 +46,6 @@ const Home = () => {
       const json = await response.json();
   
       if (!response.ok) {
-        setIsLoading(false);
         console.log('Error:', json.error);
       };
       if (response.ok) {
@@ -44,36 +55,33 @@ const Home = () => {
 
         setPosts(sortedJson.reverse());
 
-        setIsLoading(false);
+        dispatch({ type: 'POST_FINISH' });
       };
     };
 
     getHomePosts();
-  }, [user]);
+  }, [user, dispatch]);
 
 
   return (
     <div className="home-page-container">
       {/* Load Screen */}
       {
-        isLoading && <Loading />
+        !homeLoad && <Loading />
       }
 
       {/* Home */}
-      {
-        !isLoading &&
-        <div className="home-contents-container">
-          <div className="home-posts-container">
-            {
-              posts.map((post, i) => <HomePost post={ post } key={ i } />)
-            }
-          </div>
-    
-          <div className="home-suggest">
-            <Suggest />
-          </div>
+      <div className="home-contents-container">
+        <div className="home-posts-container">
+          {
+            posts.map((post, i) => <HomePost post={ post } key={ i } />)
+          }
         </div>
-      }
+  
+        <div className="home-suggest">
+          <Suggest />
+        </div>
+      </div>
     </div>
   );
 };

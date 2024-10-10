@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthContext } from './hooks/useAuthContext';
 import './App.css';
 
+
 // Pages and components
 import Loading from './pages/Loading';
 import Home from './pages/Home';
@@ -11,6 +12,10 @@ import Signup from './pages/Signup';
 import Terms from './pages/Terms';
 import Profile from './pages/Profile';
 import EditProfile from './pages/EditProfile';
+
+
+// context
+import HomeLoadContextLayout from './context/HomeLoadContextLayout';
 
 
 function App() {
@@ -26,10 +31,12 @@ function App() {
             { user && <Navbar /> }
             <div className="pages">
               <Routes>
-                <Route 
-                  path="/"
-                  element={ user ? <Home /> : <Navigate to="/login/" /> }
-                />
+                <Route element={ <HomeLoadContextLayout /> }>
+                  <Route 
+                    path="/"
+                    element={ user ? <Home /> : <Navigate to="/login/" /> }
+                  />
+                </Route>
                 <Route 
                   path="/login/"
                   element={ user ? <Navigate to="/" /> : <Login /> }

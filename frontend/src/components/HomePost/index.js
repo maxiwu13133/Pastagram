@@ -10,6 +10,7 @@ import { useLikePost } from '../../hooks/useLikePost';
 import { useGetCommunity } from '../../hooks/useGetCommunity';
 import { useCreateComment } from '../../hooks/useCreateComment';
 import { useSavedAPI } from '../../hooks/useSavedAPI';
+import { useHomeLoadContext } from '../../hooks/useHomeLoadContext';
 
 
 // components
@@ -35,6 +36,7 @@ import { ReplyTargetContextProvider } from '../../context/ReplyTargetContext';
 const HomePost = ({ post }) => {
   const { user } = useAuthContext();
   const { id, saved } = useGetCommunity({ username: user.username });
+  const { dispatch } = useHomeLoadContext();
 
   // get username and pfp 
   const [username, setUsername] = useState('');
@@ -56,12 +58,13 @@ const HomePost = ({ post }) => {
       if (response.ok) {
         setUsername(json.username);
         setPfp(json.pfp);
+        dispatch({ type: 'USER_FINISH' });
       };
     };
 
     getInfo();
     setLocalPost(post);
-  }, [user.token, post.user_id, post]);
+  }, [user.token, post.user_id, post, dispatch]);
 
   // format time display
   const { formatTime } = useFormatTime();

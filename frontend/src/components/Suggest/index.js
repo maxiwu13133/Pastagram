@@ -9,6 +9,7 @@ import { useGetCommunity } from '../../hooks/useGetCommunity';
 import { usePfpContext } from '../../hooks/usePfpContext';
 import { useFollowUser } from '../../hooks/useFollowUser';
 import { useUnfollowUser } from '../../hooks/useUnfollowUser';
+import { useHomeLoadContext } from '../../hooks/useHomeLoadContext';
 
 
 // assets
@@ -19,6 +20,7 @@ const Suggest = () => {
   const { user, dispatch } = useAuthContext();
   const { pfp } = usePfpContext();
   const { id } = useGetCommunity({ username: user.username });
+  const { dispatch: dispatchLoad } = useHomeLoadContext();
 
   // get best suggestions
   const [suggestions, setSuggestions] = useState([]);
@@ -38,12 +40,13 @@ const Suggest = () => {
       };
       if (response.ok) {
         setSuggestions(json.suggested);
+        dispatchLoad({ type: 'SUGGEST_FINISH' });
       }
     };
     if (id) {
       getSuggestions();
     }
-  }, [id, user.token]);
+  }, [id, user.token, dispatchLoad]);
 
 
   // follow and unfollow suggestion
@@ -106,7 +109,7 @@ const Suggest = () => {
     <div className="suggest-container">
       <div className="suggest-header">
         <Link to={ `/${ user.username }` } className="suggest-header-pfp-link">
-          <img src={ pfp.url } alt="" className="suggest-header-pfp" draggable={ false }/>
+          <img src={ pfp?.url } alt="" className="suggest-header-pfp" draggable={ false }/>
         </Link>
 
         <Link to={ `/${ user.username }` } className="suggest-header-username-link">
