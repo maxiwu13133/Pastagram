@@ -129,6 +129,13 @@ const Navbar = () => {
   // Get profile picture
   const { pfp } = usePfpContext();
 
+
+  // handle logout
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    dispatch({ type: 'LOGOUT' });
+  };
+
   
   return (
     <div className={ `navbar-container ${ openModal ? "navbar-collapse" : "" }` }>
@@ -278,7 +285,7 @@ const Navbar = () => {
       {/* More */}
       <div className="navbar-option-wrapper navbar-more-wrapper">
         <div className={ `navbar-more-modal ${ highlightMore ? "" : "navbar-more-option-hide" }` }>
-          <div className="navbar-more-option" onClick={ () => dispatch({ type: 'LOGOUT', payload: null }) }>
+          <div className="navbar-more-option" onClick={ () => handleLogout() }>
             Log out
           </div>
         </div>

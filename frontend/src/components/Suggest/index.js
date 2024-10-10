@@ -96,6 +96,11 @@ const Suggest = () => {
   // log out popup
   const [logoutPopup, setLogoutPopup] = useState(false);
 
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    dispatch({ type: 'LOGOUT' });
+  };
+
 
   return (
     <div className="suggest-container">
@@ -121,7 +126,7 @@ const Suggest = () => {
           <div className="suggest-logout-overlay" onClick={ () => setLogoutPopup(false) } />
           
           <div className="suggest-logout-container">
-            <div className="suggest-logout-confirm" onClick={ () => dispatch({ type: 'LOGOUT' }) }>
+            <div className="suggest-logout-confirm" onClick={ () => handleLogout() }>
               Logout
             </div>
 
