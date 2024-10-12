@@ -152,7 +152,7 @@ const getSuggest = async (req, res) => {
 
     // not following any accounts 
     if (followingList.length === 0) {
-      return res.status(200).json({ suggested });
+      return res.status(200).json({ suggested: [] });
     };
 
     // get all followers of following

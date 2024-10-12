@@ -109,7 +109,7 @@ const Suggest = () => {
     <div className="suggest-container">
       <div className="suggest-header">
         <Link to={ `/${ user.username }` } className="suggest-header-pfp-link">
-          <img src={ pfp?.url } alt="" className="suggest-header-pfp" draggable={ false }/>
+          <img src={ pfp?.url ? pfp.url : defaultPfp } alt="" className="suggest-header-pfp" draggable={ false }/>
         </Link>
 
         <Link to={ `/${ user.username }` } className="suggest-header-username-link">
@@ -140,15 +140,21 @@ const Suggest = () => {
         </>
       }
       
-      <div className="suggest-label">
-        Suggested for you
-      </div>
+      {
+        suggestions.length > 0 && 
+        <>
+          <div className="suggest-label">
+            Suggested for you
+          </div>
 
-      <div className="suggest-suggestion-container">
-        {
-          suggestions.map((suggestion, i) => formatSuggestions(suggestion, i))
-        }
-      </div>
+          <div className="suggest-suggestion-container">
+            {
+              suggestions.map((suggestion, i) => formatSuggestions(suggestion, i))
+            }
+          </div>
+        </>
+      }
+      
 
       <div className="suggest-linkedin">
         <a

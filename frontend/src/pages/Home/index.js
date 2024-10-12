@@ -50,12 +50,16 @@ const Home = () => {
       };
       if (response.ok) {
         const sortedJson = json.allPosts.sort((a, b) => {
-          return new Date(a.createdAt) - new Date(b.createdAt);
+          return new Date(b.createdAt) - new Date(a.createdAt);
         });
 
-        setPosts(sortedJson.reverse());
+        setPosts(sortedJson);
 
         dispatch({ type: 'POST_FINISH' });
+
+        if (json.allPosts.length === 0) {
+          dispatch({ type: 'USER_FINISH' });
+        };
       };
     };
 
@@ -74,7 +78,12 @@ const Home = () => {
       <div className="home-contents-container">
         <div className="home-posts-container">
           {
-            posts.map((post, i) => <HomePost post={ post } key={ i } />)
+            posts.length > 0 && posts.map((post, i) => <HomePost post={ post } key={ i } />)
+          }
+          {
+            posts.length === 0 && <div className="home-empty-posts">
+
+            </div>
           }
         </div>
   

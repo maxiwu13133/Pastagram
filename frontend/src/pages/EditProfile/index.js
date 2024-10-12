@@ -14,6 +14,7 @@ import Loading from '../Loading';
 // assets
 import loadSpinner from '../../assets/EditProfile/load-spinner.svg';
 import defaultPfp from '../../assets/Profile/default-pfp.jpg';
+import downArrow from '../../assets/EditProfile/down-arrow.png';
 
 
 const EditProfile = () => {
@@ -101,6 +102,10 @@ const EditProfile = () => {
   }, [dispatch]);
 
 
+  // advanced modal
+  const [advancedModal, setAdvancedModal] = useState(false);
+
+
   return ( 
     <div className="edit-container">
       { isLoading && <Loading /> }
@@ -183,6 +188,29 @@ const EditProfile = () => {
                 onChange={ (e) => setNewEmail(e.target.value) }
                 value={ newEmail } 
                 className="edit-field edit-email" />
+            </div>
+
+            <div className="edit-delete-container">
+              <div 
+                className="edit-delete-header"
+                onClick={ () => advancedModal ? setAdvancedModal(false) : setAdvancedModal(true) }
+              >
+                <p className="edit-delete-advanced">Advanced</p>
+                
+                <img src={ downArrow } alt="" className="edit-delete-arrow" draggable={ false } />
+              </div>
+
+              {/* advanced option */}
+              {
+                advancedModal && 
+                <div className="edit-delete-option">
+                  <h2 className="edit-delete-title">Delete account</h2>
+
+                  <p className="edit-delete-text">Warning: this action can not be undone!</p>
+
+                  <button className="edit-delete-button">Delete</button>
+                </div>
+              }
             </div>
           </div>
 
