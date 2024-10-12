@@ -16,6 +16,10 @@ import HomePost from '../../components/HomePost';
 import Suggest from '../../components/Suggest';
 
 
+// assets
+import icon from '../../assets/Logos/pastagram-icon.png';
+
+
 const Home = () => {
   const { user } = useAuthContext();
 
@@ -76,16 +80,23 @@ const Home = () => {
 
       {/* Home */}
       <div className="home-contents-container">
-        <div className="home-posts-container">
-          {
-            posts.length > 0 && posts.map((post, i) => <HomePost post={ post } key={ i } />)
-          }
-          {
-            posts.length === 0 && <div className="home-empty-posts">
+        {
+          posts.length > 0 && 
+          <div className="home-posts-container">
+            {
+              posts.map((post, i) => <HomePost post={ post } key={ i } />)
+            }
+          </div>
+        }
+        {
+          posts.length === 0 && 
+          <div className="home-empty-posts">
+            <img src={ icon } alt="" className="home-empty-icon" />
 
-            </div>
-          }
-        </div>
+            <p className="home-empty-text">Looks empty...</p>
+            <p className="home-empty-subtext">Use Search and Explore to find accounts.</p>
+          </div>
+        }
   
         <div className="home-suggest">
           <Suggest />

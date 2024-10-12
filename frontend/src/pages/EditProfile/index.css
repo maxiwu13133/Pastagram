@@ -1,10 +1,16 @@
 .edit-container {
   width: 100%;
-  height: 100%;
+  height: min-content;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  padding-bottom: 85px;
+  transition: padding-bottom 0.3s ease-in;
+}
+
+.edit-container-expand {
+  padding-bottom: 0;
 }
 
 /* profile */
@@ -174,16 +180,36 @@
 .edit-delete-arrow {
   margin-left: 20px;
   width: 20px;
-  height: 10px;
+  height: 12px;
   user-select: none;
+}
+
+.edit-delete-arrow-flip {
+  transform: rotate(180deg);
+  transition: transform 0.3s ease;
+}
+
+.edit-delete-arrow-unflip {
+  transform: rotate(0deg);
+  transition: transform 0.3s ease;
 }
 
 .edit-delete-option {
   width: 398px;
-  height: min-content;
+  height: 0;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  transition: height 0.3s ease-in, opacity 0.3s ease-in;
+  opacity: 0;
+  pointer-events: none;
   margin-top: 24px;
+}
+
+.edit-delete-option-show {
+  height: 85px;
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .edit-delete-title {
@@ -201,8 +227,108 @@
 .edit-delete-button {
   font-size: 16px;
   width: 106px;
-  height: 22px;
-  
+  height: 32px;
+  border: none;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 8px;
+  margin-top: 10px;
+  background-color: #ed4956;
+}
+
+.edit-delete-button:hover {
+  cursor: pointer;
+  opacity: 50%;
+}
+
+.edit-delete-button:active {
+  opacity: 30%;
+}
+
+/* delete popup */
+.edit-delete-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.65);
+  z-index: 1;
+}
+
+.edit-delete-popup-container {
+  position: fixed;
+  width: 400px;
+  height: 220px;
+  top: calc(50vh - 110px);
+  left: calc(50vw - 200px);
+  border-radius: 12px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.edit-delete-popup-header {
+  width: 100%;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid lightgray;
+}
+
+.edit-delete-popup-title {
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.edit-delete-popup-warning {
+  font-size: 14px;
+  color: #ee535f;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.edit-delete-popup-text {
+  font-size: 14px;
+  color: gray;
+}
+
+.edit-delete-confirm {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid lightgray;
+  color: #ee535f;
+  font-weight: 700;
+  font-size: 14px;
+  user-select: none;
+}
+
+.edit-delete-cancel {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  user-select: none;
+}
+
+.edit-delete-confirm:hover, .edit-delete-cancel:hover {
+  cursor: pointer;
+}
+
+.edit-delete-confirm:active, .edit-delete-cancel:active {
+  background-color: #e5e5e5;
 }
 
 /* submit button */
@@ -211,6 +337,7 @@
   display: flex;
   justify-content: flex-end;
   padding-right: 4px;
+  margin-bottom: 148px;
 }
 
 .edit-error {

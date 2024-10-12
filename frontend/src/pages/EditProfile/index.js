@@ -102,12 +102,28 @@ const EditProfile = () => {
   }, [dispatch]);
 
 
-  // advanced modal
+  // delete account
   const [advancedModal, setAdvancedModal] = useState(false);
+  const [deletePopup, setDeletePopup] = useState(false);
+
+  
+
+  const handleDelete = () => {
+
+  }
+
+  // Stop scroll when modal open
+  useEffect(() => {
+    if (deletePopup) {
+      document.body.style.overflowY = 'hidden';
+    } else {
+      document.body.style.overflowY = 'scroll';
+    }
+  }, [deletePopup])
 
 
   return ( 
-    <div className="edit-container">
+    <div className={ `edit-container ${ advancedModal ? "edit-container-expand" : "" }` }>
       { isLoading && <Loading /> }
       { !isLoading &&
         <>
@@ -119,7 +135,11 @@ const EditProfile = () => {
           </div>
 
           <div className="edit-pfp-container">
-            <img { ...getRootProps({ className: "edit-pfp-img", src: newPfp?.url ? newPfp.url : defaultPfp }) } alt="" />
+            <img 
+              { ...getRootProps({ className: "edit-pfp-img", src: newPfp?.url ? newPfp.url : defaultPfp }) }
+              alt=""
+              draggable={ false }
+            />
 
             <p>{ newUsername }</p>
 
@@ -197,20 +217,53 @@ const EditProfile = () => {
               >
                 <p className="edit-delete-advanced">Advanced</p>
                 
-                <img src={ downArrow } alt="" className="edit-delete-arrow" draggable={ false } />
+                <img 
+                  src={ downArrow }
+                  alt=""
+                  className={ `
+                    edit-delete-arrow ${ advancedModal ? "edit-delete-arrow-flip" : "edit-delete-arrow-unflip" }
+                  ` }
+                  draggable={ false }
+                />
               </div>
 
               {/* advanced option */}
+              <div className={ `edit-delete-option ${ advancedModal ? "edit-delete-option-show" : "" }` } >
+                <h2 className="edit-delete-title">Delete account</h2>
+
+                <button className="edit-delete-button" onClick={ () => setDeletePopup(true) }>Delete</button>
+              </div>
+
+              {/* delete popup */}
               {
-                advancedModal && 
-                <div className="edit-delete-option">
-                  <h2 className="edit-delete-title">Delete account</h2>
+                deletePopup && 
+                <>
+                  <div className="edit-delete-overlay" onClick={ () => setDeletePopup(false) } />
 
-                  <p className="edit-delete-text">Warning: this action can not be undone!</p>
+                  <div className="edit-delete-popup-container">
+                    <div className="edit-delete-popup-header">
+                      <h2 className="edit-delete-popup-title">Delete account</h2>
+                      
+                      <p className="edit-delete-popup-warning">
+                        Warning: this action can not be undone.
+                      </p>
 
-                  <button className="edit-delete-button">Delete</button>
-                </div>
+                      <p className="edit-delete-popup-text">
+                        Are you sure?
+                      </p>
+                    </div>
+
+                    <div className="edit-delete-confirm">
+                      Delete
+                    </div>
+
+                    <div className="edit-delete-cancel" onClick={ () => setDeletePopup(false) }>
+                      Cancel
+                    </div>
+                  </div>
+                </>
               }
+              
             </div>
           </div>
 

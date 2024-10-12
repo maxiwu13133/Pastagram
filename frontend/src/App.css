@@ -4,6 +4,10 @@
   overflow: auto;
 }
 
+.App button {
+  user-select: none;
+}
+
 .pages {
   width: 82.5%;
   left: 17.5%;

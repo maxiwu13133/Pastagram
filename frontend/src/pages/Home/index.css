@@ -21,6 +21,35 @@
   align-items: center;
 }
 
+/* empty */
+.home-empty-posts {
+  width: 630px;
+  height: calc(100vh - 90px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-empty-icon {
+  width: 96px;
+  height: 96px;
+  margin-bottom: 20px;
+}
+
+.home-empty-text {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.home-empty-subtext {
+  font-size: 14px;
+  font-weight: 500;
+  color: gray;
+}
+
+/* suggest */
 .home-suggest {
   width: 320px;
   height: 546px;
