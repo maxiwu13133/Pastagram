@@ -10,6 +10,7 @@ const {
   getAccountInfo,
   updateUser,
   deletePfp,
+  getDeleted,
   deleteUser
  } = require('../controllers/accountController');
 
@@ -21,6 +22,9 @@ router.patch('/update', updateUser);
 
 // delete pfp
 router.delete('/pfp', deletePfp);
+
+// get deleted users
+router.get('/deleted', getDeleted);
 
 // delete user
 router.delete('/', deleteUser);

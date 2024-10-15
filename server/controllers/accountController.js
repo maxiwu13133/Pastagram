@@ -78,6 +78,24 @@ const deletePfp = async (req, res) => {
 }
 
 
+// get deleted accounts
+const getDeleted = async (req, res) => {
+  
+  try {
+    const deletedUsers = await User.find({ deleted: true });
+    const deletedIds = [];
+
+    for (const user of deletedUsers) {
+      deletedIds.push(user._id);
+    }
+
+    res.status(200).json({ deleted: deletedIds });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+
 // delete account
 const deleteUser = async (req, res) => {
   const user_id = req.user._id;
@@ -93,4 +111,4 @@ const deleteUser = async (req, res) => {
   }
 }
 
-module.exports = { getAccountInfo, updateUser, deletePfp, deleteUser };
+module.exports = { getAccountInfo, updateUser, deletePfp, getDeleted, deleteUser };

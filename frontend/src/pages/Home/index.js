@@ -5,6 +5,7 @@ import './index.css';
 // hooks
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useHomeLoadContext } from '../../hooks/useHomeLoadContext';
+import { useGetDeleted } from '../../hooks/useGetDeleted';
 
 
 // pages
@@ -22,17 +23,35 @@ import icon from '../../assets/Logos/pastagram-icon.png';
 
 const Home = () => {
   const { user } = useAuthContext();
+  const { userInfoLoad, suggestedLoad, postLoad, deletedLoad, dispatch } = useHomeLoadContext();
+
+  // get deleted users
+  const [deleted, setDeleted] = useState(null);
+  const { getDeleted } = useGetDeleted();
+  
+  useEffect(() => {
+
+    const getDeletedUsers = async () => {
+      const response = await getDeleted();
+      setDeleted(response.deleted);
+      dispatch({ type: 'DELETED_FINISH' });
+    }
+
+    if (!deleted) {
+      getDeletedUsers();
+    };
+
+  }, [deleted, getDeleted, dispatch]);
 
   
   // wait for all content to load before display
-  const { userInfoLoad, suggestedLoad, postLoad, dispatch } = useHomeLoadContext();
   const [homeLoad, setHomeLoad] = useState(false);
 
   useEffect(() => {
-    if (userInfoLoad && suggestedLoad && postLoad) {
+    if (userInfoLoad && suggestedLoad && postLoad && deletedLoad) {
       setHomeLoad(true);
     };
-  }, [userInfoLoad, suggestedLoad, postLoad]);
+  }, [userInfoLoad, suggestedLoad, postLoad, deletedLoad]);
 
 
   // grab posts of following
@@ -52,8 +71,11 @@ const Home = () => {
       if (!response.ok) {
         console.log('Error:', json.error);
       };
-      if (response.ok) {
-        const sortedJson = json.allPosts.sort((a, b) => {
+      if (response.ok && deleted) {
+        const deletedRemoved = json.allPosts.filter(x => !deleted.includes(x.user_id));
+
+
+        const sortedJson = deletedRemoved.sort((a, b) => {
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
 
@@ -61,14 +83,14 @@ const Home = () => {
 
         dispatch({ type: 'POST_FINISH' });
 
-        if (json.allPosts.length === 0) {
+        if (deletedRemoved.length === 0) {
           dispatch({ type: 'USER_FINISH' });
         };
       };
     };
 
     getHomePosts();
-  }, [user, dispatch]);
+  }, [user, dispatch, deleted]);
 
 
   return (
