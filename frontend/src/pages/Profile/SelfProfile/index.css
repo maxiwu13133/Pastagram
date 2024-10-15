@@ -83,6 +83,14 @@
   font-weight: 600;
 }
 
+.s-profile-follower-ct:hover, .s-profile-following-ct:hover {
+  cursor: pointer;
+}
+
+.s-profile-follower-ct:active, .s-profile-following-ct:active {
+  opacity: 50%;
+}
+
 .s-profile-bio {
   display: flex;
   flex-direction: column;

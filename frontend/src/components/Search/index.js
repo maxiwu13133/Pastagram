@@ -78,6 +78,7 @@ const Search = forwardRef((_, ref) => {
           <img 
             src={ magnifyGlass }
             alt=""
+            draggable={ false }
             className={ `search-bar-icon ${ inputFocus ? "search-bar-icon-hide" : "" }` }
           />
 
@@ -102,6 +103,7 @@ const Search = forwardRef((_, ref) => {
             }` }
             onClick={ () => setSearchTerm('') }
             onFocus={ () => setInputFocus(true) }
+            draggable={ false }
           />
         </div>
       </div>

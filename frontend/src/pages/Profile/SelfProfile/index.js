@@ -21,6 +21,7 @@ import { useProfileLoadContext } from '../../../hooks/useProfileLoadContext';
 import Grid from '../../../components/Posts/Grid';
 import Posts from '../../../components/Posts';
 import Create from '../../../components/Create';
+import FriendsModal from '../../../components/FriendsModal';
 
 
 // assets
@@ -95,6 +96,10 @@ const SelfProfile = () => {
   }, [saved, deletedUsers, dispatch]);
 
   
+  // friends modal
+  const [friendsModal, setFriendsModal] = useState(null);
+
+  
   return (
     <div className="s-profile-container">
 
@@ -134,14 +139,25 @@ const SelfProfile = () => {
                     <span>{ posts.length }</span> posts
                   </p>
 
-                  <p className="s-profile-follower-ct">
+                  <p className="s-profile-follower-ct" onClick={ () => setFriendsModal("followers") }>
                     <span>{ followers.length }</span> followers
                   </p>
 
-                  <p className="s-profile-following-ct">
+                  <p className="s-profile-following-ct" onClick={ () => setFriendsModal("following") }>
                     <span>{ following.length }</span> following
                   </p>
                 </div>
+              }
+
+              {/* friends modal */}
+              {
+                friendsModal && 
+                <FriendsModal 
+                  setFriendsModal={ setFriendsModal }
+                  type={ friendsModal === "followers" ? "Followers" : "Following" }
+                  followers={ followers }
+                  following={ following }
+                />
               }
 
               { (error && <div>{ error }</div>) || (postError && <div>{ postError }</div>) }
@@ -188,7 +204,7 @@ const SelfProfile = () => {
                 posts.length === 0 && !savedTab && 
                 <div className="s-profile-empty-posts">
                   <Link className="s-profile-create-icon-container" onClick={ () => setModal(true) }>
-                    <img src={ cameraIcon } alt="" className="s-profile-share-icon" />
+                    <img src={ cameraIcon } alt="" className="s-profile-share-icon" draggable={ false }/>
                   </Link>
 
                   <h2 className="s-profile-share-title">Share Photos</h2>
@@ -216,7 +232,7 @@ const SelfProfile = () => {
               {
                 savedTab && savedPosts.length === 0 && 
                 <div className="s-profile-saved-empty">
-                  <img src={ savedEmpty } alt="" className="s-profile-saved-empty-icon" />
+                  <img src={ savedEmpty } alt="" className="s-profile-saved-empty-icon" draggable={ false }/>
 
                   <h2>Save</h2>
 

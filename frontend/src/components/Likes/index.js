@@ -121,7 +121,12 @@ const Likes = ({ comment, reply, setLikesModal, post }) => {
     return (
       <div className="likes-list-user" key={ i }>
         <Link to={ `/${ likedUsers[i].username }` } className="likes-list-pfp-link">
-          <img src={ likedUsers[i].pfp?.url ? likedUsers[i].pfp.url : defaultPfp } alt="" className="likes-list-pfp" />
+          <img 
+            src={ likedUsers[i].pfp?.url ? likedUsers[i].pfp.url : defaultPfp }
+            alt=""
+            className="likes-list-pfp"
+            draggable={ false }
+          />
         </Link>
 
         <div className="likes-list-details">
@@ -173,7 +178,7 @@ const Likes = ({ comment, reply, setLikesModal, post }) => {
           <p>Likes</p>
 
           <div className="likes-close" onClick={ () => setLikesModal(false) }>
-            <img src={ closeButton } alt="" className="likes-close-icon" />
+            <img src={ closeButton } alt="" className="likes-close-icon" draggable={ false }/>
           </div>
         </div>
 

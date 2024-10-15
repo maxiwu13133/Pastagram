@@ -69,7 +69,7 @@ const Results = ({ searchTerm, setSearchTerm, results }) => {
         {
           close && 
           <div className="results-close-container" onClick={ (e) => handleClick({ e, result, remove: true }) }>
-            <img src={ closeButton } alt="" className="results-close-icon" />
+            <img src={ closeButton } alt="" className="results-close-icon" draggable={ false }/>
           </div>
         }
       </div>
