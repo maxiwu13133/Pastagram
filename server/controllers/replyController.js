@@ -62,7 +62,7 @@ const getUserInfo = async (req, res) => {
   try {
     const user = await User.findOne({ _id: userId });
 
-    res.status(200).json({ username: user.username, pfp: user.pfp.url });
+    res.status(200).json({ username: user.username, pfp: user.pfp.url, deleted: user.deleted });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -102,7 +102,10 @@ const getReplyLikes = async (req, res) => {
 
     for (const userId of reply.likes) {
       const user = await User.findOne({ _id: userId });
-      users.push({ username: user.username, fullName: user.fullName, pfp: user.pfp, followers: user.followers });
+      users.push({
+        username: user.username, fullName: user.fullName, pfp: user.pfp, followers: user.followers,
+        deleted: user.deleted
+      });
     }
 
     res.status(200).json({ users })

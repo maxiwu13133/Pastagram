@@ -12,7 +12,7 @@ const getComments = async (req, res) => {
     const comment = await Comment.findOne({ _id: id });
     const user = await User.findOne({ _id: comment.user_id });
     
-    res.status(200).json({ comment, username: user.username, pfp: user.pfp });
+    res.status(200).json({ comment, username: user.username, pfp: user.pfp, deleted: user.deleted });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -93,7 +93,10 @@ const likedInfo = async (req, res) => {
 
     for (const userId of comment.likes) {
       const user = await User.findOne({ _id: userId });
-      users.push({ username: user.username, fullName: user.fullName, pfp: user.pfp, followers: user.followers });
+      users.push({ 
+        username: user.username, fullName: user.fullName, pfp: user.pfp, followers: user.followers, 
+        deleted: user.deleted 
+      });
     }
 
     res.status(200).json({ users });

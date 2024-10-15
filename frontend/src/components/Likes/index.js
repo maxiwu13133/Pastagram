@@ -138,6 +138,21 @@ const Likes = ({ comment, reply, setLikesModal, post }) => {
     )
   }
 
+  // deleted user to component list
+  const createDeletedUserItem = (i) => {
+    return (
+      <div className="likes-list-user" key={ i }>
+        <img src={ defaultPfp } alt="" className="likes-list-pfp" draggable={ false }/>
+
+        <div className="likes-list-details">
+          <p className="likes-deleted-username">
+            &#91;deleted&#93;
+          </p>
+        </div>
+      </div>
+    )
+  }
+
 
   return ( 
     <div className="likes-container">
@@ -154,7 +169,8 @@ const Likes = ({ comment, reply, setLikesModal, post }) => {
 
         <div className={ `likes-list ${ likedUsers.length === 0 ? "likes-list-empty" : "" }` }>
           {
-            likedUsers.length > 0 && likedUsers.map((_, i) => createUserListItem(i))
+            likedUsers.length > 0 && 
+            likedUsers.map((x, i) => x.deleted ? createDeletedUserItem(i) : createUserListItem(i))
           }
           {
             likedUsers.length === 0 && 

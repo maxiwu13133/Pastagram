@@ -34,6 +34,7 @@ const Comment = ({ post, setLocalPost, posts, setPosts, comment, setComments, se
   const [text, setText] = useState('');
   const [likes, setLikes] = useState([]);
   const [createdAt, setCreatedAt] = useState(0);
+  const [deleted, setDeleted] = useState(false);
 
 
   // get comment info
@@ -59,6 +60,7 @@ const Comment = ({ post, setLocalPost, posts, setPosts, comment, setComments, se
         setCreatedAt(jsonComment.comment.createdAt);
         setUsername(jsonComment.username);
         setPfp(jsonComment.pfp)
+        setDeleted(jsonComment.deleted);
         if (last) {
           setTimeout(() => {
             setIsLoading(false);
@@ -159,13 +161,13 @@ const Comment = ({ post, setLocalPost, posts, setPosts, comment, setComments, se
 
   const handleReply = () => {
     if (!commentId) {
-      dispatch({ type: 'SET_TARGET', payload: { commentId: comment, replyTarget: username } });
+      dispatch({ type: 'SET_TARGET', payload: { commentId: comment, replyTarget: deleted ? '[deleted]' : username } });
     };
     if (commentId === comment) {
       dispatch({ type: 'REMOVE_TARGET' });
     };
     if (commentId && commentId !== comment) {
-      dispatch({ type: 'SET_TARGET', payload: { commentId: comment, replyTarget: username } });
+      dispatch({ type: 'SET_TARGET', payload: { commentId: comment, replyTarget: deleted ? '[deleted]' : username } });
     };
   };
 
@@ -190,16 +192,34 @@ const Comment = ({ post, setLocalPost, posts, setPosts, comment, setComments, se
       ${ highlight && commentId === comment ? "comment-container-highlight" : "" }
     ` }>
       <div className="comment-comment">
-        <Link to={ `/${ username }` }>
-          <img src={ pfp.url ? pfp.url : defaultPfp } alt="" className="comment-pfp" draggable={ false } />
-        </Link>
+        
+        {
+          deleted && <img src={ defaultPfp } alt="" className="reply-pfp" />
+        }
+        {
+          !deleted &&
+          <Link to={ `/${ username }` }>
+            <img 
+              src={ deleted ? defaultPfp : pfp.url ? pfp.url : defaultPfp }
+              alt=""
+              className="comment-pfp"
+              draggable={ false }
+            />
+          </Link>
+        }
 
         <div className="comment-details">
           <div className="comment-text">
             <p>
-              <span>
-                <Link to={ `/${ username }` } className="comment-text-username">{ username } </Link>
-              </span>
+              {
+                deleted && <span>&#91;deleted&#93; </span>
+              }
+              {
+                !deleted &&
+                <span>
+                  <Link to={ `/${ username }` } className="comment-text-username">{ username } </Link>
+                </span>
+              }
 
               { text }
             </p>
@@ -256,14 +276,17 @@ const Comment = ({ post, setLocalPost, posts, setPosts, comment, setComments, se
           </>
         }
 
-        <div className="comment-likes" onClick={ () => handleLike() }>
-          <img 
-            src={ likes.includes(id) ? heartFilled : heartHollow }
-            alt=""
-            className="comment-likes-icon"
-            draggable={ false }
-          />
-        </div>
+        {
+          !deleted && 
+          <div className="comment-likes" onClick={ () => handleLike() }>
+            <img 
+              src={ likes.includes(id) ? heartFilled : heartHollow }
+              alt=""
+              className="comment-likes-icon"
+              draggable={ false }
+            />
+          </div>
+        }
       </div>
       
       {

@@ -105,7 +105,10 @@ const getPostLikes = async (req, res) => {
 
     for (const userId of post.likes) {
       const user = await User.findOne({ _id: userId });
-      users.push({ username: user.username, fullName: user.fullName, pfp: user.pfp, followers: user.followers });
+      users.push({
+        username: user.username, fullName: user.fullName, pfp: user.pfp, followers: user.followers,
+        deleted: user.deleted
+      });
     }
 
     res.status(200).json({ users })

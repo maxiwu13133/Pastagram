@@ -28,6 +28,7 @@ const Reply = ({ replies, index, replyLoading, setReplyLoading, last, setComment
   const { id } = useGetCommunity({ username: user.username });
   const [username, setUsername] = useState('');
   const [pfp, setPfp] = useState('');
+  const [deleted, setDeleted] = useState(false);
 
 
   useEffect(() => {
@@ -47,6 +48,7 @@ const Reply = ({ replies, index, replyLoading, setReplyLoading, last, setComment
       if (response.ok) {
         setUsername(json.username);
         setPfp(json.pfp);
+        setDeleted(json.deleted);
         if (last) {
           setTimeout(() => {
             setReplyLoading(false);
@@ -127,29 +129,48 @@ const Reply = ({ replies, index, replyLoading, setReplyLoading, last, setComment
 
   const handleReplyTarget = () => {
     if (!commentId) {
-      dispatchTarget({ type: 'SET_TARGET', payload: { commentId: replies[index].comment_id, replyTarget: username } });
+      dispatchTarget({ 
+        type: 'SET_TARGET', 
+        payload: { commentId: replies[index].comment_id, replyTarget: deleted ? '[deleted]' : username }
+      });
     };
     if (commentId === replies[index].comment_id) {
       dispatchTarget({ type: 'REMOVE_TARGET' });
     };
     if (commentId && commentId !== replies[index].comment_id) {
-      dispatchTarget({ type: 'SET_TARGET', payload: { commentId: replies[index].comment_id, replyTarget: username } });
+      dispatchTarget({
+        type: 'SET_TARGET',
+        payload: { commentId: replies[index].comment_id, replyTarget: deleted ? '[deleted]' : username }
+      });
     };
   };
 
 
   return ( 
     <div className={ `reply-container ${ replyLoading ? "reply-container-hide" : "" }` } >
-      <Link to={ `/${ username }` }>
-        <img src={ pfp ? pfp : defaultPfp } alt="" className="reply-pfp" draggable={ false } />
-      </Link>
+      {
+        deleted && <img src={ defaultPfp } alt="" className="reply-pfp" />
+      }
+      {
+        !deleted && 
+        <Link to={ `/${ username }` }>
+          <img src={ pfp ? pfp : defaultPfp } alt="" className="reply-pfp" draggable={ false } />
+        </Link>
+      }
 
       <div className="reply-details">
         <div className="reply-text">
           <p>
-            <span>
-              <Link to={ `/${ username }` } className="reply-text-username">{ username } </Link>
-            </span>
+            {
+              deleted && 
+              <span className="reply-deleted-username">&#91;deleted&#93; </span>
+            }
+            {
+              !deleted && 
+              <span>
+                <Link to={ `/${ username }` } className="reply-text-username">{ username } </Link>
+              </span>
+            }
 
             { replies[index].text }
           </p>
@@ -204,14 +225,17 @@ const Reply = ({ replies, index, replyLoading, setReplyLoading, last, setComment
         </>
       }
 
-      <div className="reply-likes" onClick={ () => handleLike() }>
-        <img 
-          src={ likes.includes(id) ? heartFilled : heartHollow }
-          alt=""
-          className="reply-likes-icon"
-          draggable={ false }
-        />
-      </div>
+      {
+        !deleted && 
+        <div className="reply-likes" onClick={ () => handleLike() }>
+          <img 
+            src={ likes.includes(id) ? heartFilled : heartHollow }
+            alt=""
+            className="reply-likes-icon"
+            draggable={ false }
+          />
+        </div>
+      }
     </div>
    );
 }

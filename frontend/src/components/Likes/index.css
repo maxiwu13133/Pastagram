@@ -95,10 +95,6 @@
   border-radius: 50%;
 }
 
-.likes-list-pfp:hover {
-  cursor: pointer;
-}
-
 .likes-list-details {
   display: flex;
   flex-direction: column;
@@ -164,6 +160,14 @@
 
 .likes-list-following:active {
   opacity: 70%;
+}
+
+/* deleted user */
+.likes-deleted-username {
+  width: 100%;
+  font-size: 14px;
+  font-weight: 600;
+  margin-left: 12px;
 }
 
 /* empty list */
