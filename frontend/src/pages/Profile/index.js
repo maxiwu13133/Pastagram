@@ -2,12 +2,18 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import './index.css';
 
+
 // Hooks
 import { useAuthContext } from '../../hooks/useAuthContext';
+
 
 // Pages
 import SelfProfile from './SelfProfile';
 import UserProfile from './UserProfile';
+
+
+// context
+import { ProfileLoadContextProvider } from '../../context/ProfileLoadContext';
 
 
 const Profile = () => {
@@ -30,8 +36,10 @@ const Profile = () => {
 
   return ( 
     <div className="profile-container">
-      { selfProfile && <SelfProfile /> }
-      { userProfile && <UserProfile username={ username } /> }
+      <ProfileLoadContextProvider>
+        { selfProfile && <SelfProfile /> }
+        { userProfile && <UserProfile username={ username } /> }
+      </ProfileLoadContextProvider>
     </div>
    );
 };

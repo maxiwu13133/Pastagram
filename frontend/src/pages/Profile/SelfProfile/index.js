@@ -14,6 +14,7 @@ import { useGetPosts } from '../../../hooks/useGetPosts';
 import { usePfpContext } from '../../../hooks/usePfpContext';
 import { useGetSaved } from '../../../hooks/useGetSaved';
 import { useDeletedContext } from '../../../hooks/useDeletedContext';
+import { useProfileLoadContext } from '../../../hooks/useProfileLoadContext';
 
 
 // components
@@ -38,16 +39,34 @@ const SelfProfile = () => {
   const [postsUpdating, setPostsUpdating] = useState(null);
   const [deletedNotif, setDeletedNotif] = useState(false);
 
+
+  // render page when everything is loaded
+  const { postLoad, savedLoad, dispatch } = useProfileLoadContext();
+  const [profileLoad, setProfileLoad] = useState(false);
+
+  useEffect(() => {
+    if (postLoad && savedLoad) {
+      setProfileLoad(true);
+    }
+  }, [postLoad, savedLoad, dispatch]);
+
+
   // deleted users
   const { deletedUsers } = useDeletedContext();
 
+
+  // update posts
   useEffect(() => {
-    if (p.length !== 0 ) {
+    if (p.length !== 0) {
       setPostsUpdating(true)
       setPosts(p);
       setPostsUpdating(false);
+      dispatch({ type: 'POST_FINISH' });
     }
-  }, [p]);
+    if (p.length === 0) {
+      dispatch({ type: 'POST_FINISH' });
+    }
+  }, [p, dispatch]);
 
 
   // deleted post notif
@@ -57,10 +76,6 @@ const SelfProfile = () => {
       setTimeout(() => {
         setDeletedNotif(false);
       }, 3000);
-    }
-
-    if (posts.length !== p.length) {
-
     }
   }, [posts, p.length, postsUpdating]);
 
@@ -76,7 +91,8 @@ const SelfProfile = () => {
 
   useEffect(() => {
     setSavedPosts(saved.filter(x => !deletedUsers.includes(x.user_id)));
-  }, [saved, deletedUsers]);
+    dispatch({ type: 'SAVED_FINISH' });
+  }, [saved, deletedUsers, dispatch]);
 
   
   return (
@@ -84,6 +100,14 @@ const SelfProfile = () => {
 
       { (followers === null || posts === null) ? <Loading /> : "" }
 
+      {
+        !profileLoad && 
+        isLoading &&
+        postLoading && 
+        <div className="s-profile-load">
+          <Loading />
+        </div>
+      }
       { 
         !isLoading && !postLoading && 
         <>
