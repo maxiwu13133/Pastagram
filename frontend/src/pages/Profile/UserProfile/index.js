@@ -1,16 +1,20 @@
 import { useState, useEffect } from 'react';
 import './index.css';
 
+
 // hooks
 import { useGetCommunity } from '../../../hooks/useGetCommunity';
 import { useGetPosts } from '../../../hooks/useGetPosts';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { useFollowUser } from '../../../hooks/useFollowUser';
 import { useUnfollowUser } from '../../../hooks/useUnfollowUser';
+import { useDeletedContext } from '../../../hooks/useDeletedContext';
+
 
 // components
 import Grid from '../../../components/Posts/Grid';
 import Posts from '../../../components/Posts';
+
 
 // assets
 import cameraIcon from '../../../assets/Profile/camera-icon.png';
@@ -18,18 +22,28 @@ import defaultPfp from '../../../assets/Profile/default-pfp.jpg';
 import loadSpinner from '../../../assets/EditProfile/load-spinner.svg';
 
 
+// pages
+import Unavailable from '../../Unavailable';
+
+
 const UserProfile = ({ username }) => {
   const { user } = useAuthContext();
-  const { id } = useGetCommunity({ username: user.username });
-  const { fullName, bio, followers, following, pfp, isLoading } = useGetCommunity({ username });
+  const { id: selfId } = useGetCommunity({ username: user.username });
+  const { id, fullName, bio, followers, following, pfp, error, isLoading } = useGetCommunity({ username });
   const { posts: p } = useGetPosts({ username });
   const [posts, setPosts] = useState([]);
   const [newFollowers, setNewFollowers] = useState(0);
   const [isFollowing, setIsFollowing] = useState(null);
 
+  // deleted users
+  const { deletedUsers } = useDeletedContext();
+
+
+  // set local posts to fetched posts
   useEffect(() => {
     setPosts(p);
   }, [p])
+
 
   // update following
   const { followUser, error: followError, isLoading: followIsLoading } = useFollowUser();
@@ -55,12 +69,20 @@ const UserProfile = ({ username }) => {
   // update page
   useEffect(() => {
     setNewFollowers(followers.length);
-    setIsFollowing(followers.includes(id));
-  }, [followers, id]);
+    setIsFollowing(followers.includes(selfId));
+  }, [followers, selfId]);
   
+
   return ( 
     <div className="userprofile-container">
-      { !isLoading &&
+      {/* User not found */}
+      {
+        (deletedUsers?.includes(id) || error) && <Unavailable />
+      }
+      { 
+        !isLoading &&
+        !deletedUsers?.includes(id) && 
+        !error &&
         <>
           {/* Details */}
           <div className="userprofile-details">
