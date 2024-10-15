@@ -193,7 +193,11 @@ const Reply = ({ replies, index, replyLoading, setReplyLoading, last, setComment
           <img 
             src={ dots }
             alt=""
-            className={ `reply-options-dots ${ username === user.username ? "reply-options-dots-show" : "" }` }
+            className={ `
+              reply-options-dots 
+              ${ username === user.username ? "reply-options-dots-show" : "" }
+              ${ id === replies[index].user_id ? "reply-options-dots-show" : "" }
+            ` }
             onClick={ () => setDeletePopup(true) }
             draggable={ false }
           />

@@ -19,11 +19,13 @@ const Likes = ({ comment, reply, setLikesModal, post }) => {
   const { user } = useAuthContext();
   const { id } = useGetCommunity({ username: user.username });
   const [likedUsers, setLikedUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(null);
 
 
   // get users info
   useEffect(() => {
     const getLikedInfo = async () => {
+      setIsLoading(true);
       const response = await fetch('http://localhost:4000/api/comment/liked/' + comment, {
         method: 'GET',
         headers: {
@@ -32,14 +34,17 @@ const Likes = ({ comment, reply, setLikesModal, post }) => {
       });
       const json = await response.json();
       if (!response.ok) {
+        setIsLoading(false);
         console.log('Error:', json.error);
       }
       if (response.ok) {
         setLikedUsers([...json.users.reverse()]);
+        setIsLoading(false);
       }
     }
 
     const getLikedInfoReply = async () => {
+      setIsLoading(true);
       const response = await fetch('http://localhost:4000/api/reply/liked/' + reply._id, {
         method: 'GET',
         headers: {
@@ -48,14 +53,17 @@ const Likes = ({ comment, reply, setLikesModal, post }) => {
       });
       const json = await response.json();
       if (!response.ok) {
+        setIsLoading(false);
         console.log('Error:', json.error);
       }
       if (response.ok) {
         setLikedUsers([...json.users.reverse()]);
+        setIsLoading(false);
       }
     }
 
     const getLikedInfoPost = async () => {
+      setIsLoading(true);
       const response = await fetch('http://localhost:4000/api/post/liked/' + post._id, {
         method: 'GET',
         headers: {
@@ -65,10 +73,12 @@ const Likes = ({ comment, reply, setLikesModal, post }) => {
       const json = await response.json();
       
       if (!response.ok) {
+        setIsLoading(false);
         console.log('Error:', json.error);
       }
       if (response.ok) {
         setLikedUsers([...json.users.reverse()]);
+        setIsLoading(false);
       }
     }
 
@@ -169,10 +179,12 @@ const Likes = ({ comment, reply, setLikesModal, post }) => {
 
         <div className={ `likes-list ${ likedUsers.length === 0 ? "likes-list-empty" : "" }` }>
           {
+            !isLoading && 
             likedUsers.length > 0 && 
             likedUsers.map((x, i) => x.deleted ? createDeletedUserItem(i) : createUserListItem(i))
           }
           {
+            !isLoading &&
             likedUsers.length === 0 && 
             <div className="likes-empty">
               No likes yet...

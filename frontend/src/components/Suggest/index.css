@@ -1,3 +1,9 @@
+@keyframes logoutPopin {
+  0% { width: 440px; height: 106px; top: calc(50vh - 53px); left: calc(50vw - 220px); }
+
+  100% { width: 400px; height: 96px; }
+}
+
 .suggest-container {
   display: flex;
   flex-direction: column;
@@ -89,6 +95,7 @@
   top: calc(50vh - 48px);
   left: calc(50vw - 200px);
   overflow: hidden;
+  animation: logoutPopin 0.2s;
 }
 
 .suggest-logout-confirm {
