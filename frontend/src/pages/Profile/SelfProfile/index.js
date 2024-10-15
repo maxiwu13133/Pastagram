@@ -13,6 +13,7 @@ import { useGetCommunity } from '../../../hooks/useGetCommunity';
 import { useGetPosts } from '../../../hooks/useGetPosts';
 import { usePfpContext } from '../../../hooks/usePfpContext';
 import { useGetSaved } from '../../../hooks/useGetSaved';
+import { useDeletedContext } from '../../../hooks/useDeletedContext';
 
 
 // components
@@ -36,6 +37,9 @@ const SelfProfile = () => {
   const [posts, setPosts] = useState([]);
   const [postsUpdating, setPostsUpdating] = useState(null);
   const [deletedNotif, setDeletedNotif] = useState(false);
+
+  // deleted users
+  const { deletedUsers } = useDeletedContext();
 
   useEffect(() => {
     if (p.length !== 0 ) {
@@ -71,8 +75,8 @@ const SelfProfile = () => {
   const { saved } = useGetSaved();
 
   useEffect(() => {
-    setSavedPosts(saved);
-  }, [saved]);
+    setSavedPosts(saved.filter(x => !deletedUsers.includes(x.user_id)));
+  }, [saved, deletedUsers]);
 
   
   return (
@@ -180,13 +184,13 @@ const SelfProfile = () => {
 
               {/* saved posts */}
               {
-                savedTab && saved.length > 0 && 
+                savedTab && savedPosts.length > 0 && 
                 <Posts posts={ savedPosts } />
               }
 
               {/* empty saved posts */}
               {
-                savedTab && saved.length === 0 && 
+                savedTab && savedPosts.length === 0 && 
                 <div className="s-profile-saved-empty">
                   <img src={ savedEmpty } alt="" className="s-profile-saved-empty-icon" />
 
