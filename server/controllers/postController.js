@@ -1,6 +1,7 @@
 const Post = require('../models/postModel');
 const User = require('../models/userModel');
 const Comment = require('../models/commentModel');
+const Reply = require('../models/replyModel');
 const cloudinary = require('cloudinary').v2;
 
 
@@ -53,14 +54,29 @@ const deletePost = async (req, res) => {
   const post = req.body;
 
   try {
-
+    
+    // remove from cloudinary
     for (let photo of post.photos) {
       await cloudinary.uploader.destroy(photo.public_id);
     };
 
+    // delete replies of comments of post
+    const comments = await Comment.find({ post_id: post._id });
+
+    for (const comment of comments) {
+      await Reply.deleteMany({ comment_id: comment._id });
+    }
+
     const response = await Post.deleteOne({ _id: post._id})
     await Comment.deleteMany({ post_id: post._id });
 
+    // remove deleted post from user saved 
+    const usersSaved = await User.find({ saved: { $in: post._id } });
+    
+    for (const user of usersSaved) {
+      const updatedInfo = { saved: user.saved.filter(x => !x.equals(post._id)) };
+      await User.findOneAndUpdate({ _id: user._id }, updatedInfo);
+    }
     
     res.status(200).json({ result: response });
   } catch (error) {
