@@ -1,15 +1,19 @@
 import { useState, useCallback, useEffect } from 'react';
 import './index.css';
 
+
 // hooks
 import { useDropzoneC } from '../../hooks/useDropzoneC.js';
 import { useGetCommunity } from '../../hooks/useGetCommunity.js';
 import { useAuthContext } from '../../hooks/useAuthContext.js';
 import { useUpdate } from '../../hooks/useUpdate.js';
 import { useSearchContext } from '../../hooks/useSearchContext.js';
+import { useDeleteUser } from '../../hooks/useDeleteUser.js';
+
 
 // pages
 import Loading from '../Loading';
+
 
 // assets
 import loadSpinner from '../../assets/EditProfile/load-spinner.svg';
@@ -18,7 +22,7 @@ import downArrow from '../../assets/EditProfile/down-arrow.png';
 
 
 const EditProfile = () => {
-  const { user } = useAuthContext();
+  const { user, dispatch: dispatchUser } = useAuthContext();
   const { fullName, bio, email, pfp, error, isLoading } = useGetCommunity({ username: user.username });
   const [oldPfp, setOldPfp] = useState({});
   const [newPfp, setNewPfp] = useState({});
@@ -105,11 +109,12 @@ const EditProfile = () => {
   // delete account
   const [advancedModal, setAdvancedModal] = useState(false);
   const [deletePopup, setDeletePopup] = useState(false);
-
+  const { deleteUser } = useDeleteUser();
   
 
-  const handleDelete = () => {
-
+  const handleDelete = async () => {
+    await deleteUser();
+    dispatchUser({ type: 'LOGOUT' });
   }
 
   // Stop scroll when modal open
@@ -253,7 +258,7 @@ const EditProfile = () => {
                       </p>
                     </div>
 
-                    <div className="edit-delete-confirm">
+                    <div className="edit-delete-confirm" onClick={ () => handleDelete() }>
                       Delete
                     </div>
 

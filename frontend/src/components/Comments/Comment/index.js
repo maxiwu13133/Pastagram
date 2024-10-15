@@ -221,7 +221,11 @@ const Comment = ({ post, setLocalPost, posts, setPosts, comment, setComments, se
             <img 
               src={ dots }
               alt=""
-              className={ `comment-options-dots ${ username === user.username ? "comment-options-dots-show" : "" }` }
+              className={ `
+                comment-options-dots
+                ${ username === user.username ? "comment-options-dots-show" : "" }
+                ${ post.user_id === id ? "comment-options-dots-show" : "" }
+              ` }
               onClick={ () => setDeletePopup(true) }
               draggable={ false }
             />

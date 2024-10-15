@@ -52,7 +52,11 @@ const userSchema = new Schema({
     type: ObjectId,
     ref: 'Post',
     default: []
-  }]
+  }],
+  deleted: {
+    type: Boolean,
+    default: false
+  }
 });
 
 // static signup method

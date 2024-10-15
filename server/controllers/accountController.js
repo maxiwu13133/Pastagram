@@ -77,4 +77,20 @@ const deletePfp = async (req, res) => {
   }
 }
 
-module.exports = { getAccountInfo, updateUser, deletePfp };
+
+// delete account
+const deleteUser = async (req, res) => {
+  const user_id = req.user._id;
+
+  try {
+    const updatedInfo = { deleted: true };
+
+    const newUser = await User.findOneAndUpdate({ _id: user_id }, updatedInfo, { new: true });
+
+    res.status(200).json({ newUser });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+module.exports = { getAccountInfo, updateUser, deletePfp, deleteUser };

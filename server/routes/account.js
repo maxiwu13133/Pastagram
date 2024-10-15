@@ -9,7 +9,8 @@ router.use(requireAuth);
 const { 
   getAccountInfo,
   updateUser,
-  deletePfp
+  deletePfp,
+  deleteUser
  } = require('../controllers/accountController');
 
 // get account info
@@ -19,6 +20,9 @@ router.get('/', getAccountInfo);
 router.patch('/update', updateUser);
 
 // delete pfp
-router.delete('/', deletePfp);
+router.delete('/pfp', deletePfp);
+
+// delete user
+router.delete('/', deleteUser);
 
 module.exports = router;

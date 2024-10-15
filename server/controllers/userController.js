@@ -131,15 +131,6 @@ const unfollowUser = async (req, res) => {
 
 
 // get suggested friends
-const shuffleRandomly = (arr) => {
-  for (var i = arr.length - 1; i >= 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    var temp = arr[i];
-    arr[i] = arr[j];
-    arr[j] = temp;
-  }
-}
-
 const getSuggest = async (req, res) => {
   const userId = req.params.id;
 
@@ -189,7 +180,6 @@ const getSuggest = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 }
-
 
 module.exports = { 
   loginUser, signupUser, // account

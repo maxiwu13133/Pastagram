@@ -117,7 +117,7 @@ const getPostLikes = async (req, res) => {
 
 // get friend posts
 const getFriendPosts = async (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user._id;
   try {
     const user = await User.findOne({ _id: userId });
     let allPosts = [];

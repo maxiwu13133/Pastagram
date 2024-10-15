@@ -9,7 +9,7 @@ const {
   getCommunity,
   followUser,
   unfollowUser,
-  getSuggest
+  getSuggest,
 } = require('../controllers/userController');
 
 // login route

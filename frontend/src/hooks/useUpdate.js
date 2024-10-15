@@ -16,7 +16,7 @@ export const useUpdate = () => {
 
     if (pfpChanged) {
 
-      const response = await fetch('http://localhost:4000/api/account/', {
+      const response = await fetch('http://localhost:4000/api/account/pfp/', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
