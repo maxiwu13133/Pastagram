@@ -45,6 +45,13 @@
   height: 100%;
 }
 
+.results-search-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
 /* user */
 .results-user-container {
   display: flex;

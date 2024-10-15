@@ -5,7 +5,7 @@ import './index.css';
 // hooks
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useHomeLoadContext } from '../../hooks/useHomeLoadContext';
-import { useGetDeleted } from '../../hooks/useGetDeleted';
+import { useDeletedContext } from '../../hooks/useDeletedContext';
 
 
 // pages
@@ -25,23 +25,15 @@ const Home = () => {
   const { user } = useAuthContext();
   const { userInfoLoad, suggestedLoad, postLoad, deletedLoad, dispatch } = useHomeLoadContext();
 
-  // get deleted users
-  const [deleted, setDeleted] = useState(null);
-  const { getDeleted } = useGetDeleted();
-  
-  useEffect(() => {
 
-    const getDeletedUsers = async () => {
-      const response = await getDeleted();
-      setDeleted(response.deleted);
+  // deleted users
+  const { deletedUsers } = useDeletedContext();
+
+  useEffect(() => {
+    if (deletedUsers) {
       dispatch({ type: 'DELETED_FINISH' });
     }
-
-    if (!deleted) {
-      getDeletedUsers();
-    };
-
-  }, [deleted, getDeleted, dispatch]);
+  }, [deletedUsers, dispatch])
 
   
   // wait for all content to load before display
@@ -71,8 +63,8 @@ const Home = () => {
       if (!response.ok) {
         console.log('Error:', json.error);
       };
-      if (response.ok && deleted) {
-        const deletedRemoved = json.allPosts.filter(x => !deleted.includes(x.user_id));
+      if (response.ok && deletedUsers) {
+        const deletedRemoved = json.allPosts.filter(x => !deletedUsers.includes(x.user_id));
 
 
         const sortedJson = deletedRemoved.sort((a, b) => {
@@ -90,7 +82,7 @@ const Home = () => {
     };
 
     getHomePosts();
-  }, [user, dispatch, deleted]);
+  }, [user, dispatch, deletedUsers]);
 
 
   return (

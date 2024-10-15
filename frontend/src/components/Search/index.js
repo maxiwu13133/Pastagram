@@ -2,27 +2,38 @@ import { useState, useEffect, forwardRef } from 'react';
 import { useDebounce } from 'use-debounce';
 import './index.css';
 
+
 // assets
 import magnifyGlass from '../../assets/Navbar/ig-search-icon-unfocused.png';
 import close from '../../assets/Search/circle-close.png';
 
+
 // components
 import Results from './Results';
+
 
 // hooks
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useSearchContext } from '../../hooks/useSearchContext';
+import { useDeletedContext } from '../../hooks/useDeletedContext';
+
 
 const Search = forwardRef((_, ref) => {
   const { user } = useAuthContext();
   const { openModal } = useSearchContext();
 
+  // deleted users
+  const { deletedUsers } = useDeletedContext();
+
+
   // change search bar styling when focused
   const [inputFocus, setInputFocus] = useState(false);
+
 
   // get search input value
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearch] = useDebounce(searchTerm, 300);
+
 
   // search results when search bar has value
   const [results, setResults] = useState([]);
@@ -46,14 +57,15 @@ const Search = forwardRef((_, ref) => {
             console.log('Error:', json.error);
           }
           if (response.ok) {
-            const filteredResults = json.users.filter(user => user.username.toLowerCase().includes(processedValue));
+            const deletedRemoved = json.users.filter(x => !deletedUsers.includes(x._id));
+            const filteredResults = deletedRemoved.filter(user => user.username.toLowerCase().includes(processedValue));
             setResults(filteredResults);
           }
         }
       }
       searchUsers(debouncedSearch);
     }
-  }, [debouncedSearch, user.token]);
+  }, [debouncedSearch, user.token, deletedUsers]);
 
 
   return ( 

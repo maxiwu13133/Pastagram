@@ -114,6 +114,7 @@ const EditProfile = () => {
 
   const handleDelete = async () => {
     await deleteUser();
+    localStorage.removeItem('user');
     dispatchUser({ type: 'LOGOUT' });
   }
 

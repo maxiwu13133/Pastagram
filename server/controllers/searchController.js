@@ -7,18 +7,20 @@ const getSearches = async (req, res) => {
 
   try {
     const user = await User.findOne({ username });
+    const deletedUsers = await User.find({ deleted: true });
     const searches = [];
 
     for (const search of user.searches) {
       const searchedUser = await User.findOne({ _id: search._id });
-      searches.push({
-        _id: searchedUser._id,
-        username: searchedUser.username,
-        pfp: searchedUser.pfp,
-        fullName: searchedUser.fullName
-      });
+      if (deletedUsers.includes(searchedUser)) {
+        searches.push({
+          _id: searchedUser._id,
+          username: searchedUser.username,
+          pfp: searchedUser.pfp,
+          fullName: searchedUser.fullName
+        });
+      }
     }
-
 
     res.status(200).json({ searches });
   } catch (error) {

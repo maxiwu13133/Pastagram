@@ -120,6 +120,13 @@ const Results = ({ searchTerm, setSearchTerm, results }) => {
 
         {/* Search results */}
         {
+          results.length === 0 && 
+          searchTerm.replace(/\s+/g, '').length !== 0 &&
+          <div className="results-empty">
+            No results found.
+          </div>
+        }
+        {
           searchTerm.replace(/\s+/g, '').length !== 0 &&
           results.map((result, i) => formatUser({ result, i }))
         }
