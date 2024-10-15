@@ -108,6 +108,10 @@ const validateInfo = async (user, password) => {
     throw Error('Incorrect login information.');
   };
 
+  if (user.deleted) {
+    throw Error('Account is no longer active.');
+  }
+
   return user;
 }
 
