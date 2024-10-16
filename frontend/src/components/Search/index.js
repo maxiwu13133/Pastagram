@@ -58,7 +58,7 @@ const Search = forwardRef((_, ref) => {
           }
           if (response.ok) {
             const deletedRemoved = json.users.filter(x => !deletedUsers.includes(x._id));
-            const filteredResults = deletedRemoved.filter(user => user.username.toLowerCase().includes(processedValue));
+            const filteredResults = deletedRemoved.filter(x => x.username.toLowerCase().includes(processedValue));
             setResults(filteredResults);
           }
         }
