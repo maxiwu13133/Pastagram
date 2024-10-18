@@ -12,7 +12,7 @@ const getSearches = async (req, res) => {
 
     for (const search of user.searches) {
       const searchedUser = await User.findOne({ _id: search._id });
-      if (deletedUsers.includes(searchedUser)) {
+      if (!deletedUsers.includes(searchedUser)) {
         searches.push({
           _id: searchedUser._id,
           username: searchedUser.username,

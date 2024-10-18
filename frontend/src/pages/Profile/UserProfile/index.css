@@ -109,6 +109,14 @@
   font-weight: 600;
 }
 
+.userprofile-follower-ct:hover, .userprofile-following-ct:hover {
+  cursor: pointer;
+}
+
+.userprofile-follower-ct:active, .userprofile-following-ct:active {
+  opacity: 50%;
+}
+
 .userprofile-full-name {
   font-weight: 600;
 }

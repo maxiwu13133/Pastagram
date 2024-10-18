@@ -14,6 +14,7 @@ import { useDeletedContext } from '../../../hooks/useDeletedContext';
 // components
 import Grid from '../../../components/Posts/Grid';
 import Posts from '../../../components/Posts';
+import OtherFriendsModal from '../../../components/OtherFriendsModal';
 
 
 // assets
@@ -71,6 +72,10 @@ const UserProfile = ({ username }) => {
     setNewFollowers(followers.length);
     setIsFollowing(followers.includes(selfId));
   }, [followers, selfId]);
+
+
+  // friends modal
+  const [friendsModal, setFriendsModal] = useState(null);
   
 
   return ( 
@@ -116,14 +121,26 @@ const UserProfile = ({ username }) => {
                   <span>{ posts.length }</span> posts
                 </p>
 
-                <p className="userprofile-follower-ct">
+                <p className="userprofile-follower-ct" onClick={ () => setFriendsModal("followers") }>
                   <span>{ newFollowers }</span> followers
                 </p>
 
-                <p className="userprofile-following-ct">
+                <p className="userprofile-following-ct" onClick={ () => setFriendsModal("following") }>
                   <span>{ following.length }</span> following
                 </p>
               </div>
+
+              {/* friends modal */}
+              {
+                friendsModal &&
+                <OtherFriendsModal 
+                  setFriendsModal={ setFriendsModal}
+                  type={ friendsModal === "followers" ? "Followers" : "Following" }
+                  username={ username }
+                  followers={ followers }
+                  following={ following }
+                />
+              }
 
               <div className="userprofile-bio">
                 <p className="userprofile-full-name">{ fullName }</p>
