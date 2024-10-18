@@ -8,6 +8,7 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 import { useGetCommunity } from '../../hooks/useGetCommunity';
 import { useFollowUser } from '../../hooks/useFollowUser';
 import { useUnfollowUser } from '../../hooks/useUnfollowUser';
+import { useFollowingContext } from '../../hooks/useFollowingContext';
 
 
 // assets
@@ -20,6 +21,9 @@ const Likes = ({ comment, reply, setLikesModal, post }) => {
   const { id } = useGetCommunity({ username: user.username });
   const [likedUsers, setLikedUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(null);
+
+  // following context
+  const { followingListGlobal, dispatch } = useFollowingContext();
 
 
   // get users info
@@ -101,17 +105,13 @@ const Likes = ({ comment, reply, setLikesModal, post }) => {
   const { unfollowUser } = useUnfollowUser();
 
   const handleClick = async (i) => {
-    if (likedUsers[i].followers.includes(id)) {
-      const newLikedUsers = [...likedUsers];
-      newLikedUsers[i].followers = newLikedUsers[i].followers.filter(follower => follower !== id);
-      setLikedUsers(newLikedUsers);
-      await unfollowUser({ username: user.username, targetUsername: newLikedUsers[i].username });
+    if (followingListGlobal.includes(likedUsers[i]._id)) {
+      dispatch({ type: 'REMOVE_FOLLOWING', payload: likedUsers[i]._id });
+      await unfollowUser({ username: user.username, targetUsername: likedUsers[i].username });
     }
     else if (!likedUsers[i].followers.includes(id)) {
-      const newLikedUsers = [...likedUsers];
-      newLikedUsers[i].followers = newLikedUsers[i].followers.concat(id);
-      setLikedUsers(newLikedUsers);
-      await followUser({ username: user.username, targetUsername: newLikedUsers[i].username });
+      dispatch({ type: 'ADD_FOLLOWING', payload: likedUsers[i]._id });
+      await followUser({ username: user.username, targetUsername: likedUsers[i].username });
     }
   }
 
@@ -140,11 +140,11 @@ const Likes = ({ comment, reply, setLikesModal, post }) => {
         {
           likedUsers[i].username !== user.username && 
           <button 
-            className={ `likes-list-follow ${ likedUsers[i].followers.includes(id) ? "likes-list-following" : "" }` }
+            className={ `likes-list-follow ${ followingListGlobal.includes(likedUsers[i]._id) ? "likes-list-following" : "" }` }
             onClick={ () => handleClick(i) }
           >
             {
-              likedUsers[i].followers.includes(id) ? 
+              followingListGlobal.includes(likedUsers[i]._id) ? 
               "Following" : "Follow"
             }
           </button>

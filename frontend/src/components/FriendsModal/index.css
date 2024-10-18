@@ -43,14 +43,14 @@
   align-items: center;
   height: 42px;
   width: 42px;
-  padding: 12px;
+  padding: 13fpx;
   position: absolute;
   right: 0;
 }
 
 .friends-close-icon {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
 }
 
 .friends-close-icon:hover {
@@ -124,4 +124,78 @@
   width: 383px;
   height: 60px;
   padding: 8px 16px;
+  display: flex;
+}
+
+.friends-result-pfp {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 12px;
+}
+
+.friends-result-options {
+  display: flex;
+  flex-direction: column;
+  width: 182px;
+  height: 100%;
+  justify-content: center;
+}
+
+.friends-result-username {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.friends-result-pfp:hover, .friends-result-username:hover {
+  cursor: pointer;
+}
+
+.friends-result-username:active {
+  opacity: 50%;
+}
+
+.friends-result-fullname {
+  font-size: 14px;
+  font-weight: 400;
+  color: gray;
+}
+
+.friends-result-follow-container {
+  height: 100%;
+  width: 113px;
+  padding-left: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.friends-result-button {
+  width: 90px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  font-size: 13px;
+  background-color: #0095f6;
+  color: white;
+}
+
+.friends-result-button:hover {
+  cursor: pointer;
+  background-color: #1877f2;
+}
+
+.friends-result-button:active {
+  opacity: 50%;
+}
+
+.friends-result-following {
+  background-color: #efefef;
+  color: black;
+}
+
+.friends-result-following:hover {
+  background-color: #dbdbdb;
 }

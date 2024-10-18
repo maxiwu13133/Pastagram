@@ -10,6 +10,7 @@ const {
   followUser,
   unfollowUser,
   getSuggest,
+  getFriends
 } = require('../controllers/userController');
 
 // login route
@@ -29,6 +30,9 @@ router.patch('/unfollow', unfollowUser);
 
 // get suggested users
 router.get('/:id', getSuggest);
+
+// get friends
+router.get('/friends/:username', getFriends);
 
 
 module.exports = router;

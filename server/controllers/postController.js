@@ -123,7 +123,7 @@ const getPostLikes = async (req, res) => {
       const user = await User.findOne({ _id: userId });
       users.push({
         username: user.username, fullName: user.fullName, pfp: user.pfp, followers: user.followers,
-        deleted: user.deleted
+        deleted: user.deleted, _id: user._id
       });
     }
 

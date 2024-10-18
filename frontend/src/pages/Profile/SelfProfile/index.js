@@ -15,6 +15,7 @@ import { usePfpContext } from '../../../hooks/usePfpContext';
 import { useGetSaved } from '../../../hooks/useGetSaved';
 import { useDeletedContext } from '../../../hooks/useDeletedContext';
 import { useProfileLoadContext } from '../../../hooks/useProfileLoadContext';
+import { useFollowingContext } from '../../../hooks/useFollowingContext';
 
 
 // components
@@ -39,6 +40,10 @@ const SelfProfile = () => {
   const [posts, setPosts] = useState([]);
   const [postsUpdating, setPostsUpdating] = useState(null);
   const [deletedNotif, setDeletedNotif] = useState(false);
+
+
+  // following context
+  const { followingListGlobal } = useFollowingContext();
 
 
   // render page when everything is loaded
@@ -144,7 +149,7 @@ const SelfProfile = () => {
                   </p>
 
                   <p className="s-profile-following-ct" onClick={ () => setFriendsModal("following") }>
-                    <span>{ following.length }</span> following
+                    <span>{ followingListGlobal?.length }</span> following
                   </p>
                 </div>
               }

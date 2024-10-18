@@ -181,9 +181,36 @@ const getSuggest = async (req, res) => {
   }
 }
 
+
+// get friends
+const getFriends = async (req, res) => {
+  const username = req.params.username;
+
+  try {
+    const user = await User.findOne({ username });
+    const followers = [];
+    const following = [];
+
+    for (const followerId of user.followers) {
+      const follower = await User.findOne({ _id: followerId });
+      followers.push(follower);
+    }
+
+    for (const followingId of user.following) {
+      const followingUser = await User.findOne({ _id: followingId });
+      following.push(followingUser);
+    }
+
+    res.status(200).json({ followers, following });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
 module.exports = { 
   loginUser, signupUser, // account
   getCommunity, // user info
   followUser, unfollowUser, // user and user interaction
   getSuggest,
+  getFriends
 };

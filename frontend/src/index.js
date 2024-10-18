@@ -9,6 +9,7 @@ import { SearchContextProvider } from './context/SearchContext';
 import { PfpContextProvider } from './context/PfpContext';
 import { HomeLoadContextProvider } from './context/HomeLoadContext';
 import { DeletedContextProvider } from './context/DeletedContext';
+import { FollowingContextProvider } from './context/FollowingContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -17,9 +18,11 @@ root.render(
       <PfpContextProvider>
         <DeletedContextProvider>
           <SearchContextProvider>
-            <HomeLoadContextProvider>
-              <App />
-            </HomeLoadContextProvider>
+            <FollowingContextProvider>
+              <HomeLoadContextProvider>
+                <App />
+              </HomeLoadContextProvider>
+            </FollowingContextProvider>
           </SearchContextProvider>
         </DeletedContextProvider>
       </PfpContextProvider>

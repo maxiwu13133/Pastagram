@@ -13,15 +13,16 @@ import defaultPfp from '../../assets/Profile/default-pfp.jpg';
 // hooks
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useDeletedContext } from '../../hooks/useDeletedContext';
+import { useFollowUser } from '../../hooks/useFollowUser';
+import { useUnfollowUser } from '../../hooks/useUnfollowUser';
+import { useFollowingContext } from '../../hooks/useFollowingContext';
 
 
 const FriendsModal = ({ setFriendsModal, type, followers, following }) => {
   const { user } = useAuthContext();
-  
 
   // deleted users
   const { deletedUsers } = useDeletedContext();
-
 
   // search
   const [searchTerm, setSearchTerm] = useState('');
@@ -66,9 +67,81 @@ const FriendsModal = ({ setFriendsModal, type, followers, following }) => {
     }
   }, [debouncedSearch, user.token, deletedUsers, followers, following, type]);
 
+
+  // show all followers or following
+  const [followerList, setFollowersList] = useState([]);
+  const [followingList, setFollowingList] = useState([]);
+  const { followingListGlobal, dispatch } = useFollowingContext();
+
   useEffect(() => {
-    console.log(results);
-  }, [results])
+    const getFriends = async () => {
+      const response = await fetch('http://localhost:4000/api/user/friends/' + user.username, {
+        method: 'GET'
+      });
+      const json = await response.json();
+
+      if (!response.ok) {
+        console.log('Error:', json.error);
+      }
+
+      if (response.ok) {
+        setFollowersList(json.followers);
+        setFollowingList(json.following);
+      }
+    }
+
+    getFriends();
+  }, [followers, type, user]);
+
+
+  // handle follow
+  const { followUser } = useFollowUser();
+  const { unfollowUser } = useUnfollowUser();
+
+  const handleFollow = async (friend, i) => {
+    if (followingListGlobal.includes(friend._id)) {
+      dispatch({ type: 'REMOVE_FOLLOWING', payload: friend._id });
+      await unfollowUser({ username: user.username, targetUsername: friend.username });
+    }
+    else if (!followingListGlobal.includes(friend._id)) {
+      dispatch({ type: 'ADD_FOLLOWING', payload: friend._id });
+      await followUser({ username: user.username, targetUsername: friend.username });
+    }
+  }
+
+
+  // show followers
+  const formatFriend = (friend, i) => {
+    return (
+      <div className="friends-result-user" key={ i }>
+        <img 
+          src={ friend.pfp ? friend.pfp.url : defaultPfp }
+          alt=""
+          className="friends-result-pfp"
+          draggable={ false }
+        />
+
+        <div className="friends-result-options">
+          <p className="friends-result-username">{ friend.username }</p>
+          <p className="friends-result-fullname">{ friend.fullName }</p>
+        </div>
+
+        <div className="friends-result-follow-container">
+          <button 
+            className={ `
+              friends-result-button
+              ${ followingListGlobal.includes(friend._id) ? "friends-result-following" : "" } 
+            ` }
+            onClick={ () => handleFollow(friend, i) }
+          >
+            {
+              followingListGlobal.includes(friend._id) ? "Following" : "Follow"
+            }
+          </button>
+        </div>
+      </div>
+    )
+  }
 
 
   return (
@@ -125,7 +198,12 @@ const FriendsModal = ({ setFriendsModal, type, followers, following }) => {
 
         {/* results */}
         <div className="friends-results">
-          
+          {
+            searchTerm.replace(/\s+/g, '').length === 0 &&
+            type === "Followers" ? 
+            followerList.map((follower, i) => formatFriend(follower, i)) :
+            followingList.map((following, i) => formatFriend(following, i))
+          }
         </div>
       </div>
     </div>
