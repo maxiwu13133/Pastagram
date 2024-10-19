@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDebounce } from 'use-debounce';
+import { Link } from 'react-router-dom';
+import { find } from 'lodash';
 import './index.css';
 
 
@@ -18,7 +20,7 @@ import { useUnfollowUser } from '../../hooks/useUnfollowUser';
 import { useFollowingContext } from '../../hooks/useFollowingContext';
 
 
-const FriendsModal = ({ setFriendsModal, type, followers, following }) => {
+const FriendsModal = ({ setFriendsModal, username, type }) => {
   const { user } = useAuthContext();
 
   // deleted users
@@ -30,6 +32,32 @@ const FriendsModal = ({ setFriendsModal, type, followers, following }) => {
 
   // results
   const [results, setResults] = useState([]);
+
+
+  // show all followers or following
+  const [followerList, setFollowersList] = useState([]);
+  const [followingList, setFollowingList] = useState([]);
+  const { followingListGlobal, dispatch } = useFollowingContext();
+
+  useEffect(() => {
+    const getFriends = async () => {
+      const response = await fetch('http://localhost:4000/api/user/friends/' + username, {
+        method: 'GET'
+      });
+      const json = await response.json();
+
+      if (!response.ok) {
+        console.log('Error:', json.error);
+      }
+
+      if (response.ok) {
+        setFollowersList(json.followers);
+        setFollowingList(json.following);
+      }
+    }
+
+    getFriends();
+  }, [type, username]);
 
 
   // debounce search for optimization
@@ -54,44 +82,18 @@ const FriendsModal = ({ setFriendsModal, type, followers, following }) => {
             const filteredResults = deletedRemoved.filter(x => x.username.toLowerCase().includes(processedValue));
 
             if (type === 'Followers') {
-              setResults(filteredResults.filter(x => followers.includes(x._id)));
+              setResults(filteredResults.filter(x => find(followerList, x)));
             }
 
             if (type === 'Following') {
-              setResults(filteredResults.filter(x => following.includes(x._id)));
+              setResults(filteredResults.filter(x => find(followingList, x)));
             }
           }
         }
       }
       searchUsers(debouncedSearch);
     }
-  }, [debouncedSearch, user.token, deletedUsers, followers, following, type]);
-
-
-  // show all followers or following
-  const [followerList, setFollowersList] = useState([]);
-  const [followingList, setFollowingList] = useState([]);
-  const { followingListGlobal, dispatch } = useFollowingContext();
-
-  useEffect(() => {
-    const getFriends = async () => {
-      const response = await fetch('http://localhost:4000/api/user/friends/' + user.username, {
-        method: 'GET'
-      });
-      const json = await response.json();
-
-      if (!response.ok) {
-        console.log('Error:', json.error);
-      }
-
-      if (response.ok) {
-        setFollowersList(json.followers);
-        setFollowingList(json.following);
-      }
-    }
-
-    getFriends();
-  }, [followers, type, user]);
+  }, [debouncedSearch, user.token, deletedUsers, followerList, followingList, type]);
 
 
   // handle follow
@@ -114,30 +116,45 @@ const FriendsModal = ({ setFriendsModal, type, followers, following }) => {
   const formatFriend = (friend, i) => {
     return (
       <div className="friends-result-user" key={ i }>
-        <img 
-          src={ friend.pfp ? friend.pfp.url : defaultPfp }
-          alt=""
-          className="friends-result-pfp"
-          draggable={ false }
-        />
+        <Link 
+          to={ `/${ friend.username }` }
+          className="friends-result-pfp-link"
+          onClick={ () => setFriendsModal(false) }
+        >
+          <img 
+            src={ friend.pfp ? friend.pfp.url : defaultPfp }
+            alt=""
+            className="friends-result-pfp"
+            draggable={ false }
+          />
+        </Link>
 
         <div className="friends-result-options">
-          <p className="friends-result-username">{ friend.username }</p>
+          <Link 
+            to={ `/${ friend.username }` }
+            className="friends-result-username-link"
+            onClick={ () => setFriendsModal(false) }
+          >
+            <p className="friends-result-username">{ friend.username }</p>
+          </Link>
           <p className="friends-result-fullname">{ friend.fullName }</p>
         </div>
 
         <div className="friends-result-follow-container">
-          <button 
+          {
+            friend.username !== user.username && 
+            <button 
             className={ `
               friends-result-button
               ${ followingListGlobal.includes(friend._id) ? "friends-result-following" : "" } 
             ` }
             onClick={ () => handleFollow(friend) }
-          >
+            >
             {
               followingListGlobal.includes(friend._id) ? "Following" : "Follow"
             }
-          </button>
+            </button>
+          }
         </div>
       </div>
     )
@@ -191,6 +208,7 @@ const FriendsModal = ({ setFriendsModal, type, followers, following }) => {
                 alt=""
                 className={ `friends-input-close ${ searchTerm === '' ? "remove" : "" }` }
                 draggable={ false }
+                onClick={ () => setSearchTerm('') }
               />
             </div>
           </div>
@@ -205,7 +223,7 @@ const FriendsModal = ({ setFriendsModal, type, followers, following }) => {
             <div className="friends-all">
               {
                 ((type === "Followers" && followerList.length === 0) ||
-                (type === "Following" && followingListGlobal.length === 0)) &&
+                (type === "Following" && followingList.length === 0)) &&
                 <div className="friends-no-results">
                   {
                     type === "Followers" ? "This user has no followers." : "This user is not following anyone."

@@ -102,13 +102,13 @@
   padding: 4px;
 }
 
-.friends-input-close-container:hover {
-  cursor: pointer;
-}
-
 .friends-input-close {
   width: 18px;
   height: 18px;
+}
+
+.friends-input-close:hover {
+  cursor: pointer;
 }
 
 /* results */
@@ -127,12 +127,17 @@
   display: flex;
 }
 
+.friends-result-pfp-link {
+  width: 44px;
+  height: 44px;
+  margin-right: 12px;
+}
+
 .friends-result-pfp {
   width: 44px;
   height: 44px;
   border-radius: 50%;
   object-fit: cover;
-  margin-right: 12px;
 }
 
 .friends-result-options {
@@ -146,6 +151,8 @@
 .friends-result-username {
   font-size: 14px;
   font-weight: 600;
+  text-decoration: none;
+  color: black;
 }
 
 .friends-result-pfp:hover, .friends-result-username:hover {

@@ -159,6 +159,7 @@ const SelfProfile = () => {
                 friendsModal && 
                 <FriendsModal 
                   setFriendsModal={ setFriendsModal }
+                  username= { user.username }
                   type={ friendsModal === "followers" ? "Followers" : "Following" }
                   followers={ followers }
                   following={ following }

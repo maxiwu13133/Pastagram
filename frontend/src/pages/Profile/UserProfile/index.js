@@ -9,12 +9,13 @@ import { useAuthContext } from '../../../hooks/useAuthContext';
 import { useFollowUser } from '../../../hooks/useFollowUser';
 import { useUnfollowUser } from '../../../hooks/useUnfollowUser';
 import { useDeletedContext } from '../../../hooks/useDeletedContext';
+import { useFollowingContext } from '../../../hooks/useFollowingContext';
 
 
 // components
 import Grid from '../../../components/Posts/Grid';
 import Posts from '../../../components/Posts';
-import OtherFriendsModal from '../../../components/OtherFriendsModal';
+import FriendsModal from '../../../components/FriendsModal';
 
 
 // assets
@@ -36,6 +37,11 @@ const UserProfile = ({ username }) => {
   const [newFollowers, setNewFollowers] = useState(0);
   const [isFollowing, setIsFollowing] = useState(null);
 
+
+  // following context
+  const { dispatch } = useFollowingContext();
+  
+
   // deleted users
   const { deletedUsers } = useDeletedContext();
 
@@ -51,6 +57,7 @@ const UserProfile = ({ username }) => {
   const { unfollowUser, error: unfollowError, isLoading: unfollowIsLoading } = useUnfollowUser();
 
   const handleFollow = async () => {
+    dispatch({ type: 'ADD_FOLLOWING', payload: id })
     await followUser({ username: user.username, targetUsername: username });
     setTimeout(() => {
       setNewFollowers(prevFollowers => prevFollowers + 1);
@@ -59,6 +66,7 @@ const UserProfile = ({ username }) => {
   };
 
   const handleUnfollow = async () => {
+    dispatch({ type: 'REMOVE_FOLLOWING', payload: id })
     await unfollowUser({ username: user.username, targetUsername: username });
     setTimeout(() => {
       setNewFollowers(prevFollowers => prevFollowers - 1);
@@ -133,12 +141,10 @@ const UserProfile = ({ username }) => {
               {/* friends modal */}
               {
                 friendsModal &&
-                <OtherFriendsModal 
+                <FriendsModal 
                   setFriendsModal={ setFriendsModal}
                   type={ friendsModal === "followers" ? "Followers" : "Following" }
                   username={ username }
-                  followers={ followers }
-                  following={ following }
                 />
               }
 
