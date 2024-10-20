@@ -12,6 +12,7 @@ import Signup from './pages/Signup';
 import Terms from './pages/Terms';
 import Profile from './pages/Profile';
 import EditProfile from './pages/EditProfile';
+import Explore from './pages/Explore';
 
 
 // context
@@ -56,6 +57,10 @@ function App() {
                 <Route
                   path="/account/edit/"
                   element={ user ? <EditProfile /> : <Navigate to="/login/" /> }
+                />
+                <Route
+                  path="/explore/"
+                  element={ user ? <Explore /> : <Navigate to="/login/" /> }
                 />
               </Routes>
             </div> 

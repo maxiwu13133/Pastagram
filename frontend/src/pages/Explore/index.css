@@ -1,0 +1,143 @@
+.explore-container {
+  width: 100%;
+  height: min-content;
+  display: flex;
+  flex-direction: column;
+  padding: 40px 20px;
+  align-items: center;
+}
+
+.explore-user-container {
+  width: 1084px;
+  display: flex;
+  height: 224px;
+  margin-bottom: 60px;
+}
+
+/* info */
+.explore-user-header {
+  height: 100%;
+  width: 380px;
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+}
+
+.explore-user-info {
+  height: 120px;
+  width: 100%;
+  display: flex;
+  padding: 16px;
+}
+
+.explore-user-pfp-link {
+  width: 88px;
+  height: 88px;
+  margin-right: 20px;
+  margin-left: 16px;
+}
+
+.explore-user-pfp {
+  width: 88px;
+  height: 88px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.explore-user-names {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.explore-user-username {
+  font-weight: 600;
+  font-size: 18px;
+  color: black;
+  text-decoration: none;
+  margin-bottom: 10px;
+}
+
+.explore-user-username:active {
+  opacity: 50%;
+}
+
+.explore-user-fullname {
+  font-size: 18px;
+  font-weight: 400;
+  color: gray;
+}
+
+/* stats */
+.explore-user-stats {
+  width: 100%;
+  height: 104px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 16px 16px 16px;
+}
+
+.explore-user-cnt-container {
+  display: flex;
+  flex-direction: column;
+  height: 88px;
+  width: 88px;
+  justify-content: center;
+  align-items: center;
+}
+
+.explore-user-cnt {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.explore-user-cnt-label {
+  font-size: 18px;
+}
+
+/* posts */
+.explore-user-posts {
+  display: flex;
+  height: 100%;
+  width: 684px;
+}
+
+.explore-post-container {
+  width: 224px;
+  height: 224px;
+  margin-left: 4px;
+}
+
+.explore-post-pic {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* empty */
+.explore-empty {
+  width: 100%;
+  height: calc(100vh - 110px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.explore-empty-icon {
+  width: 96px;
+  height: 96px;
+  margin-bottom: 20px;
+}
+
+.explore-empty-title {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.explore-empty-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: gray;
+}
