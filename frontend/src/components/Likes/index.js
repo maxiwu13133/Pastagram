@@ -9,6 +9,7 @@ import { useGetCommunity } from '../../hooks/useGetCommunity';
 import { useFollowUser } from '../../hooks/useFollowUser';
 import { useUnfollowUser } from '../../hooks/useUnfollowUser';
 import { useFollowingContext } from '../../hooks/useFollowingContext';
+import { useNavbarContext } from '../../hooks/useNavbarContext';
 
 
 // assets
@@ -21,6 +22,7 @@ const Likes = ({ comment, reply, setLikesModal, post }) => {
   const { id } = useGetCommunity({ username: user.username });
   const [likedUsers, setLikedUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(null);
+  const { dispatch: dispatchNav } = useNavbarContext();
 
   // following context
   const { followingListGlobal, dispatch } = useFollowingContext();
@@ -120,7 +122,11 @@ const Likes = ({ comment, reply, setLikesModal, post }) => {
   const createUserListItem = (i) => {
     return (
       <div className="likes-list-user" key={ i }>
-        <Link to={ `/${ likedUsers[i].username }` } className="likes-list-pfp-link">
+        <Link 
+          to={ `/${ likedUsers[i].username }` }
+          className="likes-list-pfp-link"
+          onClick={ () => dispatchNav({ type: "SET_NAV", payload: likedUsers[i].username }) }
+        >
           <img 
             src={ likedUsers[i].pfp?.url ? likedUsers[i].pfp.url : defaultPfp }
             alt=""
@@ -130,7 +136,11 @@ const Likes = ({ comment, reply, setLikesModal, post }) => {
         </Link>
 
         <div className="likes-list-details">
-          <Link to={ `/${ likedUsers[i].username }` } className="likes-list-username-link">
+          <Link 
+            to={ `/${ likedUsers[i].username }` }
+            className="likes-list-username-link"
+            onClick={ () => dispatchNav({ type: "SET_NAV", payload: likedUsers[i].username }) }
+          >
             <p className="likes-list-username">{ likedUsers[i].username }</p>
           </Link>
 

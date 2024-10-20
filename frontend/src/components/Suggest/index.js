@@ -10,6 +10,7 @@ import { usePfpContext } from '../../hooks/usePfpContext';
 import { useFollowUser } from '../../hooks/useFollowUser';
 import { useUnfollowUser } from '../../hooks/useUnfollowUser';
 import { useHomeLoadContext } from '../../hooks/useHomeLoadContext';
+import { useNavbarContext } from '../../hooks/useNavbarContext';
 
 
 // assets
@@ -21,6 +22,7 @@ const Suggest = () => {
   const { pfp } = usePfpContext();
   const { id } = useGetCommunity({ username: user.username });
   const { dispatch: dispatchLoad } = useHomeLoadContext();
+  const { dispatch: dispatchNav } = useNavbarContext();
 
   // get best suggestions
   const [suggestions, setSuggestions] = useState([]);
@@ -73,7 +75,11 @@ const Suggest = () => {
   const formatSuggestions = (suggestion, i) => {
     return (
       <div className="suggestion-container" key={ i }>
-        <Link to={ `/${ suggestion.username }` } className="suggestion-pfp-link">
+        <Link 
+          to={ `/${ suggestion.username }` }
+          className="suggestion-pfp-link"
+          onClick={ () => dispatchNav({ type: "SET_NAV", payload: "none" }) }
+        >
           <img 
             src={ suggestion.pfp?.url ? suggestion.pfp.url : defaultPfp }
             alt=""
@@ -82,7 +88,11 @@ const Suggest = () => {
           />
         </Link>
 
-        <Link to={ `/${ suggestion.username }` } className="suggestion-username-link">
+        <Link 
+          to={ `/${ suggestion.username }` }
+          className="suggestion-username-link"
+          onClick={ () => dispatchNav({ type: "SET_NAV", payload: "none" }) }
+        >
           <p className="suggestion-username">{ suggestion.username }</p>
         </Link>
 
@@ -108,11 +118,19 @@ const Suggest = () => {
   return (
     <div className="suggest-container">
       <div className="suggest-header">
-        <Link to={ `/${ user.username }` } className="suggest-header-pfp-link">
+        <Link 
+          to={ `/${ user.username }` }
+          className="suggest-header-pfp-link"
+          onClick={ () => dispatchNav({ type: "SET_NAV", payload: user.username }) }
+        >
           <img src={ pfp?.url ? pfp.url : defaultPfp } alt="" className="suggest-header-pfp" draggable={ false }/>
         </Link>
 
-        <Link to={ `/${ user.username }` } className="suggest-header-username-link">
+        <Link 
+          to={ `/${ user.username }` }
+          className="suggest-header-username-link"
+          onClick={ () => dispatchNav({ type: "SET_NAV", payload: user.username }) }
+        >
           <p className="suggest-header-username">
             { user.username }
           </p>

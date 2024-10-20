@@ -7,6 +7,7 @@ import './index.css';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useSearchContext } from '../../hooks/useSearchContext';
 import { usePfpContext } from '../../hooks/usePfpContext';
+import { useNavbarContext } from '../../hooks/useNavbarContext';
 
 
 // assets
@@ -37,11 +38,11 @@ const Navbar = () => {
 
   // Highlight nav
   const pathName = window.location.pathname.replace(/\//g, '');
-  const [selectedNav, setSelectedNav] = useState('');
+  const { selectedNav, dispatch: dispatchNav } = useNavbarContext();
   
   useEffect(() => {
-    setSelectedNav(pathName);
-  }, [pathName])
+    dispatchNav({ type: 'SET_NAV', payload: pathName });
+  }, [pathName, dispatchNav]);
 
 
   // Highlight more option
@@ -81,22 +82,22 @@ const Navbar = () => {
 
   const handleSearch = () => {
     if (selectedNav === 'search') {
-      setSelectedNav(lastNav);
+      dispatchNav({ type: 'SET_NAV', payload: lastNav });
       searchDispatch({ type: 'CLOSE_MODAL'});
       return;
     }
 
     setLastNav(selectedNav);
-    setSelectedNav('search');
+    dispatchNav({ type: 'SET_NAV', payload: 'search' });
     searchDispatch({ type: 'OPEN_MODAL'});
   }
 
   
   // change nav 
   const changeNav = useCallback((nav) => {
-    setSelectedNav(nav);
+    dispatchNav({ type: 'SET_NAV', payload: nav });
     searchDispatch({ type: 'CLOSE_MODAL'});
-  }, [searchDispatch]);
+  }, [searchDispatch, dispatchNav]);
 
 
   // close search modal when clicked elsewhere

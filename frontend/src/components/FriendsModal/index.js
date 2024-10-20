@@ -18,10 +18,12 @@ import { useDeletedContext } from '../../hooks/useDeletedContext';
 import { useFollowUser } from '../../hooks/useFollowUser';
 import { useUnfollowUser } from '../../hooks/useUnfollowUser';
 import { useFollowingContext } from '../../hooks/useFollowingContext';
+import { useNavbarContext } from '../../hooks/useNavbarContext';
 
 
 const FriendsModal = ({ setFriendsModal, username, type }) => {
   const { user } = useAuthContext();
+  const { dispatch: dispatchNav } = useNavbarContext();
 
   // deleted users
   const { deletedUsers } = useDeletedContext();
@@ -126,6 +128,7 @@ const FriendsModal = ({ setFriendsModal, username, type }) => {
             alt=""
             className="friends-result-pfp"
             draggable={ false }
+            onClick={ () => dispatchNav({ type: "SET_NAV", payload: friend.username }) }
           />
         </Link>
 
@@ -135,7 +138,10 @@ const FriendsModal = ({ setFriendsModal, username, type }) => {
             className="friends-result-username-link"
             onClick={ () => setFriendsModal(false) }
           >
-            <p className="friends-result-username">{ friend.username }</p>
+            <p 
+              className="friends-result-username"
+              onClick={ () => dispatchNav({ type: "SET_NAV", payload: friend.username }) }
+            >{ friend.username }</p>
           </Link>
           <p className="friends-result-fullname">{ friend.fullName }</p>
         </div>

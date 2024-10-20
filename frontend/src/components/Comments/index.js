@@ -15,9 +15,11 @@ import defaultPfp from '../../assets/Profile/default-pfp.jpg';
 import { useRepliesContext } from '../../hooks/useRepliesContext';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useFormatTime } from '../../hooks/useFormatTime';
+import { useNavbarContext } from '../../hooks/useNavbarContext';
 
 
 const Comments = ({ post, setLocalPost, posts, setPosts, comments, setComments, username, pfp }) => {
+  const { dispatch: dispatchNav } = useNavbarContext();
 
   // newest comments first
   const reversedComments = [...comments].reverse();
@@ -87,7 +89,11 @@ const Comments = ({ post, setLocalPost, posts, setPosts, comments, setComments, 
       { 
         post.caption && 
         <div className="comments-caption">
-          <Link to={ `/${ username }` } className="comments-pfp-link">
+          <Link 
+            to={ `/${ username }` }
+            className="comments-pfp-link"
+            onClick={ () => dispatchNav({ type: "SET_NAV", payload: username }) }
+          >
             <img src={ pfp?.url ? pfp.url : defaultPfp } alt="" className="comments-caption-pfp"  draggable={ false } />
           </Link>
 
@@ -95,7 +101,11 @@ const Comments = ({ post, setLocalPost, posts, setPosts, comments, setComments, 
             <div className="comments-caption-text">
             <p>
               <span>
-                <Link to={ `/${ username }` } className="comments-text-username">{ username } </Link>
+                <Link 
+                  to={ `/${ username }` }
+                  className="comments-text-username"
+                  onClick={ () => dispatchNav({ type: "SET_NAV", payload: username }) }
+                >{ username } </Link>
               </span>
 
               { post.caption }

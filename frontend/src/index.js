@@ -10,21 +10,24 @@ import { PfpContextProvider } from './context/PfpContext';
 import { HomeLoadContextProvider } from './context/HomeLoadContext';
 import { DeletedContextProvider } from './context/DeletedContext';
 import { FollowingContextProvider } from './context/FollowingContext';
+import { NavbarContextProvider } from './context/NavbarContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <AuthContextProvider>
       <PfpContextProvider>
-        <DeletedContextProvider>
-          <SearchContextProvider>
-            <FollowingContextProvider>
-              <HomeLoadContextProvider>
-                <App />
-              </HomeLoadContextProvider>
-            </FollowingContextProvider>
-          </SearchContextProvider>
-        </DeletedContextProvider>
+        <NavbarContextProvider>
+          <DeletedContextProvider>
+            <SearchContextProvider>
+              <FollowingContextProvider>
+                <HomeLoadContextProvider>
+                  <App />
+                </HomeLoadContextProvider>
+              </FollowingContextProvider>
+            </SearchContextProvider>
+          </DeletedContextProvider>
+        </NavbarContextProvider>
       </PfpContextProvider>
     </AuthContextProvider>
   </React.StrictMode>

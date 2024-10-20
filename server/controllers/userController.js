@@ -174,7 +174,6 @@ const getSuggest = async (req, res) => {
 
     for (const bestId of bestSuggestionIds) {
       const best = await User.findOne({ _id: bestId });
-      console.log(deletedUsers.includes(best));
       if (!_.find(deletedUsers, best)) {
         bestSuggestions.push(best);
       }

@@ -10,6 +10,7 @@ import { useDeleteComment } from '../../../hooks/useDeleteComment';
 import { useReplyTargetContext } from '../../../hooks/useReplyTargetContext';
 import { useRepliesContext } from '../../../hooks/useRepliesContext';
 import { useFormatTime } from '../../../hooks/useFormatTime';
+import { useNavbarContext } from '../../../hooks/useNavbarContext';
 
 
 // assets
@@ -35,6 +36,7 @@ const Comment = ({ post, setLocalPost, posts, setPosts, comment, setComments, se
   const [likes, setLikes] = useState([]);
   const [createdAt, setCreatedAt] = useState(0);
   const [deleted, setDeleted] = useState(false);
+  const { dispatch: dispatchNav } = useNavbarContext();
 
 
   // get comment info
@@ -198,7 +200,10 @@ const Comment = ({ post, setLocalPost, posts, setPosts, comment, setComments, se
         }
         {
           !deleted &&
-          <Link to={ `/${ username }` }>
+          <Link 
+            to={ `/${ username }` }
+            onClick={ () => dispatchNav({ type: "SET_NAV", payload: username }) }
+          >
             <img 
               src={ deleted ? defaultPfp : pfp.url ? pfp.url : defaultPfp }
               alt=""
@@ -217,7 +222,11 @@ const Comment = ({ post, setLocalPost, posts, setPosts, comment, setComments, se
               {
                 !deleted &&
                 <span>
-                  <Link to={ `/${ username }` } className="comment-text-username">{ username } </Link>
+                  <Link 
+                    to={ `/${ username }` }
+                    className="comment-text-username"
+                    onClick={ () => dispatchNav({ type: "SET_NAV", payload: username }) }
+                  >{ username } </Link>
                 </span>
               }
 

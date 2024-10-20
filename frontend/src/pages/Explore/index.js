@@ -6,6 +6,7 @@ import './index.css';
 // hooks
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useGetCommunity } from '../../hooks/useGetCommunity';
+import { useNavbarContext } from '../../hooks/useNavbarContext';
 
 
 // pages
@@ -24,6 +25,7 @@ const Explore = () => {
   const [suggestionPosts, setSuggestionPosts] = useState([]);
   const [suggestionLoading, setSuggestionLoading] = useState(true);
   const [postLoading, setPostLoading] = useState(true);
+  const { dispatch } = useNavbarContext();
 
 
   useEffect(() => {
@@ -91,7 +93,11 @@ const Explore = () => {
   const formatPost = (post, i, username) => {
     return (
       <div className="explore-post-container" key={ i }>
-        <Link to={ `/${ username }` } className="explore-post-pic-link">
+        <Link 
+          to={ `/${ username }` }
+          className="explore-post-pic-link"
+          onClick={ () => dispatch({ type: "SET_NAV", payload: "none" }) }
+        >
           <img 
             src={ post.photos[0].url }
             alt=""
@@ -110,7 +116,11 @@ const Explore = () => {
       <div className="explore-user-container" key={ i }>
         <div className="explore-user-header">
           <div className="explore-user-info">
-            <Link to={ `/${ suggestion.username }` } className="explore-user-pfp-link">
+            <Link 
+              to={ `/${ suggestion.username }` }
+              className="explore-user-pfp-link"
+              onClick={ () => dispatch({ type: "SET_NAV", payload: "none" }) }
+            >
               <img 
                 src={ suggestion.pfp ? suggestion.pfp.url : defaultPfp }
                 alt=""
@@ -120,7 +130,11 @@ const Explore = () => {
             </Link>
 
             <div className="explore-user-names">
-              <Link to={ `/${ suggestion.username }` } className="explore-user-username-link">
+              <Link 
+                to={ `/${ suggestion.username }` }
+                className="explore-user-username-link"
+                onClick={ () => dispatch({ type: "SET_NAV", payload: "none" }) }
+              >
                 <p className="explore-user-username">{ suggestion.username }</p>
               </Link>
 

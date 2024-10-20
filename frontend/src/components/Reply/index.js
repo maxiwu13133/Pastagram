@@ -10,6 +10,7 @@ import { useGetCommunity } from '../../hooks/useGetCommunity';
 import { useDeleteReply } from '../../hooks/useDeleteReply';
 import { useRepliesContext } from '../../hooks/useRepliesContext';
 import { useFormatTime } from '../../hooks/useFormatTime';
+import { useNavbarContext } from '../../hooks/useNavbarContext';
 
 
 // assets
@@ -29,6 +30,7 @@ const Reply = ({ replies, index, replyLoading, setReplyLoading, last, setComment
   const [username, setUsername] = useState('');
   const [pfp, setPfp] = useState('');
   const [deleted, setDeleted] = useState(false);
+  const { dispatch } = useNavbarContext();
 
 
   useEffect(() => {
@@ -153,7 +155,10 @@ const Reply = ({ replies, index, replyLoading, setReplyLoading, last, setComment
       }
       {
         !deleted && 
-        <Link to={ `/${ username }` }>
+        <Link 
+          to={ `/${ username }` }
+          onClick={ () => dispatch({ type: "SET_NAV", payload: username }) }
+        >
           <img src={ pfp ? pfp : defaultPfp } alt="" className="reply-pfp" draggable={ false } />
         </Link>
       }
@@ -168,7 +173,11 @@ const Reply = ({ replies, index, replyLoading, setReplyLoading, last, setComment
             {
               !deleted && 
               <span>
-                <Link to={ `/${ username }` } className="reply-text-username">{ username } </Link>
+                <Link 
+                  to={ `/${ username }` }
+                  className="reply-text-username"
+                  onClick={ () => dispatch({ type: "SET_NAV", payload: username }) }
+                >{ username } </Link>
               </span>
             }
 

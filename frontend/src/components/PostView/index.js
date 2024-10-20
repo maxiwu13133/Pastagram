@@ -31,6 +31,7 @@ import { useReplyTargetContext } from '../../hooks/useReplyTargetContext';
 import { useRepliesContext } from '../../hooks/useRepliesContext';
 import { useCreateReply } from '../../hooks/useCreateReply';
 import { useSavedAPI } from '../../hooks/useSavedAPI';
+import { useNavbarContext } from '../../hooks/useNavbarContext';
 
 
 
@@ -38,6 +39,7 @@ const PostView = ({ post, setLocalPost, closeModal, setPosts, posts, setParentSa
   const { user } = useAuthContext();
   const { id, saved } = useGetCommunity({ username: user.username });
   const [deletePopup, setDeletePopup] = useState(false);
+  const { dispatch } = useNavbarContext();
 
   
   // delete post
@@ -224,12 +226,19 @@ const PostView = ({ post, setLocalPost, closeModal, setPosts, posts, setParentSa
         {/* Details */}
         <div className="postview-details">
           <div className="postview-header">
-            <Link to={ `/${ username }` } className="postview-header-icon-link">
+            <Link 
+              to={ `/${ username }` }
+              className="postview-header-icon-link"
+              onClick={ () => dispatch({ type: "SET_NAV", payload: "none" }) }
+            >
               <img src={ pfp?.url ? pfp.url : defaultPfp } alt="" className="postview-header-icon" draggable={ false }/>
             </Link>
 
             <div className="postview-header-name">
-              <Link to={ `/${ username }` }>
+              <Link 
+                to={ `/${ username }` }
+                onClick={ () => dispatch({ type: "SET_NAV", payload: "none" }) }
+              >
                 <p className="postview-header-name-link">{ username }</p>
               </Link>
             </div>

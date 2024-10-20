@@ -11,6 +11,7 @@ import { useGetCommunity } from '../../hooks/useGetCommunity';
 import { useCreateComment } from '../../hooks/useCreateComment';
 import { useSavedAPI } from '../../hooks/useSavedAPI';
 import { useHomeLoadContext } from '../../hooks/useHomeLoadContext';
+import { useNavbarContext } from '../../hooks/useNavbarContext';
 
 
 // components
@@ -37,6 +38,7 @@ const HomePost = ({ post }) => {
   const { user } = useAuthContext();
   const { id, saved } = useGetCommunity({ username: user.username });
   const { dispatch } = useHomeLoadContext();
+  const { dispatch: dispatchNav } = useNavbarContext();
 
   // get username and pfp 
   const [username, setUsername] = useState('');
@@ -154,11 +156,19 @@ const HomePost = ({ post }) => {
   return ( 
     <div className="homepost-container">
       <div className="homepost-header">
-        <Link to={ `/${ username }` } className="homepost-header-pfp-link">
+        <Link 
+          to={ `/${ username }` }
+          className="homepost-header-pfp-link"
+          onClick={ () => dispatchNav({ type: "SET_NAV", payload: "none" }) }
+        >
           <img src={ pfp.url ? pfp.url : defaultPfp } alt="" className="homepost-header-pfp" draggable={ false } />
         </Link>
 
-        <Link to={ `/${ username }` } className="homepost-header-username-link">
+        <Link
+          to={ `/${ username }` }
+          className="homepost-header-username-link"
+          onClick={ () => dispatchNav({ type: "SET_NAV", payload: "none" }) }
+        >
           <p className="homepost-header-username">{ username }</p>
         </Link>
 
@@ -214,7 +224,11 @@ const HomePost = ({ post }) => {
       </div>
 
       <div className="homepost-caption">
-        <Link to={ `/${ username }` } className="homepost-caption-link">
+        <Link
+          to={ `/${ username }` }
+          className="homepost-caption-link"
+          onClick={ () => dispatchNav({ type: "SET_NAV", payload: "none" }) }
+        >
           <p className="homepost-caption-username">{ username }</p>
         </Link>
 
