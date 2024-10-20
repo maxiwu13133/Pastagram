@@ -34,7 +34,7 @@ function App() {
               <Routes>
                 <Route element={ <HomeLoadContextLayout /> }>
                   <Route 
-                    path="/"
+                    path=""
                     element={ user ? <Home /> : <Navigate to="/login/" /> }
                   />
                 </Route>

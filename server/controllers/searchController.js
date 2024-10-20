@@ -1,5 +1,6 @@
 const User = require('../models/userModel');
 
+const _ = require('lodash');
 
 // get searches
 const getSearches = async (req, res) => {
@@ -12,7 +13,7 @@ const getSearches = async (req, res) => {
 
     for (const search of user.searches) {
       const searchedUser = await User.findOne({ _id: search._id });
-      if (!deletedUsers.includes(searchedUser)) {
+      if (!_.find(deletedUsers, searchedUser)) {
         searches.push({
           _id: searchedUser._id,
           username: searchedUser.username,
@@ -27,6 +28,7 @@ const getSearches = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 }
+
 
 // add search
 const addSearch = async (req, res) => {
@@ -45,6 +47,7 @@ const addSearch = async (req, res) => {
   }
 }
 
+
 // delete search
 const removeSearch = async (req, res) => {
   const { username, search } = req.body;
@@ -61,6 +64,7 @@ const removeSearch = async (req, res) => {
   }
 }
 
+
 // get all users for search
 const getUsers = async (req, res) => {
   try {
@@ -71,6 +75,7 @@ const getUsers = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 }
+
 
 // clear search history
 const clearSearch = async (req, res) => {

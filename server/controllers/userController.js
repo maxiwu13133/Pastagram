@@ -170,9 +170,14 @@ const getSuggest = async (req, res) => {
 
     const bestSuggestions = [];
 
+    const deletedUsers = await User.find({ deleted: true });
+
     for (const bestId of bestSuggestionIds) {
       const best = await User.findOne({ _id: bestId });
-      bestSuggestions.push(best);
+      console.log(deletedUsers.includes(best));
+      if (!_.find(deletedUsers, best)) {
+        bestSuggestions.push(best);
+      }
     }
 
     res.status(200).json({ suggested: bestSuggestions });
