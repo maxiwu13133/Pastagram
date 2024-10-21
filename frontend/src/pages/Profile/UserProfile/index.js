@@ -10,6 +10,7 @@ import { useFollowUser } from '../../../hooks/useFollowUser';
 import { useUnfollowUser } from '../../../hooks/useUnfollowUser';
 import { useDeletedContext } from '../../../hooks/useDeletedContext';
 import { useFollowingContext } from '../../../hooks/useFollowingContext';
+import { useNavbarContext } from '../../../hooks/useNavbarContext';
 
 
 // components
@@ -36,6 +37,7 @@ const UserProfile = ({ username }) => {
   const [posts, setPosts] = useState([]);
   const [newFollowers, setNewFollowers] = useState(0);
   const [isFollowing, setIsFollowing] = useState(null);
+  const { dispatch: dispatchNav } = useNavbarContext();
 
 
   // following context
@@ -49,7 +51,8 @@ const UserProfile = ({ username }) => {
   // set local posts to fetched posts
   useEffect(() => {
     setPosts(p);
-  }, [p])
+    dispatchNav({ type: 'SET_NAV', payload: username });
+  }, [p, dispatchNav, username])
 
 
   // update following

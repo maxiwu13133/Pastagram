@@ -16,6 +16,7 @@ import { useGetSaved } from '../../../hooks/useGetSaved';
 import { useDeletedContext } from '../../../hooks/useDeletedContext';
 import { useProfileLoadContext } from '../../../hooks/useProfileLoadContext';
 import { useFollowingContext } from '../../../hooks/useFollowingContext';
+import { useNavbarContext } from '../../../hooks/useNavbarContext';
 
 
 // components
@@ -40,6 +41,7 @@ const SelfProfile = () => {
   const [posts, setPosts] = useState([]);
   const [postsUpdating, setPostsUpdating] = useState(null);
   const [deletedNotif, setDeletedNotif] = useState(false);
+  const { dispatch: dispatchNav } = useNavbarContext();
 
 
   // following context
@@ -98,7 +100,8 @@ const SelfProfile = () => {
   useEffect(() => {
     setSavedPosts(saved.filter(x => !deletedUsers.includes(x.user_id)));
     dispatch({ type: 'SAVED_FINISH' });
-  }, [saved, deletedUsers, dispatch]);
+    dispatchNav({ type: 'SET_NAV', payload: user.username });
+  }, [saved, deletedUsers, dispatch, dispatchNav, user]);
 
   
   // friends modal

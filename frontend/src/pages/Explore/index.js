@@ -49,8 +49,9 @@ const Explore = () => {
     };
     if (id) {
       getSuggestions();
+      dispatch({ type: 'SET_NAV', payload: 'explore' });
     }
-  }, [id, user.token]);
+  }, [id, user.token, dispatch]);
 
 
   // get posts of suggestions

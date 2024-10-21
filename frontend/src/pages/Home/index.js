@@ -6,6 +6,7 @@ import './index.css';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useHomeLoadContext } from '../../hooks/useHomeLoadContext';
 import { useDeletedContext } from '../../hooks/useDeletedContext';
+import { useNavbarContext } from '../../hooks/useNavbarContext';
 
 
 // pages
@@ -24,6 +25,7 @@ import icon from '../../assets/Logos/pastagram-icon.png';
 const Home = () => {
   const { user } = useAuthContext();
   const { userInfoLoad, suggestedLoad, postLoad, deletedLoad, dispatch } = useHomeLoadContext();
+  const { dispatch: dispatchNav } = useNavbarContext();
 
 
   // deleted users
@@ -32,8 +34,9 @@ const Home = () => {
   useEffect(() => {
     if (deletedUsers) {
       dispatch({ type: 'DELETED_FINISH' });
+      dispatchNav({ type: 'SET_NAV', payload: '' });
     }
-  }, [deletedUsers, dispatch])
+  }, [deletedUsers, dispatch, dispatchNav]);
 
   
   // wait for all content to load before display
