@@ -166,7 +166,7 @@ const Explore = () => {
 
         <div className="explore-user-posts">
           {
-            suggestionPosts[i].map((post, i) => formatPost(post, i, suggestion.username))
+            [...suggestionPosts[i]].reverse().slice(0, 3).map((post, i) => formatPost(post, i, suggestion.username))
           }
         </div>
       </div>
