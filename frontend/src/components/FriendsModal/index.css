@@ -127,6 +127,14 @@
   display: flex;
 }
 
+.friends-result-pfp-deleted {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 12px;
+}
+
 .friends-result-pfp-link {
   width: 44px;
   height: 44px;
@@ -146,6 +154,13 @@
   width: 182px;
   height: 100%;
   justify-content: center;
+}
+
+.friends-result-username-deleted {
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  color: black;
 }
 
 .friends-result-username {

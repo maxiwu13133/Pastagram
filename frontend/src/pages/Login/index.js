@@ -113,7 +113,7 @@ const Login = () => {
             <button disabled={ isLoading || !loginAllowed } className="login-button">Log in</button>
 
             <div className="login-forgot-password">
-              <Link to="/reset">Forgot password?</Link>
+              <Link to="/reset" className="login-forgot-password-link">Forgot password?</Link>
             </div>
 
             <div className="login-error-wrapper">

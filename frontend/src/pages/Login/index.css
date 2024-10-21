@@ -139,12 +139,18 @@
   background-color: #4bb4f8;
 }
 
-.login-forgot-password > a {
+.login-forgot-password {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-forgot-password-link {
   color: #003799;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
   font-size: 12px;
 }
 

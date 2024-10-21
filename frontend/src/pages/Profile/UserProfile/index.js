@@ -96,8 +96,9 @@ const UserProfile = ({ username }) => {
         (deletedUsers?.includes(id) || error) && <Unavailable />
       }
       { 
+        deletedUsers && 
         !isLoading &&
-        !deletedUsers?.includes(id) && 
+        !deletedUsers.includes(id) && 
         !error &&
         <>
           {/* Details */}

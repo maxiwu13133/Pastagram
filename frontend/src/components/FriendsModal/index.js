@@ -118,37 +118,53 @@ const FriendsModal = ({ setFriendsModal, username, type }) => {
   const formatFriend = (friend, i) => {
     return (
       <div className="friends-result-user" key={ i }>
-        <Link 
-          to={ `/${ friend.username }` }
-          className="friends-result-pfp-link"
-          onClick={ () => setFriendsModal(false) }
-        >
-          <img 
-            src={ friend.pfp ? friend.pfp.url : defaultPfp }
-            alt=""
-            className="friends-result-pfp"
-            draggable={ false }
-            onClick={ () => dispatchNav({ type: "SET_NAV", payload: friend.username }) }
-          />
-        </Link>
-
-        <div className="friends-result-options">
+        {
+          friend.deleted && 
+          <img src={ defaultPfp } alt="" className="friends-result-pfp-deleted" draggable={ false }/>
+        }
+        {
+          !friend.deleted && 
           <Link 
             to={ `/${ friend.username }` }
-            className="friends-result-username-link"
+            className="friends-result-pfp-link"
             onClick={ () => setFriendsModal(false) }
           >
-            <p 
-              className="friends-result-username"
+            <img 
+              src={ friend.pfp ? friend.pfp.url : defaultPfp }
+              alt=""
+              className="friends-result-pfp"
+              draggable={ false }
               onClick={ () => dispatchNav({ type: "SET_NAV", payload: friend.username }) }
-            >{ friend.username }</p>
+            />
           </Link>
-          <p className="friends-result-fullname">{ friend.fullName }</p>
+        }
+
+        <div className="friends-result-options">
+          {
+            friend.deleted && <p className="friends-result-username-deleted">&#91;deleted&#93;</p>
+          }
+          {
+            !friend.deleted && 
+            <>
+              <Link 
+                to={ `/${ friend.username }` }
+                className="friends-result-username-link"
+                onClick={ () => setFriendsModal(false) }
+              >
+                <p 
+                  className="friends-result-username"
+                  onClick={ () => dispatchNav({ type: "SET_NAV", payload: friend.username }) }
+                >{ friend.username }</p>
+              </Link>
+              <p className="friends-result-fullname">{ friend.fullName }</p>
+            </>
+          }
         </div>
 
         <div className="friends-result-follow-container">
           {
             friend.username !== user.username && 
+            !friend.deleted && 
             <button 
             className={ `
               friends-result-button
