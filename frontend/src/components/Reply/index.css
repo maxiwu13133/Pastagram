@@ -9,8 +9,7 @@
   margin-top: 12px;
   margin-bottom: 4px;
   width: 100%;
-  height: 40px;
-  align-items: center;
+  min-height: 40px;
 }
 
 .reply-container-hide {
@@ -53,6 +52,7 @@
 .reply-text p {
   font-weight: 400;
   font-size: 14px;
+  white-space: pre-line;
 }
 
 .reply-text-username {

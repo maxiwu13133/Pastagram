@@ -145,28 +145,33 @@
 .homepost-caption {
   display: flex;
   width: 100%;
-  height: 18px;
-  align-items: center;
+  height: min-content;
   margin-bottom: 8px;
 }
 
-.homepost-caption-username {
+.homepost-caption-link {
   font-size: 14px;
   font-weight: 600;
   color: black;
   text-decoration: none;
 }
 
+.homepost-caption-link:active {
+  opacity: 50%;
+}
+
 .homepost-caption-text {
   font-size: 14px;
   margin-left: 4px;
+  white-space: pre-line;
 }
 
 /* comments */
 .homepost-comments-container {
-  width: 150px;
+  width: 100%;
   height: 18px;
   margin-bottom: 8px;
+  display: flex;
 }
 
 .homepost-comments-text {

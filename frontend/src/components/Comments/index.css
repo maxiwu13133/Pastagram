@@ -6,7 +6,7 @@
   justify-content: flex-start;
   scrollbar-width: none;
   overflow: hidden;
-  overflow-y: auto;
+  overflow-y: scroll;
 }
 
 /* no caption or comments */
@@ -33,7 +33,7 @@
 /* caption */
 .comments-caption {
   width: 100%;
-  min-height: 56px;
+  height: min-content;
   padding: 8px 16px;
   margin: 8px 0;
   display: flex;
@@ -78,6 +78,7 @@
 .comments-caption-text p {
   font-weight: 400;
   font-size: 14px;
+  white-space: pre-line;
 }
 
 .comments-caption-time {

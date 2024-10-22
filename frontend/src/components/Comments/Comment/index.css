@@ -79,6 +79,7 @@
 .comment-text p {
   font-weight: 400;
   font-size: 14px;
+  white-space: pre-line;
 }
 
 .comment-text-username {

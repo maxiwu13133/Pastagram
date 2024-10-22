@@ -224,15 +224,18 @@ const HomePost = ({ post }) => {
       </div>
 
       <div className="homepost-caption">
-        <Link
-          to={ `/${ username }` }
-          className="homepost-caption-link"
-          onClick={ () => dispatchNav({ type: "SET_NAV", payload: "none" }) }
-        >
-          <p className="homepost-caption-username">{ username }</p>
-        </Link>
+        <p>
+          <Link
+            to={ `/${ username }` }
+            className="homepost-caption-link"
+            onClick={ () => dispatchNav({ type: "SET_NAV", payload: "none" }) }
+          >
+            { username }
+          </Link>
 
-        <p className="homepost-caption-text">{ post.caption }</p>
+          <span className="homepost-caption-text">{ post.caption }</span>
+        </p>
+
       </div>
 
       {
