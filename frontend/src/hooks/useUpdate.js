@@ -59,6 +59,8 @@ export const useUpdate = () => {
           console.log("Error:", json.error);
         }
         if (response.ok) {
+          const newAuth = { username: json.username, token: user.token };
+          localStorage.setItem('user', JSON.stringify(newAuth));
           setTimeout(() => {
             setIsLoading(false);
           }, 2000);

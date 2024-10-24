@@ -11,6 +11,7 @@ import { useUnfollowUser } from '../../../hooks/useUnfollowUser';
 import { useDeletedContext } from '../../../hooks/useDeletedContext';
 import { useFollowingContext } from '../../../hooks/useFollowingContext';
 import { useNavbarContext } from '../../../hooks/useNavbarContext';
+import { useProfileLoadContext } from '../../../hooks/useProfileLoadContext';
 
 
 // components
@@ -27,6 +28,7 @@ import loadSpinner from '../../../assets/EditProfile/load-spinner.svg';
 
 // pages
 import Unavailable from '../../Unavailable';
+import Loading from '../../Loading';
 
 
 const UserProfile = ({ username }) => {
@@ -40,6 +42,10 @@ const UserProfile = ({ username }) => {
   const { dispatch: dispatchNav } = useNavbarContext();
 
 
+  // profile load
+  const { postLoad, dispatch: dispatchProfile } = useProfileLoadContext();
+
+
   // following context
   const { dispatch } = useFollowingContext();
   
@@ -50,9 +56,13 @@ const UserProfile = ({ username }) => {
 
   // set local posts to fetched posts
   useEffect(() => {
+    dispatchProfile({ type: 'PROFILE_START' });
     setPosts(p);
     dispatchNav({ type: 'SET_NAV', payload: username });
-  }, [p, dispatchNav, username])
+    setTimeout(() => {
+      dispatchProfile({ type: 'POST_FINISH' });
+    }, 150);
+  }, [p, dispatchNav, username, dispatchProfile])
 
 
   // update following
@@ -95,8 +105,15 @@ const UserProfile = ({ username }) => {
       {
         (deletedUsers?.includes(id) || error) && <Unavailable />
       }
+      {
+        !deletedUsers && 
+        !postLoad &&
+        isLoading &&
+        <Loading />
+      }
       { 
         deletedUsers && 
+        postLoad &&
         !isLoading &&
         !deletedUsers.includes(id) && 
         !error &&

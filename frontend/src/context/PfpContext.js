@@ -9,6 +9,8 @@ export const pfpReducer = (state, action) => {
   switch (action.type) {
     case 'SET_PFP':
       return { pfp: action.payload };
+    case 'REMOVE_PFP':
+      return { pfp: null };
     default:
       return state;
   };

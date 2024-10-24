@@ -128,13 +128,14 @@ const Navbar = () => {
   
 
   // Get profile picture
-  const { pfp } = usePfpContext();
+  const { pfp, dispatch: dispatchPfp } = usePfpContext();
 
 
   // handle logout
   const handleLogout = () => {
     localStorage.removeItem('user');
     dispatch({ type: 'LOGOUT' });
+    dispatchPfp({ type: 'REMOVE_PFP' });
   };
 
   

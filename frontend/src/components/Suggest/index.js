@@ -19,7 +19,7 @@ import defaultPfp from '../../assets/Profile/default-pfp.jpg';
 
 const Suggest = () => {
   const { user, dispatch } = useAuthContext();
-  const { pfp } = usePfpContext();
+  const { pfp, dispatch: dispatchPfp } = usePfpContext();
   const { id } = useGetCommunity({ username: user.username });
   const { dispatch: dispatchLoad } = useHomeLoadContext();
   const { dispatch: dispatchNav } = useNavbarContext();
@@ -112,6 +112,7 @@ const Suggest = () => {
   const handleLogout = () => {
     localStorage.removeItem('user');
     dispatch({ type: 'LOGOUT' });
+    dispatchPfp({ type: 'REMOVE_PFP' });
   };
 
 

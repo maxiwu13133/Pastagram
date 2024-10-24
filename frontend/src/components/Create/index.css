@@ -378,6 +378,30 @@
   font-weight: 500;
 }
 
+/* posting error */
+.create-posting-error {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.create-posting-error-icon {
+  width: 96px;
+  margin-bottom: 16px;
+  border-radius: 50%;
+}
+
+.create-posting-subtext {
+  color: gray;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 8px;
+  margin-bottom: 40px;
+}
+
 /* Close modal */
 .create-close-container {
   position: fixed;

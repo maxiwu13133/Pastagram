@@ -3,10 +3,6 @@ import { Link } from 'react-router-dom';
 import './index.css';
 
 
-// pages
-import Loading from '../../Loading'
-
-
 // hooks
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { useGetCommunity } from '../../../hooks/useGetCommunity';
@@ -98,6 +94,7 @@ const SelfProfile = () => {
   const { saved } = useGetSaved();
 
   useEffect(() => {
+    dispatch({ type: 'PROFILE_START' });
     setSavedPosts(saved.filter(x => !deletedUsers.includes(x.user_id)));
     dispatch({ type: 'SAVED_FINISH' });
     dispatchNav({ type: 'SET_NAV', payload: user.username });
@@ -110,19 +107,10 @@ const SelfProfile = () => {
   
   return (
     <div className="s-profile-container">
-
-      { (followers === null || posts === null) ? <Loading /> : "" }
-
-      {
-        !profileLoad && 
-        isLoading &&
-        postLoading && 
-        <div className="s-profile-load">
-          <Loading />
-        </div>
-      }
       { 
-        !isLoading && !postLoading && 
+        profileLoad &&
+        !isLoading &&
+        !postLoading && 
         <>
           {/* Details */}
           <div className="s-profile-details">

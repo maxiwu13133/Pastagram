@@ -85,7 +85,7 @@ const Create = ({ handleClick }) => {
 
 
   // Uploading post
-  const { createPost, isLoading } = useCreatePost()
+  const { createPost, error, isLoading } = useCreatePost()
   const [postingStage, setPostingStage] = useState(false);
   const handlePost = async () => {
     setCaptionStage(false);
@@ -232,17 +232,35 @@ const Create = ({ handleClick }) => {
             <header className="create-header">
               <p>{ isLoading ? "Sharing" : "Post shared"}</p>
             </header>
-            { isLoading && 
+            { 
+              isLoading && 
               <div className="create-posting-loading">
                 <img draggable={ false } src={ tailSpin } alt="Loading" className="create-posting-loading-icon" />
               </div>
             }
-            { !isLoading && 
+            { 
+              !isLoading && 
+              !error && 
               <div className="create-posting-finish">
                 <img draggable={ false } src={ icon } alt="Loading" className="create-posting-icon" />
 
                 <p className="create-posting-text">
                   Your post has been shared.
+                </p>
+              </div>
+            }
+            {
+              !isLoading && 
+              error && 
+              <div className="create-posting-error">
+                <img draggable={ false } src={ wrongFile } alt="Loading" className="create-posting-error-icon" />
+
+                <p className="create-posting-text">
+                  Your post could not be shared.
+                </p>
+
+                <p className="create-posting-subtext">
+                  Files need to be under 10mb.
                 </p>
               </div>
             }

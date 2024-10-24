@@ -4,6 +4,8 @@ export const ProfileLoadContext = createContext();
 
 export const profileLoadReducer = (state, action) => {
   switch (action.type) {
+    case 'PROFILE_START':
+      return { savedLoad: false, postLoad: false };
     case 'SAVED_FINISH':
       return { ...state, savedLoad: true };
     case 'POST_FINISH':
