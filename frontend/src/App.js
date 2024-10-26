@@ -17,6 +17,7 @@ import Explore from './pages/Explore';
 
 // context
 import HomeLoadContextLayout from './context/HomeLoadContextLayout';
+import { HomeLoadContextProvider } from './context/HomeLoadContext';
 
 
 function App() {
@@ -35,7 +36,11 @@ function App() {
                 <Route element={ <HomeLoadContextLayout /> }>
                   <Route 
                     path=""
-                    element={ user ? <Home /> : <Navigate to="/login/" /> }
+                    element={ user ? 
+                    <HomeLoadContextProvider>
+                      <Home />
+                    </HomeLoadContextProvider>  : 
+                    <Navigate to="/login/" /> }
                   />
                 </Route>
                 <Route 

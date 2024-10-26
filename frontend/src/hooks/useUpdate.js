@@ -60,6 +60,7 @@ export const useUpdate = () => {
         }
         if (response.ok) {
           const newAuth = { username: json.username, token: user.token };
+          dispatch({ type: 'CHANGE_USERNAME', payload: json.username });
           localStorage.setItem('user', JSON.stringify(newAuth));
           setTimeout(() => {
             setIsLoading(false);

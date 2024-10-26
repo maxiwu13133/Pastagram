@@ -7,7 +7,6 @@ import App from './App';
 import { AuthContextProvider } from './context/AuthContext';
 import { SearchContextProvider } from './context/SearchContext';
 import { PfpContextProvider } from './context/PfpContext';
-import { HomeLoadContextProvider } from './context/HomeLoadContext';
 import { DeletedContextProvider } from './context/DeletedContext';
 import { FollowingContextProvider } from './context/FollowingContext';
 import { NavbarContextProvider } from './context/NavbarContext';
@@ -21,9 +20,7 @@ root.render(
           <DeletedContextProvider>
             <SearchContextProvider>
               <FollowingContextProvider>
-                <HomeLoadContextProvider>
-                  <App />
-                </HomeLoadContextProvider>
+                <App />
               </FollowingContextProvider>
             </SearchContextProvider>
           </DeletedContextProvider>

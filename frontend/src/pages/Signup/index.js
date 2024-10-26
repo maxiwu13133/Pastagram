@@ -76,7 +76,7 @@ const Signup = () => {
         </div>
 
         <div className="signup-text-wrapper">
-         <p>Sign up to see photos and videos from your friends.</p>
+         <p>Sign up to see photos from your friends.</p>
         </div>
 
         <form className="signup-credentials" onSubmit={ handleSubmit }>

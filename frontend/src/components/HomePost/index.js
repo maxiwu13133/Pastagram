@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './index.css';
 
@@ -7,7 +7,6 @@ import './index.css';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useFormatTime } from '../../hooks/useFormatTime';
 import { useLikePost } from '../../hooks/useLikePost';
-import { useGetCommunity } from '../../hooks/useGetCommunity';
 import { useCreateComment } from '../../hooks/useCreateComment';
 import { useSavedAPI } from '../../hooks/useSavedAPI';
 import { useHomeLoadContext } from '../../hooks/useHomeLoadContext';
@@ -34,9 +33,8 @@ import { RepliesContextProvider } from '../../context/RepliesContext';
 import { ReplyTargetContextProvider } from '../../context/ReplyTargetContext';
 
 
-const HomePost = ({ post }) => {
+const HomePost = ({ post, id, saved }) => {
   const { user } = useAuthContext();
-  const { id, saved } = useGetCommunity({ username: user.username });
   const { dispatch } = useHomeLoadContext();
   const { dispatch: dispatchNav } = useNavbarContext();
 
@@ -66,6 +64,7 @@ const HomePost = ({ post }) => {
 
     getInfo();
     setLocalPost(post);
+    console.log(post);
   }, [user.token, post.user_id, post, dispatch]);
 
   // format time display
@@ -107,7 +106,6 @@ const HomePost = ({ post }) => {
   // handle textarea
   const { createComment } = useCreateComment();
   const [comment, setComment] = useState('');
-  const textareaRef = useRef(null);
 
   const handleCreate = async () => {
     const response = await createComment({ post, text: comment });
@@ -122,14 +120,6 @@ const HomePost = ({ post }) => {
       handleCreate()
     };
   }
-
-  const [focusTextarea, setFocusTextarea] = useState(null);
-
-  useEffect(() => {
-    if (focusTextarea !== null) {
-      textareaRef.current.focus();
-    }
-  }, [focusTextarea]);
 
 
   // save post
@@ -191,7 +181,7 @@ const HomePost = ({ post }) => {
           />
         </div>
 
-        <div className="homepost-chat-container" onClick={ () => setFocusTextarea(focusTextarea ? false : true ) }>
+        <div className="homepost-chat-container" onClick={ () => setPostViewModal(true) }>
           <img 
             src={ chatBubble }
             alt=""
@@ -273,7 +263,6 @@ const HomePost = ({ post }) => {
           onChange={ (e) => setComment(e.target.value) }
           value={ comment }
           onKeyDown={ (e) => handlePost(e) }
-          ref={ textareaRef }
           rows={ 1 }
           maxLength={ 500 }
         />

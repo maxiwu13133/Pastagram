@@ -7,6 +7,7 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 import { useHomeLoadContext } from '../../hooks/useHomeLoadContext';
 import { useDeletedContext } from '../../hooks/useDeletedContext';
 import { useNavbarContext } from '../../hooks/useNavbarContext';
+import { useGetCommunity } from '../../hooks/useGetCommunity';
 
 
 // pages
@@ -26,6 +27,7 @@ const Home = () => {
   const { user } = useAuthContext();
   const { userInfoLoad, suggestedLoad, postLoad, deletedLoad, dispatch } = useHomeLoadContext();
   const { dispatch: dispatchNav } = useNavbarContext();
+  const { id, saved } = useGetCommunity({ username: user.username });
 
 
   // deleted users
@@ -101,7 +103,7 @@ const Home = () => {
           posts.length > 0 && 
           <div className="home-posts-container">
             {
-              posts.map((post, i) => <HomePost post={ post } key={ i } />)
+              posts.map((post, i) => <HomePost post={ post } key={ i } id={ id } saved={ saved }/>)
             }
           </div>
         }
