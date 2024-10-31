@@ -4,8 +4,14 @@ import './index.css';
 // assets
 import cycleArrow from '../../assets/Preview/next-img-arrow.png';
 
-const Preview = ({ files }) => {
+const Preview = ({ files, home }) => {
   const [previewIndex, setPreviewIndex] = useState(0);
+
+  const optimizeImage = (photo) => {
+    const [first, second] = photo.split('upload');
+    const transformation = 'upload/h_523,w_466,c_fill/f_auto';
+    return first + transformation + second;
+  }
 
   return ( 
     <div className="preview-container">
@@ -18,7 +24,7 @@ const Preview = ({ files }) => {
         <img 
           draggable={ false } 
           className="preview-img" 
-          src={ files[previewIndex].url } 
+          src={ home ? optimizeImage(files[previewIndex].url) : files[previewIndex].url } 
           alt="photos" 
         />
       </div>

@@ -33,7 +33,7 @@ import { RepliesContextProvider } from '../../context/RepliesContext';
 import { ReplyTargetContextProvider } from '../../context/ReplyTargetContext';
 
 
-const HomePost = ({ post, id, saved }) => {
+const HomePost = ({ post, id, saved, last }) => {
   const { user } = useAuthContext();
   const { dispatch } = useHomeLoadContext();
   const { dispatch: dispatchNav } = useNavbarContext();
@@ -58,14 +58,15 @@ const HomePost = ({ post, id, saved }) => {
       if (response.ok) {
         setUsername(json.username);
         setPfp(json.pfp);
-        dispatch({ type: 'USER_FINISH' });
+        if (last) {
+          dispatch({ type: 'USER_FINISH' });
+        }
       };
     };
 
     getInfo();
     setLocalPost(post);
-    console.log(post);
-  }, [user.token, post.user_id, post, dispatch]);
+  }, [user.token, post.user_id, post, dispatch, last]);
 
   // format time display
   const { formatTime } = useFormatTime();
@@ -168,7 +169,7 @@ const HomePost = ({ post, id, saved }) => {
       </div>
 
       <div className="homepost-preview">
-        <Preview files={ post.photos }/>
+        <Preview files={ post.photos } home={ true }/>
       </div>
 
       <div className="homepost-icons">

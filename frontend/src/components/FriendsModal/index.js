@@ -40,6 +40,7 @@ const FriendsModal = ({ setFriendsModal, username, type }) => {
   const [followerList, setFollowersList] = useState([]);
   const [followingList, setFollowingList] = useState([]);
   const { followingListGlobal, dispatch } = useFollowingContext();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const getFriends = async () => {
@@ -55,6 +56,7 @@ const FriendsModal = ({ setFriendsModal, username, type }) => {
       if (response.ok) {
         setFollowersList(json.followers);
         setFollowingList(json.following);
+        setIsLoading(false);
       }
     }
 
@@ -246,6 +248,7 @@ const FriendsModal = ({ setFriendsModal, username, type }) => {
               {
                 ((type === "Followers" && followerList.length === 0) ||
                 (type === "Following" && followingList.length === 0)) &&
+                !isLoading &&
                 <div className="friends-no-results">
                   {
                     type === "Followers" ? "This user has no followers." : "This user is not following anyone."

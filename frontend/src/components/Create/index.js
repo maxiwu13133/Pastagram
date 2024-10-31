@@ -42,15 +42,13 @@ const Create = ({ handleClick }) => {
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     if (acceptedFiles.length > 0) {
       setWrongFiles(null);
+      setImages([]);
 
       for (let i = 0; i < acceptedFiles.length; i++) {
         fileToBase(acceptedFiles[i]);
       }
-
-      setFiles(previousFiles => [
-        ...previousFiles,
-        ...acceptedFiles.map(file => Object.assign(file, { url: URL.createObjectURL(file) }))
-      ]);
+      
+      setFiles([...acceptedFiles.map(file => Object.assign(file, { url: URL.createObjectURL(file) }))]);
       setFilesSubmitted(true);
       setDisableDrop(true);
     } else {
@@ -133,7 +131,8 @@ const Create = ({ handleClick }) => {
           filesSubmitted && !wrongFiles && !postingStage &&
           <>
           
-            { discardPopup && 
+            { 
+              discardPopup && 
               <>
                 <div className="create-discard">
                   <h2>Discard post?</h2>
@@ -181,7 +180,8 @@ const Create = ({ handleClick }) => {
               <div className="create-preview-container">
                 <Preview files={ files } /> 
               </div>
-              { captionStage && 
+              { 
+                captionStage && 
                 <div className="create-caption">
                   <div className="create-caption-user">
                     <div className="create-caption-pfp-container">
@@ -227,7 +227,8 @@ const Create = ({ handleClick }) => {
         }
 
         {/* Posting stage */}
-        { postingStage &&
+        { 
+          postingStage &&
           <div className="create-posting">
             <header className="create-header">
               <p>{ isLoading ? "Sharing" : "Post shared"}</p>

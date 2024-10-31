@@ -127,8 +127,15 @@ const PostView = ({ post, setLocalPost, closeModal, setPosts, posts, setParentSa
 
   const handleLike = async () => {
     const response = await likePost({ post, user });
-    const index = posts.findIndex(obj => obj._id === post._id);
-    posts[index].likes = response.newPost.likes;
+    if (posts) {
+      const index = posts.findIndex(obj => obj._id === post._id);
+      posts[index].likes = response.newPost.likes;
+    }
+    if (setLocalPost) {
+      const newPost = post;
+      newPost.likes = response.newPost.likes;
+      setLocalPost(newPost);
+    }
   }
 
 

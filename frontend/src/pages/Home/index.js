@@ -46,7 +46,9 @@ const Home = () => {
 
   useEffect(() => {
     if (userInfoLoad && suggestedLoad && postLoad && deletedLoad) {
-      setHomeLoad(true);
+      setTimeout(() => {
+        setHomeLoad(true);
+      }, 100);
     };
   }, [userInfoLoad, suggestedLoad, postLoad, deletedLoad]);
 
@@ -103,7 +105,15 @@ const Home = () => {
           posts.length > 0 && 
           <div className="home-posts-container">
             {
-              posts.map((post, i) => <HomePost post={ post } key={ i } id={ id } saved={ saved }/>)
+              posts.map((post, i) => 
+                <HomePost 
+                  post={ post }
+                  key={ i }
+                  id={ id }
+                  saved={ saved }
+                  last={ (i === posts.length - 1 && posts.lengh !== 0) ? true : false }
+                />
+              )
             }
           </div>
         }

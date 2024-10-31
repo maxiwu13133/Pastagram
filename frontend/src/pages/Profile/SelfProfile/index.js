@@ -104,6 +104,16 @@ const SelfProfile = () => {
   // friends modal
   const [friendsModal, setFriendsModal] = useState(null);
 
+
+  // Stop scroll when modal open
+  useEffect(() => {
+    if (friendsModal) {
+      document.body.style.overflowY = 'hidden';
+    } else {
+      document.body.style.overflowY = 'scroll';
+    }
+  }, [friendsModal])
+
   
   return (
     <div className="s-profile-container">
