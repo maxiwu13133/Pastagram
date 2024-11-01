@@ -179,7 +179,7 @@ const getSuggest = async (req, res) => {
       }
     }
 
-    res.status(200).json({ suggested: bestSuggestions });
+    res.status(200).json({ suggested: bestSuggestions.slice(0, 9) });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
