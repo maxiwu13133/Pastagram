@@ -21,8 +21,8 @@ import compassFocused from '../../assets/Navbar/ig-explore-icon-focused.png';
 import compassUnfocused from '../../assets/Navbar/ig-explore-icon-unfocused.png';
 import messageFocused from '../../assets/Navbar/ig-message-icon-focused.png';
 import messageUnfocused from '../../assets/Navbar/ig-message-icon-unfocused.png';
-import heartFocused from '../../assets/Navbar/ig-notif-icon-focused.png';
-import heartUnfocused from '../../assets/Navbar/ig-notif-icon-unfocused.png';
+// import heartFocused from '../../assets/Navbar/ig-notif-icon-focused.png';
+// import heartUnfocused from '../../assets/Navbar/ig-notif-icon-unfocused.png';
 import create from '../../assets/Navbar/ig-create-icon.png';
 import moreFocused from '../../assets/Navbar/ig-more-icon-focused.png';
 import moreUnfocused from '../../assets/Navbar/ig-more-icon-unfocused.png';
@@ -234,7 +234,7 @@ const Navbar = () => {
       </div>
 
       {/* Notifications */}
-      <div className="navbar-option-wrapper">
+      {/* <div className="navbar-option-wrapper">
         <Link onClick={ () => changeNav('notifications') }>
           <div className={ `
             navbar-option 
@@ -249,7 +249,7 @@ const Navbar = () => {
             { !openModal && <h2>Notifications</h2> }
           </div>
         </Link>
-      </div>
+      </div> */}
 
       {/* Create */}
       <div className="navbar-option-wrapper">

@@ -115,7 +115,7 @@ const Signup = () => {
           </div>
           
           <div className="signup-terms">
-            <p>By signing up, you agree to our { <Link to="/terms" target="_blank">Terms</Link> } .</p>
+            <p>By signing up, you agree to our { <Link to="/terms">Terms</Link> } .</p>
           </div>
 
           <button disabled={ isLoading || !signupAllowed } className="signup-button">

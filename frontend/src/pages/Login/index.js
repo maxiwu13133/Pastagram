@@ -5,7 +5,7 @@ import './index.css';
 
 // assets
 import logo from '../../assets/Logos/pastagram-logo.png';
-import phone from '../../assets/Login/phone.png';
+import websiteSample from '../../assets/Login/pastagram-template.png';
 
 
 const Login = () => {
@@ -70,8 +70,8 @@ const Login = () => {
     <div className="login-container">
 
       {/* App preview */}
-      <div className="login-phone">
-        <img src={ phone } alt="Phone" className="login-phone-img" />
+      <div className="login-sample">
+        <img src={ websiteSample } alt="Website" className="login-sample-img" />
       </div>
 
       <div className="login-account-options">
@@ -111,10 +111,6 @@ const Login = () => {
             </div>
 
             <button disabled={ isLoading || !loginAllowed } className="login-button">Log in</button>
-
-            <div className="login-forgot-password">
-              <Link to="/reset" className="login-forgot-password-link">Forgot password?</Link>
-            </div>
 
             <div className="login-error-wrapper">
               { error && <div className="login-error">{ error }</div> }
