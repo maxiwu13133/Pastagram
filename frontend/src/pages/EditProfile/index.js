@@ -187,7 +187,8 @@ const EditProfile = () => {
                 type="text"
                 onChange={ (e) => setNewFullName(e.target.value) }
                 value={ newFullName } 
-                className="edit-field edit-name" />
+                className="edit-field"
+              />
             </div>
 
             <div className="edit-advanced-container">
@@ -200,7 +201,8 @@ const EditProfile = () => {
                 type="text"
                 onChange={ (e) => setNewUsername(e.target.value) }
                 value={ newUsername } 
-                className="edit-field edit-username" />
+                className="edit-field"
+              />
             </div>
             
             <div className="edit-advanced-container">
@@ -213,7 +215,9 @@ const EditProfile = () => {
                 type="text"
                 onChange={ (e) => setNewEmail(e.target.value) }
                 value={ newEmail } 
-                className="edit-field edit-email" />
+                className={ `edit-field ${ newEmail === "foodenthusiast@gmail.com" ? "edit-test" : "" }` }
+                disabled={ newEmail === "foodenthusiast@gmail.com" }
+              />
             </div>
 
             <div className="edit-delete-container">

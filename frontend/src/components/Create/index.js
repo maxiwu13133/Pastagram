@@ -83,13 +83,17 @@ const Create = ({ handleClick }) => {
 
 
   // Uploading post
+  const truncateText = (text) => {
+    return text.trim().replaceAll(new RegExp('(\\r?\\n|\\r){2,}', 'g'), '\n\n');
+  }
+
   const { createPost, error, isLoading } = useCreatePost()
   const [postingStage, setPostingStage] = useState(false);
   const handlePost = async () => {
     setCaptionStage(false);
     setPostingStage(true);
 
-    await createPost(images, caption);
+    await createPost(images, truncateText(caption));
     
     setFiles([]);
     setImages([]);

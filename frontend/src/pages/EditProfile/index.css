@@ -148,6 +148,10 @@
   font-size: 16px;
 }
 
+.edit-test:disabled:hover, .edit-test:disabled:active {
+  background-color: #fafafa;
+}
+
 /* delete */
 .edit-delete-container {
   display: flex;

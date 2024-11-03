@@ -10,8 +10,30 @@
   left: 0;
 }
 
+.login-test-button {
+  position: fixed;
+  right: 200px;
+  border-radius: 5px;
+  border: none;
+  background-color: #0095f6;
+  color: white;
+  font-size: 14px;
+  height: 40px;
+  width: 200px;
+  font-weight: 500;
+}
+
+.login-test-button:hover {
+  cursor: pointer;
+  opacity: 50%;
+}
+
+.login-test-button:active {
+  opacity: 30%;
+}
+
 .login-sample-img {
-  width: 860px;
+  width: 600px;
   margin-right: 50px;
 }
 

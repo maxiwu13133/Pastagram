@@ -69,6 +69,11 @@ const Login = () => {
   return(
     <div className="login-container">
 
+      {/* test account */}
+      <button className="login-test-button" onClick={ async () => await login("foodenthusiast@gmail.com", "Test@123") }>
+        Try Pastagram
+      </button>
+
       {/* App preview */}
       <div className="login-sample">
         <img src={ websiteSample } alt="Website" className="login-sample-img" />
