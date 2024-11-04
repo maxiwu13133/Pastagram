@@ -111,22 +111,25 @@ const Create = ({ handleClick }) => {
             <header className="create-header">
               <p>Create new post</p>
             </header>
-            <div className="create-photo">
-              <img 
-                className="create-upload" 
-                draggable={ false } 
-                src={ isDragActiveNC ? uploadFocus : uploadUnfocused } 
-                alt="upload"
-              />
+
+            <div className="create-choose">
+              <div className="create-photo">
+                <img 
+                  className="create-upload" 
+                  draggable={ false } 
+                  src={ isDragActiveNC ? uploadFocus : uploadUnfocused } 
+                  alt="upload"
+                />
+              </div>
+        
+              <div className="create-tooltip">
+                Drag photos and videos here
+              </div>
+              
+              <button { ...getRootProps({ className: 'create-select-from-pc' }) }>
+                Select from computer
+              </button>
             </div>
-      
-            <div className="create-tooltip">
-              Drag photos and videos here
-            </div>
-            
-            <button { ...getRootProps({ className: 'create-select-from-pc' }) }>
-              Select from computer
-            </button>
           </>
         }
 

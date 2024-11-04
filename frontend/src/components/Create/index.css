@@ -28,13 +28,13 @@
 
 .create-post {
   position: fixed;
-  width: 680px;
-  height: 720px;
+  width: 612px;
+  height: 648px;
   background-color: white;
   border-radius: 12px;
   overflow: hidden;
-  top: calc(50vh - 360px);
-  left: calc(50vw - 350px);
+  top: calc(50vh - 324px);
+  left: calc(50vw - 306px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -44,8 +44,8 @@
 }
 
 .create-with-caption {
-  width: 1020px;
-  left: calc(50vw - 510px);
+  width: 952px;
+  left: calc(50vw - 476px);
 }
 
 .create-header {
@@ -62,9 +62,17 @@
 }
 
 /* No files yet view */
+.create-choose {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 603px;
+}
+
 .create-upload {
   width: 100px;
-  margin-top: 250px;
   user-select: none;
 }
 
@@ -98,8 +106,8 @@
 
 /* Files view */
 .create-preview-container {
-  width: 680px;
-  height: 675px;
+  width: 612px;
+  height: 603px;
 }
 
 .create-preview-header {
@@ -152,7 +160,7 @@
 /* Captions */
 .create-caption {
   width: 340px;
-  height: 675px;
+  height: 603px;
   animation: expandCaption 0.5s;
   display: flex;
   flex-direction: column;
@@ -361,7 +369,7 @@
 .create-posting-finish {
   display: flex;
   width: 100%;
-  height: 100%;
+  height: 603px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
