@@ -11,15 +11,13 @@
 }
 
 .login-test-button {
-  position: fixed;
-  right: 200px;
   border-radius: 5px;
   border: none;
   background-color: #0095f6;
   color: white;
   font-size: 14px;
   height: 40px;
-  width: 200px;
+  width: 100%;
   font-weight: 500;
 }
 
@@ -47,7 +45,7 @@
   width: 350px;
   height: 450px;
   margin-bottom: 10px;
-  padding: 40px;
+  padding: 40px 40px 0 40px;
   display: flex;
   flex-direction: column;
 }
@@ -181,7 +179,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 50px;
+  height: 30px;
+  margin-top: 10px;
 }
 
 .login-error {

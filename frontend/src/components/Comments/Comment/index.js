@@ -202,6 +202,7 @@ const Comment = ({ post, setLocalPost, posts, setPosts, comment, setComments, se
           !deleted &&
           <Link 
             to={ `/${ username }` }
+            className="comment-pfp-link"
             onClick={ () => dispatchNav({ type: "SET_NAV", payload: username }) }
           >
             <img 
@@ -287,12 +288,13 @@ const Comment = ({ post, setLocalPost, posts, setPosts, comment, setComments, se
 
         {
           !deleted && 
-          <div className="comment-likes" onClick={ () => handleLike() }>
+          <div className="comment-likes">
             <img 
               src={ likes.includes(id) ? heartFilled : heartHollow }
               alt=""
               className="comment-likes-icon"
               draggable={ false }
+              onClick={ () => handleLike() }
             />
           </div>
         }

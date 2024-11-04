@@ -1,3 +1,9 @@
+@keyframes popInDelete {
+  0% { width: 420px; height: 231px; top: calc(50vh - 115px); left: calc(50vw - 210px); }
+
+  100% { width: 400px; height: 220px; }
+}
+
 .edit-container {
   width: 100%;
   height: min-content;
@@ -258,7 +264,7 @@
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.65);
-  z-index: 1;
+  z-index: 2;
 }
 
 .edit-delete-popup-container {
@@ -272,8 +278,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 1;
+  z-index: 2;
   overflow: hidden;
+  animation: 0.2s popInDelete
 }
 
 .edit-delete-popup-header {

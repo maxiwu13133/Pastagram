@@ -157,6 +157,7 @@ const Reply = ({ replies, index, replyLoading, setReplyLoading, last, setComment
         !deleted && 
         <Link 
           to={ `/${ username }` }
+          className="reply-pfp-link"
           onClick={ () => dispatch({ type: "SET_NAV", payload: username }) }
         >
           <img src={ pfp ? pfp : defaultPfp } alt="" className="reply-pfp" draggable={ false } />
@@ -240,12 +241,13 @@ const Reply = ({ replies, index, replyLoading, setReplyLoading, last, setComment
 
       {
         !deleted && 
-        <div className="reply-likes" onClick={ () => handleLike() }>
+        <div className="reply-likes">
           <img 
             src={ likes.includes(id) ? heartFilled : heartHollow }
             alt=""
             className="reply-likes-icon"
             draggable={ false }
+            onClick={ () => handleLike() }
           />
         </div>
       }
