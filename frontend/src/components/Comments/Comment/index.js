@@ -66,7 +66,7 @@ const Comment = ({ post, setLocalPost, posts, setPosts, comment, setComments, se
         if (last) {
           setTimeout(() => {
             setIsLoading(false);
-          }, 50);
+          }, 150);
         }
       }
     }

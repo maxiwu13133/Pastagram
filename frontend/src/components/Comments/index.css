@@ -7,6 +7,7 @@
   scrollbar-width: none;
   overflow: hidden;
   overflow-y: scroll;
+  padding-top: 9px;
 }
 
 /* no caption or comments */
@@ -34,8 +35,8 @@
 .comments-caption {
   width: 100%;
   height: min-content;
-  padding: 6px 12px;
-  margin: 3px 0;
+  padding: 0 12px 6px 12px;
+  margin-bottom: 3px;
   display: flex;
   justify-content: flex-start;
 }
@@ -109,9 +110,9 @@
 
 .comments-placeholder {
   display: flex;
-  width: 100%;
+  width: 363px;
   height: 40px;
-  margin-left: 16px;
+  margin-left: 12px;
   margin-bottom: 22px;
 }
 
@@ -129,9 +130,9 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 400px;
+  width: 323px;
   height: 100%;
-  margin-left: 14px;
+  margin-left: 8px;
 }
 
 .comments-placeholder-top {

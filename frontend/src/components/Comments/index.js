@@ -87,6 +87,7 @@ const Comments = ({ post, setLocalPost, posts, setPosts, comments, setComments, 
 
       {/* Caption */}
       { 
+        !isLoading &&
         post.caption && 
         <div className="comments-caption">
           <Link 
@@ -123,7 +124,7 @@ const Comments = ({ post, setLocalPost, posts, setPosts, comments, setComments, 
       {
         isLoading &&
         <div className="comments-loading">
-          { [...Array(20)].map((_, i) => commentPlaceholder(i)) }
+          { [...Array(25)].map((_, i) => commentPlaceholder(i)) }
         </div>
       }
 
