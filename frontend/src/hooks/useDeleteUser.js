@@ -13,7 +13,7 @@ export const useDeleteUser = () => {
     setIsLoading(true);
     setError(null);
 
-    const response = await fetch('http://localhost:4000/api/account/', {
+    const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/account/', {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${ user.token }`

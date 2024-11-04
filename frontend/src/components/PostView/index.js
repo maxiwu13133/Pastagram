@@ -199,7 +199,7 @@ const PostView = ({ post, setLocalPost, closeModal, setPosts, posts, setParentSa
 
   useEffect(() => {
     const getInfo = async () => {
-      const response = await fetch('http://localhost:4000/api/post/info/' + post.user_id, {
+      const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/post/info/' + post.user_id, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${ user.token }`

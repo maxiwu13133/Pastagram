@@ -11,7 +11,7 @@ export const useCreatePost = () => {
     setError(null);
     const data = { files, caption };
 
-    const response = await fetch('http://localhost:4000/api/post/', {
+    const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/post/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

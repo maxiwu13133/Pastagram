@@ -16,7 +16,7 @@ export const useUpdate = () => {
 
     if (pfpChanged) {
 
-      const response = await fetch('http://localhost:4000/api/account/pfp/', {
+      const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/account/pfp/', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ export const useUpdate = () => {
           user_username: user.username,
           pfpChanged
         };
-        const response = await fetch('http://localhost:4000/api/account/update/', {
+        const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/account/update/', {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
@@ -79,7 +79,7 @@ export const useUpdate = () => {
         user_username: user.username,
         pfpChanged
       };
-      const response = await fetch('http://localhost:4000/api/account/update/', {
+      const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/account/update/', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

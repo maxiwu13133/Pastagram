@@ -14,7 +14,7 @@ export const useSavedAPI = () => {
     setIsLoading(true);
     setError(null);
 
-    const response = await fetch('http://localhost:4000/api/saved/' + id, {
+    const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/saved/' + id, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${ user.token }`
@@ -39,7 +39,7 @@ export const useSavedAPI = () => {
 
     const data = { postId };
 
-    const response = await fetch('http://localhost:4000/api/saved/add', {
+    const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/saved/add', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ export const useSavedAPI = () => {
 
     const data = { postId };
 
-    const response = await fetch('http://localhost:4000/api/saved/remove', {
+    const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/saved/remove', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

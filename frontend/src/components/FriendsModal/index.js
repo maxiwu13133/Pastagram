@@ -44,7 +44,7 @@ const FriendsModal = ({ setFriendsModal, username, type }) => {
 
   useEffect(() => {
     const getFriends = async () => {
-      const response = await fetch('http://localhost:4000/api/user/friends/' + username, {
+      const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/user/friends/' + username, {
         method: 'GET'
       });
       const json = await response.json();
@@ -70,7 +70,7 @@ const FriendsModal = ({ setFriendsModal, username, type }) => {
       const searchUsers = async (value) => {
         const processedValue = value.toLowerCase().replace(/\s+/g, '');
         if (processedValue.length !== 0) {
-          const response = await fetch('http://localhost:4000/api/search/', {
+          const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/search/', {
             method: 'GET',
             headers: {
               'Authorization': `Bearer ${ user.token }`

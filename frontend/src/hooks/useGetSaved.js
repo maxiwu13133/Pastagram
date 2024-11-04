@@ -13,7 +13,7 @@ export const useGetSaved = () => {
 
   useEffect(() => {
     const getSaved = async () => {
-      const response = await fetch('http://localhost:4000/api/saved/', {
+      const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/saved/', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${ user.token }`

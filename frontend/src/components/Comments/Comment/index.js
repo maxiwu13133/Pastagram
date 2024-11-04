@@ -43,7 +43,7 @@ const Comment = ({ post, setLocalPost, posts, setPosts, comment, setComments, se
   useEffect(() => {
     const getCommentInfo = async () => {
       setIsLoading(true);
-      const responseComment = await fetch('http://localhost:4000/api/comment/' + comment, {
+      const responseComment = await fetch('https://pastagram-backend-srn4.onrender.com/api/comment/' + comment, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${ user.token }`
@@ -80,7 +80,7 @@ const Comment = ({ post, setLocalPost, posts, setPosts, comment, setComments, se
 
     const data = { commentId: comment, userId: id };
     
-    const response = await fetch('http://localhost:4000/api/comment/', {
+    const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/comment/', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

@@ -11,7 +11,7 @@ export const useFollowUser = () => {
 
     const data = { username, targetUsername };
 
-    const response = await fetch('http://localhost:4000/api/user/follow/', {
+    const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/user/follow/', {
       method: 'PATCH',
       headers: {
         "Content-Type": "application/json"

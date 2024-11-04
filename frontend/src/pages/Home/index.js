@@ -59,7 +59,7 @@ const Home = () => {
   useEffect(() => {
     const getHomePosts = async () => {
   
-      const response = await fetch('http://localhost:4000/api/post/friends/' + user.username, {
+      const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/post/friends/' + user.username, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${ user.token }`

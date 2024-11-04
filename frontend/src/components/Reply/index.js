@@ -35,7 +35,7 @@ const Reply = ({ replies, index, replyLoading, setReplyLoading, last, setComment
 
   useEffect(() => {
     const getUserInfo = async () => {
-      const response = await fetch('http://localhost:4000/api/reply/user/' + replies[index].user_id, {
+      const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/reply/user/' + replies[index].user_id, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${ user.token }`
@@ -102,7 +102,7 @@ const Reply = ({ replies, index, replyLoading, setReplyLoading, last, setComment
 
     const data = { replyId: replies[index]._id, userId: id };
 
-    const response = await fetch('http://localhost:4000/api/reply/like', {
+    const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/reply/like', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

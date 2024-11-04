@@ -16,7 +16,7 @@ export const useCreateReply = () => {
 
     const data = { commentId, text };
 
-    const response = await fetch('http://localhost:4000/api/reply/', {
+    const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/reply/', {
       method: 'POST', 
       headers: {
         'Content-Type': 'application/json',

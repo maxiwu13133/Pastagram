@@ -16,7 +16,7 @@ export const useDeleteComment = () => {
 
     const data = { commentId, postId };
 
-    const response = await fetch('http://localhost:4000/api/comment/', {
+    const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/comment/', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

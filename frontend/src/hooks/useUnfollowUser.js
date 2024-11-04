@@ -11,7 +11,7 @@ export const useUnfollowUser = () => {
 
     const data = { username, targetUsername };
 
-    const response = await fetch('http://localhost:4000/api/user/unfollow/', {
+    const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/user/unfollow/', {
       method: 'PATCH',
       headers: {
         "Content-Type": "application/json"

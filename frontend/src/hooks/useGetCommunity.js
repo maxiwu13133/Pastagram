@@ -16,7 +16,7 @@ export const useGetCommunity = ({ username }) => {
     const getCommunity = async (username) => {
       setIsLoading(true);
       setError(null);
-      const response = await fetch('http://localhost:4000/api/user/community/' + username, {
+      const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/user/community/' + username, {
         method: 'GET'
       });
       const json = await response.json();

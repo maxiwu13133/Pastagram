@@ -24,7 +24,7 @@ export const DeletedContextProvider = ({ children }) => {
   useEffect(() => {
     const getDeleted = async () => {
   
-      const response = await fetch('http://localhost:4000/api/account/deleted/', {
+      const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/account/deleted/', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${ user.token }`

@@ -51,7 +51,7 @@ const Comments = ({ post, setLocalPost, posts, setPosts, comments, setComments, 
   useEffect(() => {
     const getReplies = async () => {
 
-      const response = await fetch('http://localhost:4000/api/reply/all/' + post._id, {
+      const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/reply/all/' + post._id, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${ user.token }`

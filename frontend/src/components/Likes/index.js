@@ -32,7 +32,7 @@ const Likes = ({ comment, reply, setLikesModal, post }) => {
   useEffect(() => {
     const getLikedInfo = async () => {
       setIsLoading(true);
-      const response = await fetch('http://localhost:4000/api/comment/liked/' + comment, {
+      const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/comment/liked/' + comment, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${ user.token }`
@@ -51,7 +51,7 @@ const Likes = ({ comment, reply, setLikesModal, post }) => {
 
     const getLikedInfoReply = async () => {
       setIsLoading(true);
-      const response = await fetch('http://localhost:4000/api/reply/liked/' + reply._id, {
+      const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/reply/liked/' + reply._id, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${ user.token }`
@@ -70,7 +70,7 @@ const Likes = ({ comment, reply, setLikesModal, post }) => {
 
     const getLikedInfoPost = async () => {
       setIsLoading(true);
-      const response = await fetch('http://localhost:4000/api/post/liked/' + post._id, {
+      const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/post/liked/' + post._id, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${ user.token }`

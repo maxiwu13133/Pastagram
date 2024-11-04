@@ -15,7 +15,7 @@ export const useUpdateSearches = () => {
 
     const data = { username, search };
 
-    const response = await fetch('http://localhost:4000/api/search/add', {
+    const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/search/add', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ export const useUpdateSearches = () => {
 
     const data = { username, search };
 
-    const response = await fetch('http://localhost:4000/api/search/remove', { 
+    const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/search/remove', { 
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ export const useUpdateSearches = () => {
 
     const data = { username };
     
-    const response = await fetch('http://localhost:4000/api/search/clear', {
+    const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/search/clear', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

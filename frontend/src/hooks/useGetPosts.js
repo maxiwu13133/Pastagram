@@ -14,7 +14,7 @@ export const useGetPosts = ({ username }) => {
       setIsLoading(true);
       setError(null);
   
-      const response = await fetch('http://localhost:4000/api/post/' + username, {
+      const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/post/' + username, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${ user.token }`

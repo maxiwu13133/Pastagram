@@ -37,7 +37,7 @@ export const SearchContextProvider = ({ children }) => {
 
   useEffect(() => {
     const getSearches = async () => {
-      const response = await fetch('http://localhost:4000/api/search/' + user.username, {
+      const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/search/' + user.username, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${ user.token }`

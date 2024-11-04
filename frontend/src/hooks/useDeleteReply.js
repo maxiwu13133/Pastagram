@@ -16,7 +16,7 @@ export const useDeleteReply = () => {
 
     const data = { replyId };
 
-    const response = await fetch('http://localhost:4000/api/reply/', {
+    const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/reply/', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

@@ -29,7 +29,7 @@ const Suggest = () => {
 
   useEffect(() => {
     const getSuggestions = async () => {
-      const response = await fetch('http://localhost:4000/api/user/' + id, {
+      const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/user/' + id, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${ user.token }`

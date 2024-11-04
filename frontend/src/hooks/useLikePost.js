@@ -11,7 +11,7 @@ export const useLikePost = () => {
 
     const data = { id: post._id, username: user.username };
 
-    const response = await fetch('http://localhost:4000/api/post/like/', {
+    const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/post/like/', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

@@ -10,7 +10,7 @@ export const useDeletePost = () => {
     setIsLoading(true);
     setError(null);
     
-    const response = await fetch('http://localhost:4000/api/post/delete', {
+    const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/post/delete', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

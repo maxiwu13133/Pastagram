@@ -28,7 +28,7 @@ export const FollowingContextProvider = ({ children }) => {
   
   useEffect(() => {
     const getFollowing = async () => {
-      const response = await fetch('http://localhost:4000/api/user/community/' + user.username, {
+      const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/user/community/' + user.username, {
         method: 'GET'
       });
       const json = await response.json();
