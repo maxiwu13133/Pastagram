@@ -137,16 +137,21 @@ const getPostLikes = async (req, res) => {
 // get friend posts
 const getFriendPosts = async (req, res) => {
   const userId = req.user._id;
+
   try {
     const user = await User.findOne({ _id: userId });
     let allPosts = [];
+    const friends = {};
     
     for (const following of user.following) {
-      const posts = await Post.find({ user_id: following._id });
+      const posts = await Post.find({ user_id: following });
       allPosts = allPosts.concat(posts);
+
+      const friend = await User.findOne({ _id: following });
+      friends[friend._id] = { username: friend.username, pfp: friend.pfp };
     }
 
-    res.status(200).json({ allPosts });
+    res.status(200).json({ allPosts, friends });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
