@@ -8,6 +8,12 @@
   z-index: 2;
 }
 
+@keyframes popInFriends {
+  0% { width: 420px; height: 420px; top: calc(50vh - 210px); left: calc(50vw - 210px); }
+
+  100% { width: 400px; height: 400px; }
+}
+
 .friends-container {
   width: 400px;
   height: 400px;
@@ -20,6 +26,7 @@
   top: calc(50vh - 200px);
   left: calc(50vw - 200px);
   z-index: 2;
+  animation: popInFriends 0.2s;
 }
 
 /* header */
