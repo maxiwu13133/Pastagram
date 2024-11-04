@@ -9,7 +9,6 @@ import { useFormatTime } from '../../hooks/useFormatTime';
 import { useLikePost } from '../../hooks/useLikePost';
 import { useCreateComment } from '../../hooks/useCreateComment';
 import { useSavedAPI } from '../../hooks/useSavedAPI';
-import { useHomeLoadContext } from '../../hooks/useHomeLoadContext';
 import { useNavbarContext } from '../../hooks/useNavbarContext';
 
 
@@ -33,40 +32,17 @@ import { RepliesContextProvider } from '../../context/RepliesContext';
 import { ReplyTargetContextProvider } from '../../context/ReplyTargetContext';
 
 
-const HomePost = ({ post, id, saved, last }) => {
+const HomePost = ({ post, saved, last, posterInfo }) => {
   const { user } = useAuthContext();
-  const { dispatch } = useHomeLoadContext();
   const { dispatch: dispatchNav } = useNavbarContext();
 
-  // get username and pfp 
-  const [username, setUsername] = useState('');
-  const [pfp, setPfp] = useState({});
+  // set local post for real time updating
   const [localPost, setLocalPost] = useState({});
 
   useEffect(() => {
-    const getInfo = async () => {
-      const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/post/info/' + post.user_id, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${ user.token }`
-        }
-      });
-      const json = await response.json();
-      if (!response.ok) {
-        console.log('Error:', json.error);
-      };
-      if (response.ok) {
-        setUsername(json.username);
-        setPfp(json.pfp);
-        if (last) {
-          dispatch({ type: 'USER_FINISH' });
-        }
-      };
-    };
-
-    getInfo();
     setLocalPost(post);
-  }, [user.token, post.user_id, post, dispatch, last]);
+  }, [post]);
+
 
   // format time display
   const { formatTime } = useFormatTime();
@@ -148,19 +124,24 @@ const HomePost = ({ post, id, saved, last }) => {
     <div className="homepost-container">
       <div className="homepost-header">
         <Link 
-          to={ `/${ username }` }
+          to={ `/${ posterInfo[post.user_id].username }` }
           className="homepost-header-pfp-link"
           onClick={ () => dispatchNav({ type: "SET_NAV", payload: "none" }) }
         >
-          <img src={ pfp.url ? pfp.url : defaultPfp } alt="" className="homepost-header-pfp" draggable={ false } />
+          <img 
+            src={ posterInfo[post.user_id].pfp.url ? posterInfo[post.user_id].pfp.url : defaultPfp } 
+            alt="" 
+            className="homepost-header-pfp" 
+            draggable={ false } 
+          />
         </Link>
 
         <Link
-          to={ `/${ username }` }
+          to={ `/${ posterInfo[post.user_id].username }` }
           className="homepost-header-username-link"
           onClick={ () => dispatchNav({ type: "SET_NAV", payload: "none" }) }
         >
-          <p className="homepost-header-username">{ username }</p>
+          <p className="homepost-header-username">{ posterInfo[post.user_id].username }</p>
         </Link>
 
         <div className="homepost-header-dot" />
@@ -175,7 +156,7 @@ const HomePost = ({ post, id, saved, last }) => {
       <div className="homepost-icons">
         <div className="homepost-heart-container" onClick={ () => handleLikePost() }>
           <img 
-            src={ likes.includes(id) ? heartFilled : heartHollow }
+            src={ likes.includes(user.id) ? heartFilled : heartHollow }
             alt=""
             className="homepost-heart"
             draggable={ false }
@@ -217,11 +198,11 @@ const HomePost = ({ post, id, saved, last }) => {
       <div className="homepost-caption">
         <p>
           <Link
-            to={ `/${ username }` }
+            to={ `/${ posterInfo[post.user_id].username }` }
             className="homepost-caption-link"
             onClick={ () => dispatchNav({ type: "SET_NAV", payload: "none" }) }
           >
-            { username }
+            { posterInfo[post.user_id].username }
           </Link>
 
           <span className="homepost-caption-text">{ post.caption }</span>
@@ -237,8 +218,8 @@ const HomePost = ({ post, id, saved, last }) => {
               post={ localPost }
               setLocalPost={ setLocalPost }
               closeModal={ setPostViewModal }
-              username={ username }
-              pfp={ pfp }
+              username={ posterInfo[post.user_id].username }
+              pfp={ posterInfo[post.user_id].pfp }
               setParentSave={ setLocalSaved }
             />
           </ReplyTargetContextProvider>

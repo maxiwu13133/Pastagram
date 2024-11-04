@@ -6,7 +6,6 @@ import './index.css';
 // hooks
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useReplyTargetContext } from '../../hooks/useReplyTargetContext';
-import { useGetCommunity } from '../../hooks/useGetCommunity';
 import { useDeleteReply } from '../../hooks/useDeleteReply';
 import { useRepliesContext } from '../../hooks/useRepliesContext';
 import { useFormatTime } from '../../hooks/useFormatTime';
@@ -26,7 +25,6 @@ import Likes from '../Likes';
 
 const Reply = ({ replies, index, replyLoading, setReplyLoading, last, setCommentReplies }) => {
   const { user } = useAuthContext();
-  const { id } = useGetCommunity({ username: user.username });
   const [username, setUsername] = useState('');
   const [pfp, setPfp] = useState('');
   const [deleted, setDeleted] = useState(false);
@@ -100,7 +98,7 @@ const Reply = ({ replies, index, replyLoading, setReplyLoading, last, setComment
   
   const handleLike = async () => {
 
-    const data = { replyId: replies[index]._id, userId: id };
+    const data = { replyId: replies[index]._id, userId: user.id };
 
     const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/reply/like', {
       method: 'PATCH',
@@ -206,7 +204,7 @@ const Reply = ({ replies, index, replyLoading, setReplyLoading, last, setComment
             className={ `
               reply-options-dots 
               ${ username === user.username ? "reply-options-dots-show" : "" }
-              ${ id === replies[index].user_id ? "reply-options-dots-show" : "" }
+              ${ user.id === replies[index].user_id ? "reply-options-dots-show" : "" }
             ` }
             onClick={ () => setDeletePopup(true) }
             draggable={ false }
@@ -243,7 +241,7 @@ const Reply = ({ replies, index, replyLoading, setReplyLoading, last, setComment
         !deleted && 
         <div className="reply-likes">
           <img 
-            src={ likes.includes(id) ? heartFilled : heartHollow }
+            src={ likes.includes(user.id) ? heartFilled : heartHollow }
             alt=""
             className="reply-likes-icon"
             draggable={ false }

@@ -5,12 +5,12 @@ import './index.css';
 
 // hooks
 import { useAuthContext } from '../../hooks/useAuthContext';
-import { useGetCommunity } from '../../hooks/useGetCommunity';
 import { usePfpContext } from '../../hooks/usePfpContext';
 import { useFollowUser } from '../../hooks/useFollowUser';
 import { useUnfollowUser } from '../../hooks/useUnfollowUser';
 import { useHomeLoadContext } from '../../hooks/useHomeLoadContext';
 import { useNavbarContext } from '../../hooks/useNavbarContext';
+import { useFollowingContext } from '../../hooks/useFollowingContext';
 
 
 // assets
@@ -20,16 +20,16 @@ import defaultPfp from '../../assets/Profile/default-pfp.jpg';
 const Suggest = () => {
   const { user, dispatch } = useAuthContext();
   const { pfp, dispatch: dispatchPfp } = usePfpContext();
-  const { id } = useGetCommunity({ username: user.username });
   const { dispatch: dispatchLoad } = useHomeLoadContext();
   const { dispatch: dispatchNav } = useNavbarContext();
+  const { dispatch: dispatchFollowing } = useFollowingContext();
 
   // get best suggestions
   const [suggestions, setSuggestions] = useState([]);
 
   useEffect(() => {
     const getSuggestions = async () => {
-      const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/user/' + id, {
+      const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/user/' + user.id, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${ user.token }`
@@ -45,10 +45,10 @@ const Suggest = () => {
         dispatchLoad({ type: 'SUGGEST_FINISH' });
       }
     };
-    if (id) {
+    if (user.id) {
       getSuggestions();
     }
-  }, [id, user.token, dispatchLoad]);
+  }, [user.id, user.token, dispatchLoad]);
 
 
   // follow and unfollow suggestion
@@ -56,16 +56,18 @@ const Suggest = () => {
   const { unfollowUser } = useUnfollowUser();
 
   const handleFollow = async (i) => {
-    if (suggestions[i].followers.includes(id)) {
+    if (suggestions[i].followers.includes(user.id)) {
       const newSuggestions = [...suggestions];
-      newSuggestions[i].followers = newSuggestions[i].followers.filter(follower => follower !== id);
+      newSuggestions[i].followers = newSuggestions[i].followers.filter(follower => follower !== user.id);
       setSuggestions(newSuggestions);
+      dispatchFollowing({ type: 'REMOVE_FOLLOWING', payload: suggestions[i]._id });
       await unfollowUser({ username: user.username, targetUsername: suggestions[i].username });
     }
-    else if (!suggestions[i].followers.includes(id)) {
+    else if (!suggestions[i].followers.includes(user.id)) {
       const newSuggestions = [...suggestions];
-      newSuggestions[i].followers = newSuggestions[i].followers.concat(id);
+      newSuggestions[i].followers = newSuggestions[i].followers.concat(user.id);
       setSuggestions(newSuggestions);
+      dispatchFollowing({ type: 'ADD_FOLLOWING', payload: suggestions[i]._id });
       await followUser({ username: user.username, targetUsername: suggestions[i].username });
     };
   };
@@ -98,7 +100,7 @@ const Suggest = () => {
 
         <button className="suggestion-follow" onClick={ () => handleFollow(i) }>
           {
-            suggestion.followers.includes(id) ? "Unfollow" : "Follow"
+            suggestion.followers.includes(user.id) ? "Unfollow" : "Follow"
           }
         </button>
       </div>

@@ -5,7 +5,6 @@ import './index.css';
 
 // hooks
 import { useAuthContext } from '../../hooks/useAuthContext';
-import { useGetCommunity } from '../../hooks/useGetCommunity';
 import { useFollowUser } from '../../hooks/useFollowUser';
 import { useUnfollowUser } from '../../hooks/useUnfollowUser';
 import { useFollowingContext } from '../../hooks/useFollowingContext';
@@ -19,7 +18,6 @@ import defaultPfp from '../../assets/Profile/default-pfp.jpg';
 
 const Likes = ({ comment, reply, setLikesModal, post }) => {
   const { user } = useAuthContext();
-  const { id } = useGetCommunity({ username: user.username });
   const [likedUsers, setLikedUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(null);
   const { dispatch: dispatchNav } = useNavbarContext();
@@ -111,7 +109,7 @@ const Likes = ({ comment, reply, setLikesModal, post }) => {
       dispatch({ type: 'REMOVE_FOLLOWING', payload: likedUsers[i]._id });
       await unfollowUser({ username: user.username, targetUsername: likedUsers[i].username });
     }
-    else if (!likedUsers[i].followers.includes(id)) {
+    else if (!likedUsers[i].followers.includes(user.id)) {
       dispatch({ type: 'ADD_FOLLOWING', payload: likedUsers[i]._id });
       await followUser({ username: user.username, targetUsername: likedUsers[i].username });
     }

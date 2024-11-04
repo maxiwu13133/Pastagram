@@ -33,7 +33,6 @@ import Loading from '../../Loading';
 
 const UserProfile = ({ username }) => {
   const { user } = useAuthContext();
-  const { id: selfId } = useGetCommunity({ username: user.username });
   const { id, fullName, bio, followers, following, pfp, error, isLoading } = useGetCommunity({ username });
   const { posts: p } = useGetPosts({ username });
   const [posts, setPosts] = useState([]);
@@ -91,8 +90,8 @@ const UserProfile = ({ username }) => {
   // update page
   useEffect(() => {
     setNewFollowers(followers.length);
-    setIsFollowing(followers.includes(selfId));
-  }, [followers, selfId]);
+    setIsFollowing(followers.includes(user.id));
+  }, [followers, user.id]);
 
 
   // friends modal

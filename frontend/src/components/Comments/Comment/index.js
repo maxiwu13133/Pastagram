@@ -5,7 +5,6 @@ import './index.css';
 
 // hooks
 import { useAuthContext } from '../../../hooks/useAuthContext';
-import { useGetCommunity } from '../../../hooks/useGetCommunity';
 import { useDeleteComment } from '../../../hooks/useDeleteComment';
 import { useReplyTargetContext } from '../../../hooks/useReplyTargetContext';
 import { useRepliesContext } from '../../../hooks/useRepliesContext';
@@ -28,7 +27,6 @@ import Reply from '../../Reply';
 
 const Comment = ({ post, setLocalPost, posts, setPosts, comment, setComments, setIsLoading, last }) => {
   const { user } = useAuthContext();
-  const { id } = useGetCommunity({ username: user.username });
   const [username, setUsername] = useState('');
   const [pfp, setPfp] = useState({});
   const [postId, setPostId] = useState('');
@@ -78,7 +76,7 @@ const Comment = ({ post, setLocalPost, posts, setPosts, comment, setComments, se
   // handle like and unliking comment
   const handleLike = async () => {
 
-    const data = { commentId: comment, userId: id };
+    const data = { commentId: comment, userId: user.id };
     
     const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/comment/', {
       method: 'PATCH',
@@ -254,7 +252,7 @@ const Comment = ({ post, setLocalPost, posts, setPosts, comment, setComments, se
               className={ `
                 comment-options-dots
                 ${ username === user.username ? "comment-options-dots-show" : "" }
-                ${ post.user_id === id ? "comment-options-dots-show" : "" }
+                ${ post.user_id === user.id ? "comment-options-dots-show" : "" }
               ` }
               onClick={ () => setDeletePopup(true) }
               draggable={ false }
@@ -290,7 +288,7 @@ const Comment = ({ post, setLocalPost, posts, setPosts, comment, setComments, se
           !deleted && 
           <div className="comment-likes">
             <img 
-              src={ likes.includes(id) ? heartFilled : heartHollow }
+              src={ likes.includes(user.id) ? heartFilled : heartHollow }
               alt=""
               className="comment-likes-icon"
               draggable={ false }

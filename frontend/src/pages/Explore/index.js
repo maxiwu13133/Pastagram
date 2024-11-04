@@ -5,7 +5,6 @@ import './index.css';
 
 // hooks
 import { useAuthContext } from '../../hooks/useAuthContext';
-import { useGetCommunity } from '../../hooks/useGetCommunity';
 import { useNavbarContext } from '../../hooks/useNavbarContext';
 
 
@@ -20,7 +19,6 @@ import logo from '../../assets/Logos/pastagram-icon.png';
 
 const Explore = () => {
   const { user } = useAuthContext();
-  const { id } = useGetCommunity({ username: user.username });
   const [suggestions, setSuggestions] = useState([]);
   const [suggestionPosts, setSuggestionPosts] = useState([]);
   const [suggestionLoading, setSuggestionLoading] = useState(true);
@@ -31,7 +29,7 @@ const Explore = () => {
   useEffect(() => {
     const getSuggestions = async () => {
 
-      const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/user/' + id, {
+      const response = await fetch('https://pastagram-backend-srn4.onrender.com/api/user/' + user.id, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${ user.token }`
@@ -47,11 +45,11 @@ const Explore = () => {
         setSuggestionLoading(false);
       }
     };
-    if (id) {
+    if (user.id) {
       getSuggestions();
       dispatch({ type: 'SET_NAV', payload: 'explore' });
     }
-  }, [id, user.token, dispatch]);
+  }, [user.id, user.token, dispatch]);
 
 
   // get posts of suggestions

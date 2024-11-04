@@ -27,7 +27,7 @@ const Home = () => {
   const { user } = useAuthContext();
   const { userInfoLoad, suggestedLoad, postLoad, deletedLoad, dispatch } = useHomeLoadContext();
   const { dispatch: dispatchNav } = useNavbarContext();
-  const { id, saved } = useGetCommunity({ username: user.username });
+  const { saved } = useGetCommunity({ username: user.username });
 
 
   // deleted users
@@ -45,7 +45,7 @@ const Home = () => {
   const [homeLoad, setHomeLoad] = useState(false);
 
   useEffect(() => {
-    if (userInfoLoad && suggestedLoad && postLoad && deletedLoad) {
+    if (suggestedLoad && postLoad && deletedLoad) {
       setTimeout(() => {
         setHomeLoad(true);
       }, 100);
@@ -55,6 +55,7 @@ const Home = () => {
 
   // grab posts of following
   const [posts, setPosts] = useState([]);
+  const [posterInfo, setPosterInfo] = useState({});
 
   useEffect(() => {
     const getHomePosts = async () => {
@@ -73,12 +74,12 @@ const Home = () => {
       if (response.ok && deletedUsers) {
         const deletedRemoved = json.allPosts.filter(x => !deletedUsers.includes(x.user_id));
 
-
         const sortedJson = deletedRemoved.sort((a, b) => {
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
 
         setPosts(sortedJson);
+        setPosterInfo(json.friends);
 
         dispatch({ type: 'POST_FINISH' });
 
@@ -109,9 +110,9 @@ const Home = () => {
                 <HomePost 
                   post={ post }
                   key={ i }
-                  id={ id }
                   saved={ saved }
                   last={ (i === posts.length - 1 && posts.lengh !== 0) ? true : false }
+                  posterInfo={ posterInfo }
                 />
               )
             }
