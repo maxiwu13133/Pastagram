@@ -66,6 +66,15 @@ const Login = () => {
   };
 
 
+  // test login
+  const [test, setTest] = useState(false);
+
+  const handleTest = async () => {
+    setTest(true);
+    await login("foodenthusiast@gmail.com","Test@123")
+  }
+
+
   return(
     <div className="login-container">
 
@@ -116,13 +125,13 @@ const Login = () => {
             {/* test account */}
             <button 
               className="login-test-button"
-              onClick={ async () => await login("foodenthusiast@gmail.com","Test@123") }
+              onClick={ () => handleTest() }
             >
               Try Pastagram
             </button>
 
             <div className="login-error-wrapper">
-              { error && <div className="login-error">{ error }</div> }
+              { error && !test && <div className="login-error">{ error }</div> }
             </div>
 
           </form>

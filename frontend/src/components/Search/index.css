@@ -20,6 +20,7 @@
   transition: 0.3s;
   border-right: solid 1px lightgray;
   z-index: 0;
+  background-color: white;
   box-shadow: 20px 0px 20px -18px rgba(120, 120, 120, 0.3);
 }
 

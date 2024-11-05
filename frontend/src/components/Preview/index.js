@@ -15,6 +15,16 @@ const Preview = ({ files, home }) => {
     return first + transformation + second;
   }
 
+
+  // make https
+  const makeHttps = (link) => {
+    if (link[4] !== 's') {
+      return link.slice(0, 4) + 's' + link.slice(4);
+    }
+    return link;
+  }
+
+
   return ( 
     <div className="preview-container">
       { previewIndex !== 0 && 
@@ -27,7 +37,7 @@ const Preview = ({ files, home }) => {
           home && 
           <AsyncImage
             alt="photos"
-            src={ optimizeImage(files[previewIndex].url) } 
+            src={ optimizeImage(makeHttps(files[previewIndex].url)) } 
             Transition={ Blur }
             loader={ <div style={{ background: '#888' }} /> }
             draggable={ false }
