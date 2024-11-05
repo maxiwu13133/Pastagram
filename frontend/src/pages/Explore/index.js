@@ -92,6 +92,15 @@ const Explore = () => {
   }, [suggestions, suggestionLoading, suggestionPosts, user]);
 
 
+  // make https
+  const makeHttps = (link) => {
+    if (link[4] !== 's') {
+      return link.slice(0, 4) + 's' + link.slice(4);
+    }
+    return link;
+  }
+  
+
   // format post
   const formatPost = (post, i, username) => {
     return (
@@ -103,7 +112,7 @@ const Explore = () => {
         >
           <AsyncImage
             alt=""
-            src={ post.photos[0].url } 
+            src={ makeHttps(post.photos[0].url) } 
             Transition={ Blur }
             loader={ <div style={{ background: '#888' }} /> }
             draggable={ false }
@@ -118,7 +127,6 @@ const Explore = () => {
 
   // format suggestions
   const formatSuggestions = (suggestion, i) => {
-    console.log([...suggestionPosts[suggestion.username]].reverse().slice(0, 3));
     return (
       <div className="explore-user-container" key={ i }>
         <div className="explore-user-header">
