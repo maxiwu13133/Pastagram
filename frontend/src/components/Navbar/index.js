@@ -217,20 +217,17 @@ const Navbar = () => {
 
       {/* Messages */}
       <div className="navbar-option-wrapper">
-        <Link to="/messages/" onClick={ () => changeNav('messages') }>
-          <div className={ `
-            navbar-option 
-            navbar-messages 
-            ${ selectedNav === "messages" ? "navbar-highlighted" : "" }
-          ` }>
-            <img 
-              draggable={ false } 
-              src={ selectedNav === "messages" ? messageFocused : messageUnfocused }
-              alt="Messages"
-            />
-            { !openModal && <h2>Messages</h2> }
-          </div>
-        </Link>
+        <div className={ `
+          navbar-messages 
+          ${ selectedNav === "messages" ? "navbar-highlighted" : "" }
+        ` }>
+          <img 
+            draggable={ false } 
+            src={ selectedNav === "messages" ? messageFocused : messageUnfocused }
+            alt="Messages"
+          />
+          { !openModal && <h2>Messages</h2> }
+        </div>
       </div>
 
       {/* Notifications */}
