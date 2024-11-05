@@ -26,14 +26,14 @@ const Preview = ({ files, home }) => {
         {
           home && 
           <AsyncImage
-          alt="photos"
-          src={ optimizeImage(files[previewIndex].url) } 
-          Transition={ Blur }
-          loader={ <div style={{ background: '#888' }} /> }
-          draggable={ false }
-          className="preview-img"
-          timeout={ 500 }
-        />
+            alt="photos"
+            src={ optimizeImage(files[previewIndex].url) } 
+            Transition={ Blur }
+            loader={ <div style={{ background: '#888' }} /> }
+            draggable={ false }
+            className="preview-img"
+            timeout={ 500 }
+          />
         }
         {
           !home && 

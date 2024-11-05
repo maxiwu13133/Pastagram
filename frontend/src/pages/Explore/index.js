@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { AsyncImage } from 'loadable-image';
+import { Blur } from 'transitions-kit';
 import './index.css';
 
 
@@ -20,7 +22,7 @@ import logo from '../../assets/Logos/pastagram-icon.png';
 const Explore = () => {
   const { user } = useAuthContext();
   const [suggestions, setSuggestions] = useState([]);
-  const [suggestionPosts, setSuggestionPosts] = useState([]);
+  const [suggestionPosts, setSuggestionPosts] = useState({});
   const [suggestionLoading, setSuggestionLoading] = useState(true);
   const [postLoading, setPostLoading] = useState(true);
   const { dispatch } = useNavbarContext();
@@ -69,7 +71,9 @@ const Explore = () => {
           console.log('Error:', json.error);
         };
         if (response.ok) {
-          setSuggestionPosts(prevPosts => [...prevPosts, json.posts]);
+          const newSuggestionPosts = suggestionPosts;
+          newSuggestionPosts[suggestion.username] = json.posts;
+          setSuggestionPosts(newSuggestionPosts);
         }
       }
       
@@ -85,7 +89,7 @@ const Explore = () => {
       setPostLoading(false);
     }
 
-  }, [suggestions, suggestionLoading, user]);
+  }, [suggestions, suggestionLoading, suggestionPosts, user]);
 
 
   // format post
@@ -97,11 +101,14 @@ const Explore = () => {
           className="explore-post-pic-link"
           onClick={ () => dispatch({ type: "SET_NAV", payload: "none" }) }
         >
-          <img 
-            src={ post.photos[0].url }
+          <AsyncImage
             alt=""
-            className="explore-post-pic"
+            src={ post.photos[0].url } 
+            Transition={ Blur }
+            loader={ <div style={{ background: '#888' }} /> }
             draggable={ false }
+            className="explore-post-pic"
+            timeout={ 200 }
           />
         </Link>
       </div>
@@ -111,6 +118,7 @@ const Explore = () => {
 
   // format suggestions
   const formatSuggestions = (suggestion, i) => {
+    console.log([...suggestionPosts[suggestion.username]].reverse().slice(0, 3));
     return (
       <div className="explore-user-container" key={ i }>
         <div className="explore-user-header">
@@ -143,7 +151,7 @@ const Explore = () => {
 
           <div className="explore-user-stats">
             <div className="explore-user-cnt-container">
-              <p className="explore-user-cnt">{ suggestionPosts[i].length }</p>
+              <p className="explore-user-cnt">{ suggestionPosts[suggestion.username].length }</p>
               
               <p className="explore-user-cnt-label">posts</p>
             </div>
@@ -164,7 +172,7 @@ const Explore = () => {
 
         <div className="explore-user-posts">
           {
-            [...suggestionPosts[i]].reverse().slice(0, 3).map((post, i) => formatPost(post, i, suggestion.username))
+            [...suggestionPosts[suggestion.username]].reverse().slice(0, 3).map((post, i) => formatPost(post, i, suggestion.username))
           }
         </div>
       </div>
