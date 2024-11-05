@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { AsyncImage } from 'loadable-image';
+import { Fade } from 'transitions-kit';
 import './index.css';
 
 
@@ -30,6 +32,15 @@ const Post = ({ post, setPosts, posts }) => {
   }, [viewOpen])
 
 
+  // make https
+  const makeHttps = (link) => {
+    if (link[4] !== 's') {
+      return link.slice(0, 4) + 's' + link.slice(4);
+    }
+    return link;
+  }
+
+
   return ( 
     <div className="post-container">
 
@@ -55,8 +66,16 @@ const Post = ({ post, setPosts, posts }) => {
       </div>
 
       { photos.length > 1 ? <img src={ multipleFiles } alt="" className="post-multiple" /> : ""}
-      
-      <img src={ photos[0].url } alt="Post" className="post-img" />
+
+      <AsyncImage
+        alt=""
+        src={ makeHttps(photos[0].url) } 
+        Transition={ Fade }
+        loader={ <div style={{ background: '#888' }} /> }
+        draggable={ false }
+        className="post-img"
+        timeout={ 200 }
+      />
     </div>
    );
 }
