@@ -120,6 +120,15 @@ const HomePost = ({ post, saved, last, posterInfo }) => {
   }
 
 
+  // make https
+  const makeHttps = (link) => {
+    if (link[4] !== 's') {
+      return link.slice(0, 4) + 's' + link.slice(4);
+    }
+    return link;
+  }
+
+
   return ( 
     <div className="homepost-container">
       <div className="homepost-header">
@@ -129,7 +138,7 @@ const HomePost = ({ post, saved, last, posterInfo }) => {
           onClick={ () => dispatchNav({ type: "SET_NAV", payload: "none" }) }
         >
           <img 
-            src={ posterInfo[post.user_id].pfp.url ? posterInfo[post.user_id].pfp.url : defaultPfp } 
+            src={ posterInfo[post.user_id].pfp.url ? makeHttps(posterInfo[post.user_id].pfp.url) : defaultPfp } 
             alt="" 
             className="homepost-header-pfp" 
             draggable={ false } 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { AsyncImage } from 'loadable-image';
-import { Blur } from 'transitions-kit';
+import { Blur, Fade } from 'transitions-kit';
 import './index.css';
 
 // assets
@@ -27,7 +27,8 @@ const Preview = ({ files, home }) => {
 
   return ( 
     <div className="preview-container">
-      { previewIndex !== 0 && 
+      { 
+        previewIndex !== 0 && 
         <div className="preview-back-img" onClick={ () => setPreviewIndex(previewIndex - 1) }>
           <img src={ cycleArrow } alt="prev img" className="preview-back-arrow" />
         </div>
@@ -47,20 +48,25 @@ const Preview = ({ files, home }) => {
         }
         {
           !home && 
-          <img 
-          draggable={ false } 
-          className="preview-img" 
-          src={ files[previewIndex].url } 
-          alt="photos" 
-        />
+          <AsyncImage
+            alt="photos"
+            src={ makeHttps(files[previewIndex].url) } 
+            Transition={ Fade }
+            loader={ <div style={{ background: '#888' }} /> }
+            draggable={ false }
+            className="preview-img"
+            timeout={ 300 }
+          />
         }
       </div>
-      { files.length > 1 && previewIndex !== files.length - 1 && 
+      { 
+        files.length > 1 && previewIndex !== files.length - 1 && 
         <div className="preview-next-img" onClick={ () => setPreviewIndex(previewIndex + 1) }>
           <img src={ cycleArrow } alt="next img" className="preview-next-arrow" />
         </div> 
       }
-      { files.length > 1 && 
+      { 
+        files.length > 1 && 
         <div className="preview-img-index">
           { files.map((_, index) => <div 
             className={`preview-img-index-dot ${ previewIndex === index ? "preview-img-index-dot-highlighted" : "" }` }
