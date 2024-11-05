@@ -4,8 +4,6 @@ export const HomeLoadContext = createContext();
 
 export const homeLoadReducer = (state, action) => {
   switch (action.type) {
-    case 'USER_FINISH':
-      return { ...state, userInfoLoad: true };
     case 'SUGGEST_FINISH':
       return { ...state, suggestedLoad: true };
     case 'POST_FINISH':
@@ -19,7 +17,6 @@ export const homeLoadReducer = (state, action) => {
 
 export const HomeLoadContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(homeLoadReducer, {
-    userInfoLoad: false,
     suggestedLoad: false,
     postLoad: false,
     deletedLoad: false

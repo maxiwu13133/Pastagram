@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { AsyncImage } from 'loadable-image';
+import { Blur } from 'transitions-kit';
 import './index.css';
 
 // assets
@@ -21,12 +23,27 @@ const Preview = ({ files, home }) => {
         </div>
       }
       <div className="preview-img-container">
-        <img 
+        {
+          home && 
+          <AsyncImage
+          alt="photos"
+          src={ optimizeImage(files[previewIndex].url) } 
+          Transition={ Blur }
+          loader={ <div style={{ background: '#888' }} /> }
+          draggable={ false }
+          className="preview-img"
+          timeout={ 500 }
+        />
+        }
+        {
+          !home && 
+          <img 
           draggable={ false } 
           className="preview-img" 
-          src={ home ? optimizeImage(files[previewIndex].url) : files[previewIndex].url } 
+          src={ files[previewIndex].url } 
           alt="photos" 
         />
+        }
       </div>
       { files.length > 1 && previewIndex !== files.length - 1 && 
         <div className="preview-next-img" onClick={ () => setPreviewIndex(previewIndex + 1) }>

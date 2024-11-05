@@ -82,10 +82,6 @@ const Home = () => {
         setPosterInfo(json.friends);
 
         dispatch({ type: 'POST_FINISH' });
-
-        if (deletedRemoved.length === 0) {
-          dispatch({ type: 'USER_FINISH' });
-        };
       };
     };
 
