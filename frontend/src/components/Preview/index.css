@@ -18,6 +18,7 @@
   align-items: center;
   top: calc(50% - 16px);
   user-select: none;
+  z-index: 1;
 }
 
 .preview-back-img {
