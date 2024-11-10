@@ -6,9 +6,11 @@ import './index.css';
 // assets
 import cycleArrow from '../../assets/Preview/next-img-arrow.png';
 
-const Preview = ({ files, home }) => {
+const Preview = ({ files, home, create }) => {
   const [previewIndex, setPreviewIndex] = useState(0);
 
+
+  // optimize image size for faster load
   const optimizeImage = (photo) => {
     const [first, second] = photo.split('upload');
     const transformation = 'upload/h_523,w_466,c_fill/f_auto';
@@ -36,6 +38,7 @@ const Preview = ({ files, home }) => {
       <div className="preview-img-container">
         {
           home && 
+          !create &&
           <AsyncImage
             alt="photos"
             src={ optimizeImage(makeHttps(files[previewIndex].url)) } 
@@ -48,6 +51,7 @@ const Preview = ({ files, home }) => {
         }
         {
           !home && 
+          !create && 
           <AsyncImage
             alt="photos"
             src={ makeHttps(files[previewIndex].url) } 
@@ -56,6 +60,16 @@ const Preview = ({ files, home }) => {
             draggable={ false }
             className="preview-img"
             timeout={ 300 }
+          />
+        }
+        {
+          !home &&
+          create && 
+          <img 
+            src={ files[previewIndex].url }
+            alt="photos"
+            className="preview-img"
+            draggable={ false }
           />
         }
       </div>

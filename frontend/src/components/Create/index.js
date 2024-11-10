@@ -185,7 +185,7 @@ const Create = ({ handleClick }) => {
             </header>
             <div className="create-preview-caption">
               <div className="create-preview-container">
-                <Preview files={ files } /> 
+                <Preview files={ files } create/> 
               </div>
               { 
                 captionStage && 
